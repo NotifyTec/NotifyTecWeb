@@ -1,0 +1,107 @@
+#fab{
+    background: #607D8B;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    color: #ffffff;
+}
+
+.page-content{
+    padding: 20px;
+    background: #EEEEEE;
+}
+
+.mdl-layout__content{
+    background: #EEEEEE;
+}
+
+table.table-complete{
+    width: 100%;
+}
+
+.orange-icon{
+    color: #FF5722;
+}
+
+div.filter-content{
+    border-radius: 4px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+div.filter-content h5{
+    margin: 0;
+}
+
+button.btn-filter{
+    float: right;
+}
+
+.mdl-navigation a{    
+    display: flex !important;
+}
+
+.mdl-navigation a i{
+    margin-right: 20px;
+}
+
+#title{
+    font-size: 20px;
+}
+
+.mdl-dialog{
+    width: 80% !important;
+    top: 84px;
+}
+
+.mdl-dialog__title{
+    background: #57717D;
+    margin: -14px;
+    color: #ffffff;
+    padding: 10px 10px 10px 35px;
+    font-size: 20px;
+}
+
+.dialog-progress{
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: auto !important;
+}
+
+.alert{
+    padding: 10px;
+}
+
+.alert.alert-danger{
+    background: rgb(255, 214, 214);
+    color: #D50000;
+}
+
+.card{
+    background: #ffffff;
+    border-radius: 4px;
+}
+
+#login-content{
+    width: 500px; 
+    margin: 0 auto;
+}
+
+#login-content h3{
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+#login-content .mdl-textfield{
+    width: 100% !important;
+}
+
+#logo-login{
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+}
+

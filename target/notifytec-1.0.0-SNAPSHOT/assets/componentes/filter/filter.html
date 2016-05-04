@@ -1,0 +1,12 @@
+<div id="filter-content" class="mdl-grid mdl-shadow--4dp filter-content">
+    <div class="mdl-cell mdl-cell--12-col"><h5>Filtros</h5></div>
+
+    <div ng-transclude class="mdl-grid" style="width:100%"></div>
+
+    <div class="mdl-cell mdl-cell--12-col">
+        <button ng-disabled="filter.lock" ng-click="filter.onFilterClick()" class="btn-filter mdl-button mdl-js-button mdl-button--raised
+                mdl-js-ripple-effect mdl-button--accent">
+            {{filter.text}}
+        </button>
+    </div>
+</div>

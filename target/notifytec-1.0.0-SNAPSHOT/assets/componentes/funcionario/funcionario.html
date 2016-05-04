@@ -1,0 +1,97 @@
+<filter>
+    <div class="mdl-cell mdl-cell--4-col">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+            <input name="nome" class="mdl-textfield__input" type="text" id="sample3">
+            <label class="mdl-textfield__label" for="sample3">Nome</label>
+            <span class="mdl-textfield__error">Campo obrigatório</span>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+        <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+            <input type="checkbox" name="ativo" id="switch-1" class="mdl-switch__input" checked>
+            <span class="mdl-switch__label">Ativo</span>
+        </label>
+    </div>
+    <div class="mdl-cell mdl-cell--4-col">
+
+    </div>
+</filter>
+
+<table class="table-complete mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <thead>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric">Nome</th>
+            <th>Sobrenome</th>
+            <th>E-mail</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
+            <td>25</td>
+            <td>$2.90</td>
+            <td>
+                <button id="edit" class="orange-icon mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">create</i>
+                </button>
+                <div class="mdl-tooltip" for="edit">
+                    Editar
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
+            <td>50</td>
+            <td>$1.25</td>
+        </tr>
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
+            <td>10</td>
+            <td>$2.35</td>
+        </tr>
+    </tbody>
+</table>
+
+<dialog class="mdl-dialog" id="cadastro-dialog">
+    <form name="form" id="form-cadastro">
+        <h4 class="mdl-dialog__title mdl-shadow--2dp">Cadastrar Funcionário</h4>
+        <div class="mdl-dialog__content">                        
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">                    
+                    <div class="alert alert-danger" ng-bind="dialogs.cadastro.erro" ng-show="dialogs.cadastro.erro">                        
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.cadastro.bloquear" name="nome" class="mdl-textfield__input" ng-model="cadastro.nome"
+                               type="text" id="nome" required>
+                        <label class="mdl-textfield__label" for="nome">Nome</label>
+                        <span ng-show="form.nome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.cadastro.bloquear" name="sobrenome" class="mdl-textfield__input" ng-model="cadastro.sobrenome"
+                               type="text" id="sobrenome" required>
+                        <label class="mdl-textfield__label" for="sobrenome">Sobrenome</label>
+                        <span ng-show="form.sobrenome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.cadastro.salvar(cadastro)"
+                    ng-bind="dialogs.cadastro.btnSalvarTexto"></button>
+            <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.cadastro.fechar()">Fechar</button>
+        </div>
+    </form>
+
+    <div ng-show="dialogs.cadastro.carregando" class="dialog-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+</dialog>
+
+
+<fab></fab>
+<snackbar></snackbar>

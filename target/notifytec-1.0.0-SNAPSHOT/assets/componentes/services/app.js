@@ -1,0 +1,11 @@
+var app = angular.module("notifytec-app", 
+    ["MaterialComponents",
+     "Funcionario", 
+     "TitleManager", 
+     "Routes", 
+     "Auth",
+     "Fab",
+     "SnackbarManager",
+     "FilterManager",
+     "Menu",
+     "Home"]);

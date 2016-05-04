@@ -1,0 +1,51 @@
+<div class="mdl-shadow--2dp card" id="login-content">
+    <div class="mdl-grid">
+        <div class="mdl-cell--12-col">
+            <img src="assets/images/logo.png" alt="NotifyTec" id="logo-login"/>        
+        </div>
+        <div class="mdl-cell--12-col">
+            <h3>NotifyTec</h3>
+        </div>
+        
+        <div class="mdl-cell--12-col">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input name="user" 
+                       ng-model="credentials.user" 
+                       ng-disabled="actions.lockInputs"
+                       class="mdl-textfield__input" 
+                       type="text">
+                <label class="mdl-textfield__label" for="sample3">Usuário</label>
+                <span class="mdl-textfield__error">Campo obrigatório</span>
+            </div>
+        </div>
+        <div class="mdl-cell--12-col">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input name="password" 
+                       ng-model="credentials.password" 
+                       ng-disabled="actions.lockInputs"
+                       class="mdl-textfield__input"
+                       type="password">
+                <label class="mdl-textfield__label" for="sample3">Senha</label>
+                <span class="mdl-textfield__error">Campo obrigatório</span>
+            </div>
+        </div>
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--6-col" ng-bind="actions.btnForgotPasswordText">                
+            </div>
+            <div class="mdl-cell mdl-cell--6-col">
+                <button ng-disabled="actions.btnLoginLock"
+                        ng-click="actions.btnLoginClick()"
+                        class="btn-filter mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+                        ng-bind="actions.btnLoginText"
+                        >                    
+                </button>
+            </div>
+        </div>
+        <div class="mdl-cell--12-col">
+            <div class="alert alert-danger" ng-bind="actions.error" ng-show="actions.error">                        
+            </div>
+        </div>
+    </div>
+</div>
+
+<snackbar></snackbar>
