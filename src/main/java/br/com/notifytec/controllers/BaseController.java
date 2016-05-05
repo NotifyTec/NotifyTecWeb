@@ -2,7 +2,7 @@ package br.com.notifytec.controllers;
 
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
-import br.com.notifytec.models.JsonResult;
+import br.com.notifytec.models.OperationResult;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -49,7 +49,7 @@ public class BaseController {
     }
     
     private void returnJson(Object object, List<String> message, boolean isError) {
-        JsonResult jsonResult = new JsonResult();
+        OperationResult jsonResult = new OperationResult();
         if (object != null) {
             jsonResult.setResult(object);
         }

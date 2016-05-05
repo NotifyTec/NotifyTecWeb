@@ -5,7 +5,7 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.notifytec.models.Token;
-import br.com.notifytec.models.UserModel;
+import br.com.notifytec.models.UsuarioModel;
 import br.com.notifytec.security.UserSession;
 import br.com.notifytec.services.UserService;
 import javax.annotation.security.PermitAll;
@@ -32,7 +32,7 @@ public class LoginController extends BaseController {
                 return;
             }
             
-            UserModel userModel = userService.login(userName, password);
+            UsuarioModel userModel = userService.login(userName, password);
             
             Token tokenModel = new Token();
             tokenModel.setToken(userModel.getToken());

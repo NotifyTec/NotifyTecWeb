@@ -1,6 +1,6 @@
 package br.com.notifytec.services;
 
-import br.com.notifytec.models.UserModel;
+import br.com.notifytec.models.UsuarioModel;
 import br.com.notifytec.security.JwtManager;
 import br.com.notifytec.security.MD5Manager;
 import br.com.notifytec.security.UserSession;
@@ -14,16 +14,16 @@ public class UserService {
     @Inject
     private UserSession userSession;
 
-    public UserModel get(String login) {
+    public UsuarioModel get(String login) {
         //TODO: pegar o usuario pelo banco;
-        UserModel user = new UserModel();
+        UsuarioModel user = new UsuarioModel();
         user.setSenha(MD5Manager.generate(login));
         
         return user;
     }
 
-    public UserModel login(String login, String password) throws IllegalAccessException {        
-        UserModel userModel = get(login);
+    public UsuarioModel login(String login, String password) throws IllegalAccessException {        
+        UsuarioModel userModel = get(login);
 
         if(!userModel.isAlterouSenha()){
             throw new IllegalAccessException("Você ainda não alterou sua senha padrão. Altere-a pelo aplicativo para prosseguir com o acesso ao NotifyTec pela web.");

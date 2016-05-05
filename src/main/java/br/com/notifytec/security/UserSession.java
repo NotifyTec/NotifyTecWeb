@@ -1,19 +1,19 @@
 package br.com.notifytec.security;
 
-import br.com.notifytec.models.UserModel;
+import br.com.notifytec.models.UsuarioModel;
 import java.io.Serializable;
 import javax.enterprise.context.SessionScoped;
 
 @SessionScoped
 public class UserSession implements Serializable {
 
-    private UserModel user;
+    private UsuarioModel user;
 
-    public void setUser(UserModel user) {
+    public void setUser(UsuarioModel user) {
         this.user = user;
     }
 
-    public UserModel getUser() {
+    public UsuarioModel getUser() {
         return this.user;
     }
 
