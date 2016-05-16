@@ -3,16 +3,32 @@ package br.com.notifytec.models;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
 
+@Entity(name = "NOTIFICACAO")
 public class NotificacaoModel {
+
+    @Id
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    @Column(name = "ID")
     private UUID id;
+    @Column(name = "TITULO")
     private String titulo;
+    @Column(name = "CONTEUDO")
     private String conteudo;
+    @Column(name = "USUARIOID")
     private UUID usuarioID;
+    @Column(name = "DATAHORAENVIO")
     private Date dataHoraEnvio;
+    @Column(name = "EXPIRAEM")
     private Date expiraEm;
-    private UsuarioModel usuario;
-    private List<NotificacaoOpcaoModel> opcoes;
+    //private UsuarioModel usuario;
+    //private List<NotificacaoOpcaoModel> opcoes;
 
     public UUID getId() {
         return id;
@@ -62,6 +78,7 @@ public class NotificacaoModel {
         this.expiraEm = expiraEm;
     }
 
+    /*
     public UsuarioModel getUsuario() {
         return usuario;
     }
@@ -69,7 +86,8 @@ public class NotificacaoModel {
     public void setUsuario(UsuarioModel usuario) {
         this.usuario = usuario;
     }
-
+    */
+/*
     public List<NotificacaoOpcaoModel> getOpcoes() {
         return opcoes;
     }
@@ -77,6 +95,5 @@ public class NotificacaoModel {
     public void setOpcoes(List<NotificacaoOpcaoModel> opcoes) {
         this.opcoes = opcoes;
     }
-    
-    
+*/
 }

@@ -9,6 +9,8 @@
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/Category.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/ProductDao.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/Token.java
+/home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/NotificacaoDao.java
+/home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/PersistenceManager.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/LoginController.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/security/MD5Manager.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/PaginatorQueryHelper.java
