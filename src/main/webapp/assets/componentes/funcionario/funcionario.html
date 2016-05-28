@@ -27,10 +27,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
-            <td>25</td>
-            <td>$2.90</td>
+        <tr ng-repeat="item in list">
+            <td class="mdl-data-table__cell--non-numeric">{{item.nome}}</td>
+            <td>{{item.sobrenome}}</td>
+            <td>{{item.email}}</td>
             <td>
                 <button id="edit" class="orange-icon mdl-button mdl-js-button mdl-button--icon">
                     <i class="material-icons">create</i>
@@ -39,16 +39,6 @@
                     Editar
                 </div>
             </td>
-        </tr>
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
-            <td>50</td>
-            <td>$1.25</td>
-        </tr>
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
-            <td>10</td>
-            <td>$2.35</td>
         </tr>
     </tbody>
 </table>

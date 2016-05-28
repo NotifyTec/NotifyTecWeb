@@ -28,7 +28,7 @@ module.controller("HomeController",
                             snackbarManagerService.show("Sucesso no login" + data.token, 5, null, null);
                             localStorage["token"] = data.token;
                             $location.path("/funcionario");
-                        }, function (data, messages, message) {                            
+                        }, function (data, messages, message) {
                             $scope.actions.error = message;
                         }, function (data, messages, message) {
                             $scope.actions.lockInputs = false;
@@ -42,8 +42,7 @@ module.controller("HomeController",
                     btnForgotPasswordText: "Esqueceu a senha? Acesse pelo aplicativo para recuperá-la.",
                     error: ""
                 };
-                
-                
+
                 titleService.set("Realize a autenticação para acessar o sistema");
                 materialComponents.upgradeDom();
             }]);
@@ -60,48 +59,3 @@ module.factory("LoginService", ["$ajax", function ($ajax) {
             }
         };
     }]);
-
-module.factory("$ajax", ["$http", function ($http) {
-        var getMessage = function(messages){
-            var msg = "";
-            if(!messages){
-                return msg;
-            }
-            
-            
-            $(messages).each(function(i, m){
-                msg += m;
-                
-                if(msg[msg.length - 1] == "."){
-                    msg += " ";
-                }else{
-                    msg += ". ";
-                }
-            });
-            
-            return msg;
-        };
-        
-        return {
-            post: function (url, data, done, error, always) {
-                $http.post(
-                        url,
-                        data
-                        ).then(function (response) {
-                    if (response.data.success) {
-                        done(response.data.result, response.data.messages, getMessage(response.data.messages));
-                    } else {
-                        error(response.data.result, response.data.messages, getMessage(response.data.messages));
-                    }
-
-                    if (always)
-                        always(response.data.result, response.data.messages, getMessage(response.data.messages));
-                }, function (response) {
-                    error(response.data.result, response.data.messages, getMessage(response.data.messages));
-                    if (always)
-                        always(response.data.result, response.data.messages, getMessage(response.data.messages));
-                });
-            }
-        };
-    }]);
-

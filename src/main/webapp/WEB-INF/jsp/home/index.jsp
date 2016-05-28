@@ -28,6 +28,7 @@
         <script src="assets/componentes/snackbar/snackbarManager.js" type="text/javascript"></script>
         <script src="assets/componentes/filter/filter.js" type="text/javascript"></script>
         <script src="assets/componentes/menu/menu.js" type="text/javascript"></script>
+        <script src="assets/componentes/services/ajax.js" type="text/javascript"></script>
         
         <!--CONTROLLERS-->
         <script src="assets/componentes/home/home.js" type="text/javascript"></script>

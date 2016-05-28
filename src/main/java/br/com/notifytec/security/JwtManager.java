@@ -1,5 +1,6 @@
 package br.com.notifytec.security;
 
+import br.com.notifytec.models.UsuarioModel;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
@@ -12,12 +13,16 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class JwtManager {
 
-    public String newToken(UUID userID) {
+    public String newToken(UsuarioModel usuario) {
         JwtBuilder builder = Jwts.builder();
 
-        // Insere o nome e o Id do usuário no token para identificação do mesmo.
-        builder.setSubject("Name");
-        builder.setId(UUID.randomUUID().toString());
+        builder.claim("login", usuario.getLogin());
+        builder.claim("email", usuario.getEmail());
+        builder.claim("dataValidadeToken", usuario.getDataValidadeToken());
+        builder.claim("alterouSenha", usuario.isAlterouSenha());
+        builder.claim("podeEnviar", usuario.isPodeEnviar());
+        builder.claim("tokenRecuperarSenha", usuario.isTokenRecuperarSenha());
+        builder.setId(usuario.getId().toString());
 
         // Adiciona validade de uma hora ao token.
         Calendar expiration = Calendar.getInstance();

@@ -2,20 +2,36 @@ package br.com.notifytec.models;
 
 import java.util.Date;
 import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
 
+@Entity(name = "USUARIO")
 public class UsuarioModel {
+
+    @Id
+    @Column(name = "ID")
     private UUID id;
+    @Column(name = "LOGIN")
     private String login;
+    @Column(name = "SENHA")
     private String senha;
-    private boolean podeEnviar;
-    private boolean alterouSenha;
+    @Column(name = "PODEENVIAR")
+    private Boolean podeEnviar;
+    @Column(name = "ALTEROUSENHA")
+    private Boolean alterouSenha;
+    @Column(name = "EMAIL")
     private String email;
-    private boolean tokenRecuperarSenha;
+    @Column(name = "TOKENRECUPERARSENHA")
+    private Boolean tokenRecuperarSenha;
+    @Column(name = "DATAVALIDADETOKEN")
     private Date dataValidadeToken;
     private String token;
 
     public String getToken() {
-        return token;
+        return this.token;
     }
 
     public void setToken(String token) {
@@ -46,19 +62,19 @@ public class UsuarioModel {
         this.senha = senha;
     }
 
-    public boolean isPodeEnviar() {
+    public Boolean isPodeEnviar() {
         return podeEnviar;
     }
 
-    public void setPodeEnviar(boolean podeEnviar) {
+    public void setPodeEnviar(Boolean podeEnviar) {
         this.podeEnviar = podeEnviar;
     }
 
-    public boolean isAlterouSenha() {
+    public Boolean isAlterouSenha() {
         return alterouSenha;
     }
 
-    public void setAlterouSenha(boolean alterouSenha) {
+    public void setAlterouSenha(Boolean alterouSenha) {
         this.alterouSenha = alterouSenha;
     }
 
@@ -70,11 +86,11 @@ public class UsuarioModel {
         this.email = email;
     }
 
-    public boolean isTokenRecuperarSenha() {
+    public Boolean isTokenRecuperarSenha() {
         return tokenRecuperarSenha;
     }
 
-    public void setTokenRecuperarSenha(boolean tokenRecuperarSenha) {
+    public void setTokenRecuperarSenha(Boolean tokenRecuperarSenha) {
         this.tokenRecuperarSenha = tokenRecuperarSenha;
     }
 

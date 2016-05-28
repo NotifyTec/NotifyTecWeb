@@ -7,12 +7,17 @@ funcionario.controller("FuncionarioController",
             "fabService",
             "snackbarManagerService",
             "filterManagerService",
+            "funcionarioService",
             function ($scope,
                     materialComponents,
                     titleService,
                     fabService,
                     snackbarManagerService,
-                    filterManagerService) {
+                    filterManagerService,
+                    funcionarioService) {
+
+                $scope.list = [{nome: "LUCAS", sobrenome: "SOBRENOME", email: "lucas.antevere@gmail.com"}];
+                $scope.error = "";
 
                 $scope.dialogs = {
                     cadastro: {
@@ -46,5 +51,21 @@ funcionario.controller("FuncionarioController",
                     console.error(data);
                 });
 
+                funcionarioService.getList(function (list){ // DONE
+                    //$scope.list = list;
+                }, function(result, messageError){ // ERROR                    
+                    snackbarManagerService.show(messageError, 20, null, null);
+                }, function(){// ALWAYS
+                    
+                });
+
                 materialComponents.upgradeDom();
             }]);
+
+funcionario.factory("funcionarioService", ["$ajax", function ($ajax) {
+        return {
+            getList: function (done, error, always) {
+                $ajax.get("Funcionario/GetList", done, error, always);
+            }
+        };
+    }]);

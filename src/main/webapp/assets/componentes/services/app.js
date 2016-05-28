@@ -8,4 +8,5 @@ var app = angular.module("notifytec-app",
      "SnackbarManager",
      "FilterManager",
      "Menu",
-     "Home"]);
+     "Home",
+     "Ajax"]);

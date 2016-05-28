@@ -9,7 +9,8 @@ import br.com.notifytec.daos.PersistenceManager;
 import br.com.notifytec.models.Token;
 import br.com.notifytec.models.UsuarioModel;
 import br.com.notifytec.security.UserSession;
-import br.com.notifytec.services.UserService;
+import br.com.notifytec.services.UsuarioService;
+import java.util.UUID;
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 
@@ -18,13 +19,10 @@ import javax.inject.Inject;
 public class LoginController extends BaseController {
 
     @Inject
-    private UserService userService;
+    private UsuarioService userService;
 
     @Inject
     UserSession userSession;
-
-    @Inject
-    private NotificacaoDao dao;
 
     @Post
     @Path("/Login")
@@ -32,13 +30,11 @@ public class LoginController extends BaseController {
     @Consumes("application/json")
     public void login(String userName, String password) {
 
-        try {
-            dao.getList();
-
+        try {            
             if (userName == null || password == null) {
                 returnError("O usuário e a senha devem ser informadas.");
                 return;
-            }
+            } 
 
             UsuarioModel userModel = userService.login(userName, password);
 
@@ -47,6 +43,7 @@ public class LoginController extends BaseController {
 
             returnSuccess(tokenModel);
         } catch (Exception ex) {
+            ex.printStackTrace();
             returnError(null, ex.getMessage());
         }
     }

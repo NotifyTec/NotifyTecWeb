@@ -13,8 +13,6 @@ import org.hibernate.annotations.GenericGenerator;
 public class NotificacaoModel {
 
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
     @Column(name = "ID")
     private UUID id;
     @Column(name = "TITULO")
