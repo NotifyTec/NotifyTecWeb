@@ -17,7 +17,7 @@ public class NotificacaoModel {
     private UUID id;
     @Column(name = "TITULO")
     private String titulo;
-    @Column(name = "CONTEUDO")
+    @Column(name = "CONTEUDO", columnDefinition = "text")
     private String conteudo;
     @Column(name = "USUARIOID")
     private UUID usuarioID;

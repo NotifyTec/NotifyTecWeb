@@ -7,23 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity(name = "FUNCIONARIO")
+@Entity(name = "PESSOA")
 public class FuncionarioModel extends PessoaModel {
 
-    @Id
-    @Column(name = "ID")
-    private UUID id;
-
-    //@Column(name = "DEPARTAMENTOID")
+    @Column(name = "DEPARTAMENTOID")
     private UUID departamentoId;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public UUID getDepartamento() {
         return departamentoId;

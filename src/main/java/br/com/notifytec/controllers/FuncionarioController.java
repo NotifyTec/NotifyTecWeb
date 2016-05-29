@@ -16,9 +16,9 @@ public class FuncionarioController extends BaseController {
 
     @Get
     @Path("/getList")
-    public void getList() {
+    public void getList(int numeroPagina) {
         try {
-            returnSuccess(funcionarioService.get());
+            returnSuccess(funcionarioService.get(numeroPagina));
         } catch (Exception ex) {
             returnError(null, ex);
         }

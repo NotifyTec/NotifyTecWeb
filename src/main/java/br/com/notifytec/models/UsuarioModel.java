@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity(name = "USUARIO")
@@ -25,9 +26,10 @@ public class UsuarioModel {
     @Column(name = "EMAIL")
     private String email;
     @Column(name = "TOKENRECUPERARSENHA")
-    private Boolean tokenRecuperarSenha;
+    private String tokenRecuperarSenha;
     @Column(name = "DATAVALIDADETOKEN")
     private Date dataValidadeToken;
+    @Transient
     private String token;
 
     public String getToken() {
@@ -86,11 +88,11 @@ public class UsuarioModel {
         this.email = email;
     }
 
-    public Boolean isTokenRecuperarSenha() {
+    public String isTokenRecuperarSenha() {
         return tokenRecuperarSenha;
     }
 
-    public void setTokenRecuperarSenha(Boolean tokenRecuperarSenha) {
+    public void setTokenRecuperarSenha(String tokenRecuperarSenha) {
         this.tokenRecuperarSenha = tokenRecuperarSenha;
     }
 

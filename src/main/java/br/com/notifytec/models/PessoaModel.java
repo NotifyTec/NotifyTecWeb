@@ -1,12 +1,22 @@
 package br.com.notifytec.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import org.hibernate.annotations.GenericGenerator;
 
-public class PessoaModel {    
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class PessoaModel implements Serializable {
+
+    @Id
+    @Column(name = "ID")
+    private UUID id;
     @Column(name = "NOME")
     private String nome;
     @Column(name = "SOBRENOME")
@@ -14,9 +24,17 @@ public class PessoaModel {
     @Column(name = "CPF")
     private String cpf;
     @Column(name = "ATIVO")
-    private boolean ativo;    
+    private boolean ativo;
     @Column(name = "USUARIOID")
-    private UsuarioModel usuario;
+    private UUID usuarioId;
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     public String getNome() {
         return nome;
@@ -50,13 +68,12 @@ public class PessoaModel {
         this.ativo = ativo;
     }
 
-    public UsuarioModel getUsuario() {
-        return usuario;
+    public UUID getUsuario() {
+        return usuarioId;
     }
 
-    public void setUsuario(UsuarioModel usuario) {
-        this.usuario = usuario;
+    public void setUsuario(UUID usuario) {
+        this.usuarioId = usuario;
     }
-    
-    
+
 }
