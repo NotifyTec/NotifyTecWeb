@@ -1,0 +1,30 @@
+<div class="paginacacao mdl-shadow--2dp">
+    <button  class="mdl-button mdl-js-button mdl-js-ripple-effect"
+             ng-show="paginacao.html.previousText"
+             ng-disabled="paginacao.html.previousDisabled"
+             ng-click="paginacao.html.previousOnClick()">
+        {{paginacao.html.previousText}}
+    </button>
+
+    <button class="mdl-button mdl-js-button mdl-js-ripple-effect"
+            ng-repeat="pag in paginacao.paginas" 
+            ng-click="pag.onClick()"
+            ng-disabled="pag.selecionado"
+            ng-class="{
+                'selecionado': pag.selecionado
+            }">
+        <span ng-hide="pag.carregando">
+            {{pag.numero}}
+        </span>
+        <span ng-show="pag.carregando">
+            <div class="mdl-spinner mdl-js-spinner is-active mdl-spinner--single-color"></div>
+        </span>
+    </button>
+
+    <button  class="mdl-button mdl-js-button mdl-js-ripple-effect"
+             ng-show="paginacao.html.nextText" 
+             ng-disabled="paginacao.html.nextDisabled"
+             ng-click="paginacao.html.nextOnClick()">
+        {{paginacao.html.nextText}}        
+    </button>
+</div>

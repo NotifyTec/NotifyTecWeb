@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -27,6 +28,16 @@ public abstract class PessoaModel implements Serializable {
     private boolean ativo;
     @Column(name = "USUARIOID")
     private UUID usuarioId;
+    @Transient
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public UUID getId() {
         return id;

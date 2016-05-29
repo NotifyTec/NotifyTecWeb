@@ -1,7 +1,7 @@
 package br.com.notifytec.services;
 
 import br.com.notifytec.models.NotificacaoModel;
-import br.com.notifytec.models.OperationResult;
+import br.com.notifytec.models.Resultado;
 import com.google.android.gcm.server.Message;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Sender;
@@ -44,8 +44,8 @@ public class GcmService {
         return new ArrayList<>();
     }
 
-    public OperationResult send(NotificacaoModel notificacao, UUID periodoID, UUID semestreID) {
-        OperationResult resultado = new OperationResult();
+    public Resultado send(NotificacaoModel notificacao, UUID periodoID, UUID semestreID) {
+        Resultado resultado = new Resultado();
 
         try {
             Sender sender = new Sender(getAuthorizationKey());

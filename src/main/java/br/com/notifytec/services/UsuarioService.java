@@ -1,11 +1,15 @@
 package br.com.notifytec.services;
 
 import br.com.notifytec.daos.UsuarioDao;
+import br.com.notifytec.models.Resultado;
+import br.com.notifytec.models.Transacao;
 import br.com.notifytec.models.UsuarioModel;
 import br.com.notifytec.security.JwtManager;
 import br.com.notifytec.security.MD5Manager;
 import br.com.notifytec.security.UserSession;
+import java.util.UUID;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 public class UsuarioService {
 
@@ -42,6 +46,22 @@ public class UsuarioService {
             
         return userModel;
     }
-    
+
+    public Resultado<Transacao<UsuarioModel>> add(UsuarioModel u) {
+        Resultado<Transacao<UsuarioModel>> resultado = new Resultado<>();
+        
+        String senhaMD5 = MD5Manager.generate(u.getSenha());
+        u.setSenha(senhaMD5);
+        u.setAlterouSenha(Boolean.FALSE);        
+        u.setId(UUID.randomUUID());
+        
+        // TODO: VALIDAR EMAIL!!!
+        
+        Transacao em = usuarioDao.save(false, u);
+        em.setResultado(usuarioDao.get(u.getId()));
+        resultado.setResult(em);
+        
+        return resultado;
+    }  
     
 }

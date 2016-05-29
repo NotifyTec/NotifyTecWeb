@@ -1,13 +1,14 @@
-br/com/notifytec/models/OperationResult.class
 br/com/notifytec/security/UserSession.class
 br/com/notifytec/controllers/LoginController.class
 br/com/notifytec/security/JwtManager.class
 br/com/notifytec/models/Parametros$Tabelas.class
 br/com/notifytec/services/GcmService.class
 br/com/notifytec/daos/FuncionarioDao.class
+br/com/notifytec/models/Resultado.class
 br/com/notifytec/daos/CrudDao.class
 br/com/notifytec/daos/PaginatorQueryHelper.class
 br/com/notifytec/models/PessoaModel.class
+br/com/notifytec/models/ResultadoPaginacao.class
 br/com/notifytec/models/DepartamentoModel.class
 br/com/notifytec/daos/NotificacaoDao.class
 br/com/notifytec/models/UsuarioModel.class
@@ -26,3 +27,4 @@ br/com/notifytec/controllers/BaseController.class
 br/com/notifytec/security/RequestInterception.class
 br/com/notifytec/models/FuncionarioModel.class
 br/com/notifytec/services/UsuarioService.class
+br/com/notifytec/models/Transacao.class

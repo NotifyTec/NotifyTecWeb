@@ -9,4 +9,5 @@ var app = angular.module("notifytec-app",
      "FilterManager",
      "Menu",
      "Home",
-     "Ajax"]);
+     "Ajax",
+     "Paginacao"]);

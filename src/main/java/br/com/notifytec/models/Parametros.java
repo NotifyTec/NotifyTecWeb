@@ -1,5 +1,7 @@
 package br.com.notifytec.models;
 
+import java.util.UUID;
+
 public class Parametros {
 
     public class Tabelas {
@@ -16,4 +18,6 @@ public class Parametros {
         public static final String TABELA_SEMESTRE = "SEMESTRE";
         public static final String TABELA_USUARIO = "USUARIO";
     }
+
+    public static final UUID emptyUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
 }

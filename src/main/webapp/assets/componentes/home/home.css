@@ -1,14 +1,15 @@
 #fab{
     background: #607D8B;
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
     color: #ffffff;
 }
 
 .page-content{
     padding: 20px;
     background: #EEEEEE;
+    margin-bottom: 200px;
 }
 
 .mdl-layout__content{
@@ -105,3 +106,25 @@ button.btn-filter{
     display: block;
 }
 
+
+
+/* PAGINAÇÃO */
+
+.paginacacao{
+    background-color: #ffffff;
+    border-radius: 4px;
+    margin-top: 20px;
+    display: inline-block;
+    float: right;
+}
+
+.paginacacao button{
+    background-color: #ffffff;
+    border: none;
+    cursor: pointer;
+}
+
+.paginacacao button.selecionado{
+    font-weight: bold;
+    background: #e0e0e0;
+}
