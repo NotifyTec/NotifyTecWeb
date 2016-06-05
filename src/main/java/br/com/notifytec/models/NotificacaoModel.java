@@ -7,10 +7,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity(name = "NOTIFICACAO")
-public class NotificacaoModel {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class NotificacaoModel {
 
     @Id
     @Column(name = "ID")
@@ -25,8 +29,8 @@ public class NotificacaoModel {
     private Date dataHoraEnvio;
     @Column(name = "EXPIRAEM")
     private Date expiraEm;
-    //private UsuarioModel usuario;
-    //private List<NotificacaoOpcaoModel> opcoes;
+    @Transient
+    private List<NotificacaoOpcaoModel> opcoes;
 
     public UUID getId() {
         return id;
@@ -76,16 +80,6 @@ public class NotificacaoModel {
         this.expiraEm = expiraEm;
     }
 
-    /*
-    public UsuarioModel getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(UsuarioModel usuario) {
-        this.usuario = usuario;
-    }
-    */
-/*
     public List<NotificacaoOpcaoModel> getOpcoes() {
         return opcoes;
     }
@@ -93,5 +87,4 @@ public class NotificacaoModel {
     public void setOpcoes(List<NotificacaoOpcaoModel> opcoes) {
         this.opcoes = opcoes;
     }
-*/
 }

@@ -66,7 +66,7 @@ public class FuncionarioService {
             return r;
         }
 
-        f.setUsuario(transacao.getResult().getResultado().getId());
+        f.setUsuarioId(transacao.getResult().getResultado().getId());
         f.setId(UUID.randomUUID());
 
         dao.save(transacao.getResult().getEntityManager(), true, f);

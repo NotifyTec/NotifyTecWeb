@@ -30,7 +30,17 @@ public abstract class PessoaModel implements Serializable {
     private UUID usuarioId;
     @Transient
     private String email;
+    @Transient
+    private UsuarioModel usuario;
 
+    public UsuarioModel getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
+    }
+    
     public String getEmail() {
         return email;
     }
@@ -79,11 +89,11 @@ public abstract class PessoaModel implements Serializable {
         this.ativo = ativo;
     }
 
-    public UUID getUsuario() {
+    public UUID getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuario(UUID usuario) {
+    public void setUsuarioId(UUID usuario) {
         this.usuarioId = usuario;
     }
 

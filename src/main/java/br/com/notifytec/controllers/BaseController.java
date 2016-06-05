@@ -48,6 +48,10 @@ public class BaseController {
         returnError(object, ex.getMessage());
     }
     
+    public void returnResultado(Resultado resultado){
+        returnJson(resultado.getResult(), resultado.getMessages(), resultado.isSucess());
+    }
+    
     private void returnJson(Object object, List<String> message, boolean isError) {
         Resultado jsonResult = new Resultado();
         if (object != null) {

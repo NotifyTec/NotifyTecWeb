@@ -1,6 +1,8 @@
 package br.com.notifytec.services;
 
+import br.com.notifytec.daos.CrudDao;
 import br.com.notifytec.daos.UsuarioDao;
+import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.Transacao;
 import br.com.notifytec.models.UsuarioModel;
@@ -11,7 +13,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-public class UsuarioService {
+public class UsuarioService extends CrudService<UsuarioModel>{
 
     @Inject
     private JwtManager jwtManager;
@@ -19,11 +21,12 @@ public class UsuarioService {
     @Inject
     private UserSession userSession;
     
-    @Inject
-    private UsuarioDao usuarioDao;
+    public UsuarioService() {
+        super(new UsuarioDao());
+    }
 
-    public UsuarioModel get(String login) {        
-        return usuarioDao.get(login);
+    public UsuarioModel get(String login) {                
+        return ((UsuarioDao)dao).get(login);
     }
 
     public UsuarioModel login(String login, String password) throws IllegalAccessException {        
@@ -57,8 +60,8 @@ public class UsuarioService {
         
         // TODO: VALIDAR EMAIL!!!
         
-        Transacao em = usuarioDao.save(false, u);
-        em.setResultado(usuarioDao.get(u.getId()));
+        Transacao em = ((UsuarioDao)dao).save(false, u);
+        em.setResultado(((UsuarioDao)dao).get(u.getId()));
         resultado.setResult(em);
         
         return resultado;

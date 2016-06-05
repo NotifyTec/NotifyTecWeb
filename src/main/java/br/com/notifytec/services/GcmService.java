@@ -1,5 +1,6 @@
 package br.com.notifytec.services;
 
+import br.com.notifytec.models.NotificacaoCompletaModel;
 import br.com.notifytec.models.NotificacaoModel;
 import br.com.notifytec.models.Resultado;
 import com.google.android.gcm.server.Message;
@@ -40,11 +41,7 @@ public class GcmService {
         return "".getBytes("UTF-8");
     }
 
-    private List<String> getAlunosKeys(UUID periodoID, UUID semestreID) {
-        return new ArrayList<>();
-    }
-
-    public Resultado send(NotificacaoModel notificacao, UUID periodoID, UUID semestreID) {
+    public Resultado send(NotificacaoCompletaModel notificacao, List<String> tokens) {
         Resultado resultado = new Resultado();
 
         try {
@@ -53,7 +50,7 @@ public class GcmService {
                     .addData("notificacao", new Gson().toJson(notificacao))
                     .build();
 
-            MulticastResult result = sender.send(message, getAlunosKeys(periodoID, semestreID), 0);
+            MulticastResult result = sender.send(message, tokens, 0);
             if (result.getFailure() > 0) {
                 for (com.google.android.gcm.server.Result e : result.getResults()) {
                     String erro = e.getErrorCodeName();

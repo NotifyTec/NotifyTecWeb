@@ -25,10 +25,10 @@ public class JwtManager {
         builder.setId(usuario.getId().toString());
 
         // Adiciona validade de uma hora ao token.
-        Calendar expiration = Calendar.getInstance();
+        /*Calendar expiration = Calendar.getInstance();
         expiration.add(Calendar.HOUR, 1);
         builder.setExpiration(expiration.getTime());
-
+    */
         String s = builder.signWith(SignatureAlgorithm.HS512, getKey()).compact();
 
         return s;

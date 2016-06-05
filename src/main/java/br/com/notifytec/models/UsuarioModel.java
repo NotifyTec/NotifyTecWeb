@@ -29,9 +29,19 @@ public class UsuarioModel {
     private String tokenRecuperarSenha;
     @Column(name = "DATAVALIDADETOKEN")
     private Date dataValidadeToken;
+    @Column(name = "GCMTOKEN")
+    private String gcmToken;
     @Transient
     private String token;
 
+    public String getGcmToken() {
+        return gcmToken;
+    }
+
+    public void setGcmToken(String gcmToken) {
+        this.gcmToken = gcmToken;
+    }    
+    
     public String getToken() {
         return this.token;
     }

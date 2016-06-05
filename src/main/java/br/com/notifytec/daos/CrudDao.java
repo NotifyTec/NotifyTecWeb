@@ -19,7 +19,7 @@ public class CrudDao<T> {
 
     @Inject
     @PersistenceContext
-    private EntityManager manager;
+    public EntityManager manager;
 
     private final Class<T> type;
     private final String nomeDaTabela;
@@ -62,7 +62,7 @@ public class CrudDao<T> {
         if (commit) {
             t.getEntityManager().getTransaction().commit();
         }
-
+        
         return t;
     }
 

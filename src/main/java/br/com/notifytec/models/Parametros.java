@@ -20,4 +20,5 @@ public class Parametros {
     }
 
     public static final UUID emptyUUID = UUID.fromString("00000000-0000-0000-0000-000000000000");
+    
 }
