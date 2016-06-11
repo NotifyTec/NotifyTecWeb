@@ -60,7 +60,8 @@ module.factory("filterManagerService", ["materialComponents", function (material
 
         return {
             onFilter: onFilter,
-            get: get
+            get: get,
+            setLockButton:setLockButton
         };
     }]);
 

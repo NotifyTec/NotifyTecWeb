@@ -25,7 +25,10 @@ public class FuncionarioService {
         ResultadoPaginacao<FuncionarioModel> r = new ResultadoPaginacao<>();
         r = dao.paginated(pagina);
         List<DepartamentoModel> departamentos = departamentoService.getList();
-        for(FuncionarioModel f : r.getResult() ){
+        UsuarioModel u = new UsuarioModel();
+        for(FuncionarioModel f : r.getResult() ){            
+            u = usuarioService.getById(f.getUsuarioId());
+            f.setEmail(u.getEmail());
             for(DepartamentoModel d: departamentos){
                 if(f.getDepartamentoId().equals(d.getId()))
                     f.setNomedepartamento(d.getNome());
@@ -35,6 +38,24 @@ public class FuncionarioService {
         
         return r;
     }
+    
+    public ResultadoPaginacao<FuncionarioModel> getByFilter(String nome, boolean ativo){
+        ResultadoPaginacao<FuncionarioModel> r = new ResultadoPaginacao<>();
+        r = dao.getByFilter(nome,ativo);
+        List<DepartamentoModel> departamentos = departamentoService.getList();
+        UsuarioModel u = new UsuarioModel();
+        for(FuncionarioModel f : r.getResult() ){
+            u = usuarioService.getById(f.getUsuarioId());
+            f.setEmail(u.getEmail());
+            for(DepartamentoModel d: departamentos){
+                if(f.getDepartamentoId().equals(d.getId()))
+                    f.setNomedepartamento(d.getNome());
+            }
+        }
+        
+        return r;
+    }
+    
 
     public Resultado<FuncionarioModel> validarCamposObrigatorios(FuncionarioModel f) {
         Resultado<FuncionarioModel> r = new Resultado<>();
@@ -61,12 +82,44 @@ public class FuncionarioService {
     private String getMensagemNulo(String campo) {
         return "O campo " + campo + " não pode ser nulo.";
     }
+    
+    private Resultado<FuncionarioModel> verificaSeJaTemCPF(String cpf){
+        Resultado<FuncionarioModel> r = new Resultado<>();
+        List<FuncionarioModel> lista =  dao.getByCPF(cpf);
+        if(lista.size() > 0){
+          r.addError("Já Existe uma pessoa cadastrada com o CPF informado!");
+        }
+        return r;
+    }
+    private Resultado<FuncionarioModel> verificaSeJaTemEmail(String email){
+        Resultado<FuncionarioModel> r = new Resultado<>();
+        List<UsuarioModel> lista =  dao.getByEmail(email);
+        if(lista.size()>0){
+            r.addError("Já Existe uma pessoa cadastrada com o Email informado!");
+        }
+        return r;
+    }
+    
+    public Resultado<FuncionarioModel> edit(FuncionarioModel f){
+        Resultado<FuncionarioModel> r = new Resultado<>();        
+        r.merge(validarCamposObrigatorios(f));
+        if(!r.isSucess()){
+            r.setResult(f);
+            return r;
+        }
+        dao.editar(f);
+        r.setResult(dao.get(f.getId()));
+        return r;
+    }
+    
 
     public Resultado<FuncionarioModel> add(FuncionarioModel f) {
         Resultado<FuncionarioModel> r = new Resultado<>();
 
         r.merge(validarCamposObrigatorios(f));
-
+        r.merge(verificaSeJaTemCPF(f.getCpf()));
+        r.merge(verificaSeJaTemEmail(f.getEmail()));
+        
         if (!r.isSucess()) {
             r.setResult(f);
             return r;

@@ -61,6 +61,7 @@ curso.controller("CursoController",
                             $scope.dialogs.editar.get().close();
                         },
                         openModal: function(item){
+                            $("[name='form-editar']").find(".mdl-textfield").addClass("is-dirty").removeClass("is-invalid");
                             $scope.edicao = item;
                             $scope.dialogs.editar.get().showModal();
                         },

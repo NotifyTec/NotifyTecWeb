@@ -1,10 +1,6 @@
 package br.com.notifytec.services;
 
-import br.com.notifytec.daos.CrudDao;
-import br.com.notifytec.daos.PeriodoDao;
 import br.com.notifytec.daos.UsuarioDao;
-import br.com.notifytec.models.CursoModel;
-import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.Transacao;
 import br.com.notifytec.models.UsuarioModel;
@@ -13,7 +9,6 @@ import br.com.notifytec.security.MD5Manager;
 import br.com.notifytec.security.UserSession;
 import java.util.UUID;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
 public class UsuarioService extends CrudService<UsuarioModel>{
 
@@ -33,6 +28,11 @@ public class UsuarioService extends CrudService<UsuarioModel>{
     public UsuarioModel get(String login) {                
         return ((UsuarioDao)dao).get(login);
     }
+    
+    public UsuarioModel getById(UUID id){
+        return dao.get(id);
+    }
+    
 
     public UsuarioModel login(String login, String password) throws IllegalAccessException {        
         UsuarioModel userModel = get(login);

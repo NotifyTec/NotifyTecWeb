@@ -133,7 +133,7 @@
 
 
 <dialog class="mdl-dialog" id="editar-dialog">
-    <form name="form" id="form-editar">
+    <form name="form-edit" id="form-editar">
         <h4 class="mdl-dialog__title mdl-shadow--2dp">Editar Funcionário</h4>
         <div class="mdl-dialog__content">                        
             <div class="mdl-grid">
@@ -142,26 +142,26 @@
                     </div>
                 </div>
                 <div class="mdl-cell mdl-cell--4-col">                    
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-active">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label ">
                         <input ng-disabled="dialogs.editar.bloquear" name="nome" class="mdl-textfield__input" ng-model="edicao.nome"
                                type="text" id="nome-edit" required>
                         <label class="mdl-textfield__label" for="nome">Nome</label>
-                        <span ng-show="form.nome.$error.required"
+                        <span ng-show="form-edit.nome.$error.required"
                               class="mdl-textfield__error">Campo obrigatório</span>
                     </div>
                 </div>
                 <div class="mdl-cell mdl-cell--4-col">                    
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <div id="div-sobrenome-{{edicao.id}}" class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-valid is-focused is-dirty">
                         <input ng-disabled="dialogs.editar.bloquear" name="sobrenome" class="mdl-textfield__input" ng-model="edicao.sobrenome"
                                type="text" id="sobrenome-edit" required>
                         <label class="mdl-textfield__label" for="sobrenome">Sobrenome</label>
-                        <span ng-show="form.sobrenome.$error.required"
+                        <span ng-show="form-edit.sobrenome.$error.required"
                               class="mdl-textfield__error">Campo obrigatório</span>
                     </div>
                 </div>
                 <div class="mdl-cell mdl-cell--4-col">
-                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2">
-                        <input type="checkbox" name="ativo" id="switch-2-edit" class="mdl-switch__input" checked>
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2-edit">
+                        <input type="checkbox" name="ativo" id="switch-2-edit" class="mdl-switch__input" checked  ng-model="edicao.ativo">
                         <span class="mdl-switch__label">Ativo</span>
                     </label>
                 </div>
@@ -178,16 +178,16 @@
                                type="text" id="cpf" ng-change="validaCPF(edicao.cpf)" required  ng-minlength="11" ng-maxlength="11" maxlength="11"
                                                ui-mask="999.999.999-99">
                         <label class="mdl-textfield__label is-active" for="cpf">CPF</label>
-                        <span ng-show="((!validaCPF(edicao.cpf)) || (form.cpf.$error.required))"
+                        <span ng-show="((!validaCPF(edicao.cpf)) || (form-edit.cpf.$error.required))"
                               class="mdl-textfield__error">CPF Inválido</span>
                     </div>
                 </div> 
                 <div class="mdl-cell mdl-cell--6-col">                    
                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.editar.bloquear" name="email" class="mdl-textfield__input" ng-model="edicao.email"
+                        <input ng-disabled="true" name="email" class="mdl-textfield__input" ng-model="edicao.email"
                                type="email" id="email-edit" required>
                         <label class="mdl-textfield__label" for="email">Email</label>
-                        <span ng-show="form.email.$error.required"
+                        <span ng-show="form-edit.email.$error.required"
                               class="mdl-textfield__error">Campo obrigatório</span>
                     </div>
                 </div> 
@@ -197,7 +197,8 @@
                         <select ng-init="loadDepartamentos()" 
                                 style="width: 100%;border-top: white;border-left: white; border-right: white;"
                                 ng-disabled="dialogs.editar.bloquear" name="departamento" 
-                                ng-model="edicao.departamento"
+                                ng-value="edicao.departamento"
+                               
                                 id="departamento-edit" required>                                    
                             <option value="{{dept.id}}" ng-repeat="dept in depts">{{dept.nome}}</option>
                         </select>
