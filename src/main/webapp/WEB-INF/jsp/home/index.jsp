@@ -30,10 +30,13 @@
         <script src="assets/componentes/menu/menu.js" type="text/javascript"></script>
         <script src="assets/componentes/services/ajax.js" type="text/javascript"></script>
         <script src="assets/componentes/paginacao/paginacao.js" type="text/javascript"></script>
+        <script src="assets/componentes/ui-utils-0.2.3/ui-utils.min.js" type="text/javascript"></script>
+        <script src="assets/componentes/ui-utils-0.2.3/ui-utils-ieshiv.min.js" type="text/javascript"></script>
         
         <!--CONTROLLERS-->
         <script src="assets/componentes/home/home.js" type="text/javascript"></script>
         <script src="assets/componentes/funcionario/funcionario.js" type="text/javascript"></script>
+        <script src="assets/componentes/curso-periodo/curso-periodo.js" type="text/javascript"></script>
 
         <!--CSS-->
         <link href="assets/componentes/home/home.css" rel="stylesheet" type="text/css"/>

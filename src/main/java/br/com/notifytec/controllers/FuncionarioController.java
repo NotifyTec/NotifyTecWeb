@@ -8,6 +8,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.notifytec.models.FuncionarioModel;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.security.UserSession;
+import br.com.notifytec.services.DepartamentoService;
 import br.com.notifytec.services.FuncionarioService;
 import java.util.UUID;
 import javax.annotation.security.PermitAll;
@@ -19,10 +20,11 @@ public class FuncionarioController extends BaseController {
 
     @Inject
     private FuncionarioService funcionarioService;
+    @Inject
+    private DepartamentoService departamentoService;
 
     @Post
-    @Path("/getList")
-    @PermitAll
+    @Path("/getList")    
     @Consumes("application/json")
     public void getList(int numeroPagina) {
         try {
@@ -32,9 +34,23 @@ public class FuncionarioController extends BaseController {
         }
     }
     
-    @Get
+    @Post
+    @Path("/getDepartamentos")    
+    @Consumes("application/json")  
+    public void getDepartamentos(String pagina){
+        try {            
+            returnSuccess(departamentoService.get(Integer.parseInt(pagina)));
+        }catch(Exception ex){
+            returnError(null, ex);
+        }
+
+    }
+    
+    
+   
+    @Post
     @Path("/add")
-    @PermitAll
+    @Consumes("application/json")
     public void add(String nome,
                     String sobrenome,
                     String cpf,

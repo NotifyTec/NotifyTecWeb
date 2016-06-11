@@ -1,7 +1,9 @@
 package br.com.notifytec.services;
 
 import br.com.notifytec.daos.CrudDao;
+import br.com.notifytec.daos.PeriodoDao;
 import br.com.notifytec.daos.UsuarioDao;
+import br.com.notifytec.models.CursoModel;
 import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.Transacao;
@@ -20,6 +22,9 @@ public class UsuarioService extends CrudService<UsuarioModel>{
 
     @Inject
     private UserSession userSession;
+    
+    @Inject
+    private UsuarioDao dao;
     
     public UsuarioService() {
         super(new UsuarioDao());
@@ -51,20 +56,22 @@ public class UsuarioService extends CrudService<UsuarioModel>{
     }
 
     public Resultado<Transacao<UsuarioModel>> add(UsuarioModel u) {
-        Resultado<Transacao<UsuarioModel>> resultado = new Resultado<>();
+        //Resultado<Transacao<UsuarioModel>> resultado = new Resultado<>();
         
         String senhaMD5 = MD5Manager.generate(u.getSenha());
         u.setSenha(senhaMD5);
         u.setAlterouSenha(Boolean.FALSE);        
         u.setId(UUID.randomUUID());
+       
         
         // TODO: VALIDAR EMAIL!!!
         
-        Transacao em = ((UsuarioDao)dao).save(false, u);
-        em.setResultado(((UsuarioDao)dao).get(u.getId()));
-        resultado.setResult(em);
-        
-        return resultado;
+       Resultado<Transacao<UsuarioModel>> transacao = new Resultado<>();       
+        Transacao em = new Transacao();
+        em = dao.save(false, u);
+        em.setResultado(dao.get(u.getId()));     
+        transacao.setResult(em);    
+        return transacao;
     }  
     
 }

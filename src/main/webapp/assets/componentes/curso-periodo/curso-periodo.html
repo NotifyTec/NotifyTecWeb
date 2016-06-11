@@ -1,0 +1,141 @@
+<table class="table-complete mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <thead>
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric">Nome</th>
+            <th class="mdl-data-table__cell--non-numeric">Apelido</th>
+            <th class="mdl-data-table__cell--non-numeric">Qtd Periodo</th>
+            <th class="mdl-data-table__cell--non-numeric">Ativo</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in list">
+            <td class="mdl-data-table__cell--non-numeric">{{item.nome}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{item.apelido}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{item.periodo}}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{item.ativoTraduzido}}</td>
+            <td>
+                <button id="edit" ng-click="dialogs.editar.openModal(item)" class="orange-icon mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">create</i>
+                </button>
+                <div class="mdl-tooltip" for="edit">
+                    Editar
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<dialog class="mdl-dialog" id="cadastro-dialog">
+    <form name="form" id="form-cadastro">
+        <h4 class="mdl-dialog__title mdl-shadow--2dp">Cadastrar Curso</h4>
+        <div class="mdl-dialog__content">                        
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">                    
+                    <div class="alert alert-danger" ng-bind="dialogs.cadastro.erro" ng-show="dialogs.cadastro.erro">                        
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.cadastro.bloquear" name="nome" class="mdl-textfield__input" ng-model="cadastro.nome"
+                               type="text" id="nome" required>
+                        <label class="mdl-textfield__label" for="nome">Nome</label>
+                        <span ng-show="form.nome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.cadastro.bloquear" name="apelido" class="mdl-textfield__input" ng-model="cadastro.apelido"
+                               type="text" id="apelido">
+                        <label class="mdl-textfield__label" for="apelido">Apelido</label>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.cadastro.bloquear" name="periodo" class="mdl-textfield__input" ng-model="cadastro.periodo"
+                               type="number" id="nome" required>
+                        <label class="mdl-textfield__label" for="nome">Qtd Periodos</label>
+                        <span ng-show="form.nome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>              
+                
+                <div class="mdl-cell mdl-cell--2-col">
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+                        <span class="mdl-switch__label">Ativo</span>
+                        <input type="checkbox" name="ativo" id="switch-1" class="mdl-switch__input" ng-model="cadastro.ativo" checked>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.cadastro.salvar(cadastro)"
+                    ng-bind="dialogs.cadastro.btnSalvarTexto"></button>
+            <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.cadastro.fechar()">Fechar</button>
+        </div>
+    </form>
+
+    <div ng-show="dialogs.cadastro.carregando" class="dialog-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+</dialog>
+
+
+
+<dialog class="mdl-dialog" id="editar-dialog">
+    <form name="form" id="form-editar">
+        <h4 class="mdl-dialog__title mdl-shadow--2dp">Editar Curso</h4>
+        <div class="mdl-dialog__content">                        
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">                    
+                    <div class="alert alert-danger" ng-bind="dialogs.editar.erro" ng-show="dialogs.editar.erro">                        
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" name="nome" class="mdl-textfield__input" ng-model="edicao.nome"
+                               type="text" id="nome-editar" required>
+                        <label class="mdl-textfield__label" for="nome-editar">Nome</label>
+                        <span ng-show="form.nome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" name="apelido" class="mdl-textfield__input" ng-model="edicao.apelido"
+                               type="text" id="apelido-editar">
+                        <label class="mdl-textfield__label" for="apelido-editar">Apelido</label>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" name="periodo" class="mdl-textfield__input" ng-model="edicao.periodo"
+                               type="number" id="periodo-editar" required>
+                        <label class="mdl-textfield__label" for="periodo-editar">Qtd Periodos</label>
+                        <span ng-show="form.nome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>              
+                
+                <div class="mdl-cell mdl-cell--2-col">
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+                        <span class="mdl-switch__label">Ativo</span>
+                        <input type="checkbox" name="ativo" id="switch-1" class="mdl-switch__input" ng-model="edicao.ativo" checked>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" ng-disabled="dialogs.editar.bloquear" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.editar.salvar(edicao)"
+                    ng-bind="dialogs.editar.btnSalvarTexto"></button>
+            <button type="button" ng-disabled="dialogs.editar.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.editar.fechar()">Fechar</button>
+        </div>
+    </form>
+
+    <div ng-show="dialogs.editar.carregando" class="dialog-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+</dialog>
+
+
+<paginacao></paginacao>
+
+<fab></fab>
+<snackbar></snackbar>
