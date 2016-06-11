@@ -3,6 +3,7 @@
   <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>br.com.notifytec.models.UsuarioModel</class>
+    <class>br.com.notifytec.models.FuncionarioModel</class>
     <class>br.com.notifytec.models.DepartamentoModel</class>
     <class>br.com.notifytec.models.PessoaModel</class>
     <class>br.com.notifytec.models.NotificacaoCompletaModel</class>

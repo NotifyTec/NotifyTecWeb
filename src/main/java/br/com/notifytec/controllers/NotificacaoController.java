@@ -75,6 +75,8 @@ public class NotificacaoController extends BaseController {
             n2.setResposta(r);
         }
         
+        l.add(n2);
+        
         return l;
     }
     

@@ -3,6 +3,7 @@
   <persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>br.com.notifytec.models.UsuarioModel</class>
+    <class>br.com.notifytec.models.FuncionarioModel</class>
     <class>br.com.notifytec.models.DepartamentoModel</class>
     <class>br.com.notifytec.models.PessoaModel</class>
     <class>br.com.notifytec.models.NotificacaoCompletaModel</class>
@@ -16,27 +17,19 @@
     <class>br.com.notifytec.models.SemestreModel</class>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
-      <!--
+       <!--
         Cadeia Conexão AZURE:
         Database=NOTIFYTEC;Data Source=br-cdbr-azure-south-b.cloudapp.net;User Id=b0d2cd4f9918c0;Password=633196f2
-       
+       -->
+        <!--
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/NOTIFYTEC?zeroDateTimeBehavior=convertToNull"/>
-     
+-->      
       <property name="javax.persistence.jdbc.user" value="b0d2cd4f9918c0"/>
       <property name="javax.persistence.jdbc.password" value="633196f2"/>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://br-cdbr-azure-south-b.cloudapp.net:3306/notifytec"/>
-      
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.format_sql" value="true"/>
-      <property name="hibernate.hbm2ddl.auto" value="validate"/>
-      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
-      -->
-      <property name="javax.persistence.jdbc.user" value="root"/>
-      <property name="javax.persistence.jdbc.password" value="root"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/NOTIFYTEC?zeroDateTimeBehavior=convertToNull"/>
+
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.format_sql" value="true"/>
       <property name="hibernate.hbm2ddl.auto" value="validate"/>
