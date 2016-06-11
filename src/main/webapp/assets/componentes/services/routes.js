@@ -8,6 +8,9 @@ routes.config(function ($routeProvider) {
             }).when('/curso', {
                 templateUrl: 'assets/componentes/curso-periodo/curso-periodo.html',
                 controller: 'CursoController'
+            }).when('/semestre', {
+                templateUrl: 'assets/componentes/semestre/semestre.html',
+                controller: 'SemestreController'                
             }).when('/index', {
         templateUrl: 'assets/componentes/home/home.html',
         controller: 'HomeController'

@@ -13,6 +13,7 @@
     <class>br.com.notifytec.models.CursoModel</class>
     <class>br.com.notifytec.models.PeriodoModel</class>
     <class>br.com.notifytec.models.FuncionarioModel</class>
+    <class>br.com.notifytec.models.SemestreModel</class>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
       <!--

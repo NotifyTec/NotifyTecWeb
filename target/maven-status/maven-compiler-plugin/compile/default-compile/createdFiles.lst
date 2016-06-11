@@ -15,6 +15,7 @@ br\com\notifytec\services\UsuarioService.class
 br\com\notifytec\controllers\LoginController.class
 br\com\notifytec\daos\UsuarioDao.class
 br\com\notifytec\models\NotificacaoModel.class
+br\com\notifytec\models\SemestreModel.class
 br\com\notifytec\services\GcmService.class
 br\com\notifytec\controllers\CursoController.class
 br\com\notifytec\daos\PaginatorQueryHelper.class
@@ -35,6 +36,8 @@ br\com\notifytec\services\NotificacaoOpcaoService.class
 br\com\notifytec\models\NotificacaoOpcaoModel.class
 br\com\notifytec\services\AlunoService.class
 br\com\notifytec\models\NotificacaoCompletaModel.class
+br\com\notifytec\daos\SemestreDao.class
+br\com\notifytec\services\SemestreService.class
 br\com\notifytec\models\AlunoModel.class
 br\com\notifytec\security\RequestInterception.class
 br\com\notifytec\services\DepartamentoService.class
@@ -51,4 +54,5 @@ br\com\notifytec\daos\AlunoDao.class
 br\com\notifytec\security\UserSession.class
 br\com\notifytec\controllers\HomeController.class
 br\com\notifytec\models\PessoaModel.class
+br\com\notifytec\controllers\SemestreController.class
 br\com\notifytec\daos\AlunoPeriodoDao.class
