@@ -51,6 +51,7 @@ funcionario.controller("FuncionarioController",
                                     snackbarManagerService.show(message, 20, null, null);
                                 }
                                 console.debug(list);   
+                                carregar(1);
                               
                                 $scope.dialogs.cadastro.get().close();
                                 //TODO> Carregar novo dado
@@ -62,8 +63,7 @@ funcionario.controller("FuncionarioController",
                                 paginacao.setLoading(null, false);
                             }, dados);
                             //CHAMAR ADD
-                            
-                            carregar(1);
+                         
                             console.debug(dados);
                         },
                         bloquear: false,

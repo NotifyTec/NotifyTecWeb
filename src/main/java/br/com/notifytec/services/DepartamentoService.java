@@ -55,4 +55,15 @@ public class DepartamentoService {
         r.setResult(dao.get(f.getId()));
         return r;
     }
+    public Resultado<DepartamentoModel>edit(DepartamentoModel f){
+        Resultado<DepartamentoModel> r = new Resultado<>();
+        r.merge(validarCamposObrigatorios(f));
+        if(!r.isSucess()){
+            r.setResult(f);
+            return r;
+        }
+        dao.editar(f);
+        r.setResult(dao.get(f.getId()));
+        return r;
+    }
 }

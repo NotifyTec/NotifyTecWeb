@@ -49,6 +49,7 @@ br\com\notifytec\models\Resultado.class
 br\com\notifytec\models\ResultadoPaginacao.class
 br\com\notifytec\models\PeriodoModel.class
 br\com\notifytec\daos\PeriodoDao.class
+br\com\notifytec\controllers\DepartamentoController.class
 br\com\notifytec\daos\FuncionarioDao.class
 br\com\notifytec\daos\AlunoDao.class
 br\com\notifytec\security\UserSession.class
