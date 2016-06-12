@@ -5,6 +5,7 @@
  */
 package br.com.notifytec.services;
 
+import br.com.notifytec.daos.CrudDao;
 import br.com.notifytec.daos.CursoDao;
 import br.com.notifytec.daos.FuncionarioDao;
 import br.com.notifytec.daos.PeriodoDao;
@@ -25,12 +26,20 @@ import javax.inject.Inject;
  *
  * @author felip
  */
-public class CursoService {
-    @Inject
-    private CursoDao dao;
+public class CursoService {    
     @Inject
     private PeriodoService periodoService;
+    @Inject
+    private CursoDao dao;
+    
+    public CursoService() {   
+        
+    }
 
+    public List<CursoModel> get(){
+        return dao.get();
+    }
+    
     public ResultadoPaginacao<CursoModel> get(int pagina) {
         ResultadoPaginacao<CursoModel> list = dao.paginated(pagina);
         for(CursoModel m : list.getResult()){

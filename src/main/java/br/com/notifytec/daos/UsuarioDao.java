@@ -16,6 +16,18 @@ public class UsuarioDao extends CrudDao<UsuarioModel> {
         super(UsuarioModel.class, Parametros.Tabelas.TABELA_USUARIO);
     }
 
+    public UsuarioModel getByTokenDeRedefinirSenha(String token){
+        try{
+            UsuarioModel usuario = manager.
+                    createQuery("from USUARIO where TOKENRECUPERARSENHA = ?", UsuarioModel.class)
+                    .setParameter(1, token)
+                    .getSingleResult();
+            return usuario;
+        }catch(NoResultException ex){
+            return null;
+        }
+    }
+    
     public UsuarioModel get(String login) {
         try {
             UsuarioModel usuario = manager.

@@ -32,6 +32,10 @@ public class NotificacaoService extends CrudService<NotificacaoCompletaModel> {
         super(new NotificacaoDao());
     }
 
+    public List<NotificacaoCompletaModel> getPorUsuario(UUID usuarioID){
+        return notificacaoDao.getPorUsuario(usuarioID);
+    }
+    
     public List<NotificacaoCompletaModel> getRecebidas(UUID alunoID) {
         return notificacaoDao.getRecebidas(alunoID);
     }

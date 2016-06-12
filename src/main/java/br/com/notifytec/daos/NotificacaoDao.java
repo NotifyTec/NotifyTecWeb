@@ -6,6 +6,7 @@ import br.com.notifytec.models.NotificacaoModel;
 import br.com.notifytec.models.NotificacaoOpcaoModel;
 import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.Transacao;
+import br.com.notifytec.models.UsuarioModel;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,29 +20,44 @@ public class NotificacaoDao extends CrudDao<NotificacaoCompletaModel> {
     private NotificacaoOpcaoDao notificacaoOpcaoDao;
     @Inject
     private AlunoNotificacaoDao alunoNotificacaoDao;
+    @Inject
+    private UsuarioDao usuarioDao;
 
     public NotificacaoDao() {
         super(NotificacaoCompletaModel.class, Parametros.Tabelas.TABELA_NOTIFICACAO);
     }
 
-    public List<NotificacaoModel> getPorUsuario(UUID usuarioID) {
-        return manager.createQuery("from NOTIFICACAO where USUARIOID = :usuarioid")
-                .setParameter("usuarioid", usuarioID).getResultList();
+    public List<NotificacaoCompletaModel> getPorUsuario(UUID usuarioID) {
+        UsuarioModel usuario = usuarioDao.get(usuarioID);        
+        if(usuario.isPodeEnviar()){
+            return getEnviadas(usuarioID);
+        }else{
+            return getRecebidas(usuarioID);
+        }
     }
 
-    public List<NotificacaoCompletaModel> getRecebidas(UUID alunoID) {
+    public List<NotificacaoCompletaModel> getRecebidas(UUID usuarioID) {
         List<NotificacaoCompletaModel> r = new ArrayList<NotificacaoCompletaModel>();
 
-        List<NotificacaoCompletaModel> n = manager.createQuery("select n.* from NOTIFICACAO n inner join ALUNONOTIFICACAO nop on nop.NOTIFICACAOID = n.ID where nop.ALUNOID = :notificacaoid",
+        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n" +
+"	n.*\n" +
+"FROM\n" +
+"	NOTIFICACAO n\n" +
+"INNER JOIN\n" +
+"	ALUNONOTIFICACAO an\n" +
+"ON\n" +
+"	n.ID = an.NOTIFICACAOID\n" +
+"WHERE\n" +
+"	an.ALUNOID = (SELECT ALUNOID FROM ALUNO WHERE USUARIOID = :usuarioid);",
                 NotificacaoCompletaModel.class)
-                .setParameter("notificacaoid", alunoID)
+                .setParameter("usuarioid", usuarioID)
                 .getResultList();
 
         n = notificacaoOpcaoDao.carregarOpcoes(n);
 
         for (NotificacaoModel item : n) {
             NotificacaoCompletaModel nrm = new NotificacaoCompletaModel();
-            nrm.setResposta(alunoNotificacaoDao.getAlunoNotificacao(item.getId(), alunoID));
+            nrm.setResposta(alunoNotificacaoDao.getAlunoNotificacao(item.getId(), usuarioID));
 
             r.add(nrm);
         }
@@ -52,7 +68,12 @@ public class NotificacaoDao extends CrudDao<NotificacaoCompletaModel> {
     public List<NotificacaoCompletaModel> getEnviadas(UUID usuarioID) {
         List<NotificacaoCompletaModel> r = new ArrayList<NotificacaoCompletaModel>();
 
-        List<NotificacaoCompletaModel> n = manager.createQuery("select n.* from NOTIFICACAO n WHERE n.USUARIOID = :usuarioid",
+        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n" +
+"	n.*\n" +
+"FROM\n" +
+"	NOTIFICACAO n\n" +
+"WHERE\n" +
+"	n.USUARIOID = :usuarioid;",
                 NotificacaoCompletaModel.class)
                 .setParameter("usuarioid", usuarioID)
                 .getResultList();
@@ -71,6 +92,4 @@ public class NotificacaoDao extends CrudDao<NotificacaoCompletaModel> {
 
         return get(n.getNotificacaoID());
     }
-
-
 }

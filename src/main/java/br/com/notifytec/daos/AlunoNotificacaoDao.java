@@ -12,10 +12,10 @@ public class AlunoNotificacaoDao extends CrudDao<AlunoNotificacaoModel>{
         super(AlunoNotificacaoModel.class, Parametros.Tabelas.TABELA_ALUNO_NOTIFICACAO);
     }
     
-    public AlunoNotificacaoModel getAlunoNotificacao(UUID notificacaoID, UUID alunoID) {
-        return manager.createQuery("select n.* from ALUNONOTIFICACAO n WHERE n.ALUNOID = :alunoid AND n.NOTIFICACAOID = :notificacaoid",
+    public AlunoNotificacaoModel getAlunoNotificacao(UUID notificacaoID, UUID usuarioID) {
+        return manager.createQuery("select n.* from ALUNONOTIFICACAO n WHERE n.ALUNOID = (SELECT ID FROM ALUNO WHERE USUARIOID = :usuarioid) AND n.NOTIFICACAOID = :notificacaoid",
                 AlunoNotificacaoModel.class)
-                .setParameter("alunoid", alunoID)
+                .setParameter("usuarioid", usuarioID)
                 .setParameter("notificacaoid", notificacaoID)
                 .getSingleResult();
     }

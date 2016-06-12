@@ -40,6 +40,12 @@ public class BaseController {
         returnJson(object, null, true);
     }
     
+    public void returnError(Exception ex) {
+        List<String > l =new ArrayList();
+        l.add(ex.getMessage());
+        returnJson(null, l, true);
+    }
+    
     public void returnError(String error){
         returnError(null, error);
     }
@@ -57,7 +63,12 @@ public class BaseController {
         if (object != null) {
             jsonResult.setResult(object);
         }
-
+        
+        if(isError && (message == null || message.size() == 0)){
+            message = new ArrayList<>();
+            message.add("Houve um erro desconhecido ao executar a operação.");
+        }
+        
         if (message != null && !message.isEmpty()) {
             if (isError) {
                 for (String m : message) {

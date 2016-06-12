@@ -35,6 +35,18 @@ public class CursoController extends BaseController {
     }
     
     @Post
+    @Path("/getCursos")
+    @PermitAll
+    @Consumes("application/json")
+    public void getList() {
+        try {
+            returnSuccess(cursoService.get());
+        } catch (Exception ex) {
+            returnError(null, ex);
+        }
+    }
+    
+    @Post
     @Path("/getListPeriodo")
     @PermitAll
     @Consumes("application/json")

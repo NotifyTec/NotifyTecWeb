@@ -80,32 +80,15 @@ public class NotificacaoController extends BaseController {
         return l;
     }
     
-    @Path("/getRecebidas")
-    @Get()
+    @Path("/get")
+    @Post()
     @Consumes("application/json")
-    public void getRecebidas(String alunoID) {
-        returnSuccess(listar(true));
-        
-        
-//        try {
-//            returnSuccess(notificacaoService.getRecebidas(alunoID));
-//        } catch (Exception ex) {
-//            returnError(ex);
-//        }
-    }
-
-    @Path("/getEnviadas")
-    @Get()
-    @Consumes("application/json")
-    public void getEnviadas(String professorID) {
-        returnSuccess(listar(false));
-        
-        
-//        try {
-//            returnSuccess(notificacaoService.getEnviadas(alunoID));
-//        } catch (Exception ex) {
-//            returnError(ex);
-//        }
+    public void get(String usuarioID) {
+        try{
+            returnSuccess(notificacaoService.getPorUsuario(UUID.fromString(usuarioID)));
+        }catch(Exception ex){
+            returnError(ex);
+        }
     }
 
     @Path("/responder")
