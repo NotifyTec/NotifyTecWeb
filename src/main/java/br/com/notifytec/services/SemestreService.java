@@ -9,6 +9,8 @@ import br.com.notifytec.daos.SemestreDao;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.ResultadoPaginacao;
 import br.com.notifytec.models.SemestreModel;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -21,7 +23,13 @@ public class SemestreService {
     private SemestreDao dao;
     
     public ResultadoPaginacao<SemestreModel> get(int pagina) {
-        return dao.paginated(pagina);
+        ResultadoPaginacao<SemestreModel> resultado = new ResultadoPaginacao<>();
+        resultado = dao.paginated(pagina);
+        for(SemestreModel s: resultado.getResult()){
+            DateFormat format= new SimpleDateFormat("dd/MM/yyyy");
+            s.setNomeSemestre(format.format(s.getInicio())+ " - " + format.format(s.getFim()));
+        }        
+        return resultado;
     }
     
     public List<SemestreModel> getList(){;

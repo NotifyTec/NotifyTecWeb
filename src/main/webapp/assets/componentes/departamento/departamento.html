@@ -2,7 +2,8 @@
     <thead>
         <tr>
             <th class="mdl-data-table__cell--non-numeric">Nome</th>
-            <th></th>
+            <th style="width: 50px"></th>            
+            <th style="width: 50px"></th>
         </tr>
     </thead>
     <tbody>
@@ -14,6 +15,14 @@
                 </button>
                 <div class="mdl-tooltip" for="edit">
                     Editar
+                </div>
+            </td>
+            <td>
+                <button id="remove" ng-click="dialogs.editar.remove(item)" class="red-icon mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">delete</i>
+                </button>
+                <div class="mdl-tooltip" for="remove">
+                    Deletar
                 </div>
             </td>
         </tr>

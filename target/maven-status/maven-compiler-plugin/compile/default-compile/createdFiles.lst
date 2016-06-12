@@ -28,6 +28,7 @@ br\com\notifytec\daos\NotificacaoOpcaoDao.class
 br\com\notifytec\models\Transacao.class
 br\com\notifytec\controllers\NotificacaoController.class
 br\com\notifytec\models\CursoModel.class
+br\com\notifytec\controllers\AlunoController.class
 br\com\notifytec\controllers\BaseController.class
 br\com\notifytec\daos\CursoDao.class
 br\com\notifytec\models\PaginatedList.class

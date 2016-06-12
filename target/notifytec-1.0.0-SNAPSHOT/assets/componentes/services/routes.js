@@ -11,6 +11,9 @@ routes.config(function ($routeProvider) {
             }).when('/semestre', {
                 templateUrl: 'assets/componentes/semestre/semestre.html',
                 controller: 'SemestreController'                
+            }).when('/aluno', {
+                templateUrl: 'assets/componentes/aluno/aluno.html',
+                controller: 'AlunoController'                
             }).when('/departamento', {
                 templateUrl: 'assets/componentes/departamento/departamento.html',
                 controller: 'DepartamentoController'                

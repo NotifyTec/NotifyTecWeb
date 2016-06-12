@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  *
@@ -25,7 +26,17 @@ public class SemestreModel {
     private Date inicio;
     @Column(name = "FIM")
     private Date fim;
+    @Transient
+    private String nomeSemestre;
 
+    public String getNomeSemestre() {
+        return nomeSemestre;
+    }
+
+    public void setNomeSemestre(String nomeSemestre) {
+        this.nomeSemestre = nomeSemestre;
+    }
+    
     public UUID getId() {
         return id;
     }

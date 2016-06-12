@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  *
@@ -24,6 +25,17 @@ public class PeriodoModel {
     @Column(name = "CURSOID")
     private UUID cursoid;
 
+    @Transient
+    private String cursoNome;
+
+    public String getCursoNome() {
+        return cursoNome;
+    }
+
+    public void setCursoNome(String cursoNome) {
+        this.cursoNome = cursoNome;
+    }
+    
     public UUID getId() {
         return id;
     }

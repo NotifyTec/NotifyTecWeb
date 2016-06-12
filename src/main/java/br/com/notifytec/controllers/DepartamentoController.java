@@ -38,6 +38,18 @@ public class DepartamentoController extends BaseController{
     }
     
     @Post
+    @Path("/remove")
+    @Consumes("application/json")
+    public void remove(String id){
+        try {
+            UUID ID = UUID.fromString(id);
+            returnSuccess(departamentoService.remove(ID));
+        } catch (Exception e) {
+            returnError(null,e);
+        }
+    }
+    
+    @Post
     @Path("/add")
     @Consumes("application/json")
     public void add(String nome){

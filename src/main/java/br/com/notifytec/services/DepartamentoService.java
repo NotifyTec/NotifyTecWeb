@@ -10,6 +10,7 @@ import br.com.notifytec.models.ResultadoPaginacao;
 import br.com.notifytec.daos.DepartamentoDao;
 import br.com.notifytec.models.DepartamentoModel;
 import java.util.List;
+import java.util.UUID;
 import javax.inject.Inject;
 
 /**
@@ -28,7 +29,13 @@ public class DepartamentoService {
     public List<DepartamentoModel> getList(){
         return dao.get();
     }
-
+    
+    public Resultado<DepartamentoModel>remove(UUID id){
+        Resultado<DepartamentoModel> r = new Resultado<>();
+        dao.remover(id);
+        return r;
+    }
+    
     public Resultado<DepartamentoModel> validarCamposObrigatorios(DepartamentoModel f) {
         Resultado<DepartamentoModel> r = new Resultado<>();
 

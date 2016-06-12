@@ -37,6 +37,14 @@ div.filter-content h5{
 button.btn-filter{
     float: right;
 }
+green-icon{
+    color: #64dd17;
+}
+
+.red-icon{
+    color: #D50000;
+}
+
 
 .mdl-navigation a{    
     display: flex !important;

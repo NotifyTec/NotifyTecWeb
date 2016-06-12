@@ -16,6 +16,7 @@ import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.ResultadoPaginacao;
 import br.com.notifytec.models.Transacao;
 import br.com.notifytec.models.UsuarioModel;
+import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
 
@@ -70,6 +71,19 @@ public class CursoService {
         dao.editar(f);
         r.setResult(dao.get(f.getId()));
         return r;
+    }
+    public List<CursoModel>getListCursoPeriodo(){
+        List<CursoModel> lista = dao.get();
+        for(CursoModel m : lista){
+            m.setListPeriodo(periodoService.get(m.getId()));
+            for(PeriodoModel p : m.getListPeriodo()){
+                if(m.getApelido() != null)
+                    p.setCursoNome(p.getNumero() + " º " + m.getApelido());
+                else
+                    p.setCursoNome(p.getNumero() + " º " + m.getNome());
+            }
+        }
+        return lista;
     }
     
     public Resultado<CursoModel> add(CursoModel f, int qtdPeriodo) {

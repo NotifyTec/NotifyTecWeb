@@ -39,6 +39,8 @@
         <script src="assets/componentes/curso-periodo/curso-periodo.js" type="text/javascript"></script>
         <script src="assets/componentes/semestre/semestre.js" type="text/javascript"></script>
         <script src="assets/componentes/departamento/departamento.js" type="text/javascript"></script>
+        <script src="assets/componentes/aluno/aluno.js" type="text/javascript"></script>
+        
         <!--CSS-->
         <link href="assets/componentes/home/home.css" rel="stylesheet" type="text/css"/>
         <title>

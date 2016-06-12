@@ -5,6 +5,7 @@
  */
 package br.com.notifytec.models;
 
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +29,16 @@ public class CursoModel {
     private boolean ativo;
     @Transient
     private String ativoTraduzido;
+    @Transient
+    private List<PeriodoModel> listPeriodo;
+
+    public List<PeriodoModel> getListPeriodo() {
+        return listPeriodo;
+    }
+
+    public void setListPeriodo(List<PeriodoModel> listPeriodo) {
+        this.listPeriodo = listPeriodo;
+    }
     
     @Transient
     private int periodo;

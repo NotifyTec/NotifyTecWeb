@@ -63,6 +63,15 @@ departamento.controller("DepartamentoController",
                             $scope.edicao = item;
                             $scope.dialogs.editar.get().showModal();
                         },
+                        remove: function(item){
+                           departamentoService.remover(function (list) { // DONE                                  
+                                carregar(1);  
+                            }, function (result, messageError) { // ERROR                    
+                                snackbarManagerService.show(messageError, 20, null, null);
+                            }, function () {// ALWAYS                               
+                                paginacao.setLoading(null, false);
+                            }, item);
+                        },
                         salvar: function () {
                             $scope.dialogs.editar.carregando= true ;
                             var dados = $scope.edicao;
@@ -129,6 +138,9 @@ departamento.factory("departamentoService", ["$ajax", function ($ajax) {
             },
             editar: function(done, error, always, dados){
                 $ajax.post("Departamento/edit", {id: dados.id , nome: dados.nome}, done,error,always);
+            },
+            remover: function(done, error, always, dados){
+                $ajax.post("Departamento/remove", {id: dados.id}, done,error,always);
             }
         };
     }]);
