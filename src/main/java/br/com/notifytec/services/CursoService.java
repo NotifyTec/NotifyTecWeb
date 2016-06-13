@@ -40,10 +40,14 @@ public class CursoService {
         return dao.get();
     }
     
+    public CursoModel getByPeriodo(UUID periodoID){
+        return dao.getByPeriodo(periodoID);
+    }
+    
     public ResultadoPaginacao<CursoModel> get(int pagina) {
         ResultadoPaginacao<CursoModel> list = dao.paginated(pagina);
         for(CursoModel m : list.getResult()){
-            m.setPeriodo(periodoService.get(m.getId()).size());
+            m.setPeriodo(periodoService.getByCurso(m.getId()).size());
             if(m.isAtivo())
                 m.setAtivoTraduzido("Ativo");
             else

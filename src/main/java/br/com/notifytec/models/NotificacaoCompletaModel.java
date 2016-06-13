@@ -1,5 +1,6 @@
 package br.com.notifytec.models;
 
+import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
@@ -15,7 +16,37 @@ public class NotificacaoCompletaModel extends NotificacaoModel {
     private int totalRespondidos;
     @Transient
     private AlunoNotificacaoModel resposta;
+    @Transient
+    private String nomePeriodo;
+    @Transient
+    private String nomeCurso;
+    @Transient
+    private String nomeUsuario;
 
+    public String getNomeUsuario() {
+        return nomeUsuario;
+    }
+
+    public void setNomeUsuario(String nomeUsuario) {
+        this.nomeUsuario = nomeUsuario;
+    }
+    
+    public String getNomePeriodo() {
+        return nomePeriodo;
+    }
+
+    public void setNomePeriodo(String nomePeriodo) {
+        this.nomePeriodo = nomePeriodo;
+    }
+
+    public String getNomeCurso() {
+        return nomeCurso;
+    }
+
+    public void setNomeCurso(String nomeCurso) {
+        this.nomeCurso = nomeCurso;
+    }    
+    
     public AlunoNotificacaoModel getResposta() {
         return resposta;
     }

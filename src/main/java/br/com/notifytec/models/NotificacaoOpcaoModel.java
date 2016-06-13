@@ -1,5 +1,6 @@
 package br.com.notifytec.models;
 
+import java.math.BigInteger;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;

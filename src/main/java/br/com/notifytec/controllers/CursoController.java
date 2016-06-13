@@ -6,9 +6,11 @@ import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.notifytec.models.CursoModel;
+import br.com.notifytec.models.PeriodoModel;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.services.CursoService;
 import br.com.notifytec.services.PeriodoService;
+import java.util.List;
 import java.util.UUID;
 import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
@@ -34,13 +36,14 @@ public class CursoController extends BaseController {
         }
     }
     
-    @Post
+    @Get
     @Path("/getCursos")
     @PermitAll
     @Consumes("application/json")
     public void getList() {
         try {
-            returnSuccess(cursoService.get());
+            List<CursoModel> list = cursoService.get();
+            returnSuccess(list);
         } catch (Exception ex) {
             returnError(null, ex);
         }
@@ -50,9 +53,10 @@ public class CursoController extends BaseController {
     @Path("/getListPeriodo")
     @PermitAll
     @Consumes("application/json")
-    public void getPeriodoList(UUID cursoID){
+    public void getPeriodoList(String cursoID){
         try {
-            returnSuccess(periodoService.get(cursoID));
+            List<PeriodoModel> list = periodoService.getByCurso(UUID.fromString(cursoID));
+            returnSuccess(list);
         } catch (Exception e) {
             returnError(null,e);
         }

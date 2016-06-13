@@ -17,12 +17,11 @@ import javax.persistence.EntityManager;
 
 
 
-public class PeriodoDao extends CrudDao<PeriodoModel>{
-    @Inject
-    private EntityManager manager;
+public class PeriodoDao extends CrudDao<PeriodoModel>{    
     public PeriodoDao() {
         super(PeriodoModel.class, Parametros.Tabelas.TABELA_PERIODO);
     }
+    
     public List<PeriodoModel> getByID(UUID cursoID) {
         return 
                 manager.createQuery("from PERIODO where CURSOID = :cursoID order by NUMERO asc")

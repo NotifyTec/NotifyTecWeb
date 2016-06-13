@@ -5,15 +5,20 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.view.Results;
 import br.com.notifytec.models.AlunoNotificacaoModel;
 import br.com.notifytec.models.NotificacaoCompletaModel;
 import br.com.notifytec.models.NotificacaoModel;
 import br.com.notifytec.models.NotificacaoOpcaoModel;
+import br.com.notifytec.models.Resultado;
 import br.com.notifytec.services.NotificacaoService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import javax.annotation.security.PermitAll;
 import javax.inject.Inject;
 
 @Controller
@@ -22,63 +27,6 @@ public class NotificacaoController extends BaseController {
 
     @Inject
     private NotificacaoService notificacaoService;
-
-    private List<NotificacaoCompletaModel> listar(boolean recebidos){
-        List<NotificacaoCompletaModel> l = new ArrayList<>();
-        
-        NotificacaoCompletaModel n1 = new NotificacaoCompletaModel();
-        n1.setConteudo("Churrasco!!! Com pizza!!!");
-        n1.setDataHoraEnvio(Calendar.getInstance().getTime());
-        n1.setId(UUID.randomUUID());
-        n1.setTitulo("AVISO: EBAAA!!! Churrasco tudo pago.");
-        n1.setTotalAlunosEnviados(40);
-        n1.setTotalAlunosVisualizados(25);
-        n1.setUsuarioID(UUID.randomUUID());
-                                
-        l.add(n1);
-        
-        NotificacaoCompletaModel n2 = new NotificacaoCompletaModel();
-        n2.setConteudo("Dia?? Decidam.");
-        n2.setDataHoraEnvio(Calendar.getInstance().getTime());
-        n2.setId(UUID.randomUUID());
-        n2.setTitulo("ENQUETE: Que dia o churras?");
-        n2.setTotalAlunosEnviados(40);
-        n1.setTotalAlunosVisualizados(25);
-        n2.setUsuarioID(UUID.randomUUID());
-        
-        List<NotificacaoOpcaoModel> ops = new ArrayList();
-        NotificacaoOpcaoModel op1 = new NotificacaoOpcaoModel();
-        op1.setId(UUID.randomUUID());
-        op1.setNome("Terça-feira");
-        op1.setNotificacaoID(n2.getId());
-        op1.setTotalRespondidos(5);
-        ops.add(op1);
-        
-        NotificacaoOpcaoModel op2 = new NotificacaoOpcaoModel();
-        op2.setId(UUID.randomUUID());
-        op2.setNome("Quarta-feira");
-        op2.setNotificacaoID(n2.getId());
-        op2.setTotalRespondidos(6);
-        ops.add(op2);
-        
-        n2.setOpcoes(ops);        
-        n2.setTotalRespondidos(11);
-        
-        if(recebidos){
-            AlunoNotificacaoModel r = new AlunoNotificacaoModel();
-            r.setAlunoID(UUID.randomUUID());
-            r.setId(UUID.randomUUID());
-            r.setNotificacaoID(n2.getId());
-            r.setNotificacaoOpcao(op1.getId());
-            r.setVisualizouEm(Calendar.getInstance().getTime());
-            
-            n2.setResposta(r);
-        }
-        
-        l.add(n2);
-        
-        return l;
-    }
     
     @Path("/get")
     @Post()
@@ -92,22 +40,58 @@ public class NotificacaoController extends BaseController {
     }
 
     @Path("/responder")
-    @Get()
+    @Post()
     @Consumes("application/json")
-    public void responder(UUID opcaoID, UUID alunoID) {
+    public void responder(String notificacaoID, String notificacaoOpcaoID, String usuarioID) {
         try {
-            returnSuccess(notificacaoService.responder(opcaoID, alunoID));
+            returnSuccess(notificacaoService.responder(
+                            UUID.fromString(notificacaoID), 
+                            UUID.fromString(notificacaoOpcaoID), 
+                            UUID.fromString(usuarioID)));
         } catch (Exception ex) {
             returnError(ex);
         }
     }
 
     @Path("/enviar")
-    @Get()
+    @Post()
+    @PermitAll
     @Consumes("application/json")
-    public void enviar(NotificacaoCompletaModel notificacao, UUID periodoID) {
+    public void enviar(String periodoID, 
+                       String titulo, 
+                       String conteudo, 
+                       String expiraEm, 
+                       String usuarioID, 
+                       String opcoes) {
         try {
-            returnSuccess(notificacaoService.enviar(notificacao, periodoID));
+            NotificacaoCompletaModel n = new NotificacaoCompletaModel();
+            n.setTitulo(titulo);
+            n.setConteudo(conteudo);
+            n.setUsuarioID(UUID.fromString(usuarioID));
+            
+            if(expiraEm != null && !expiraEm.isEmpty()){
+                n.setExpiraEm(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(expiraEm));
+            }          
+            
+            String[] ops = new String[]{ };
+            if(opcoes != null && !opcoes.isEmpty()){
+                ops = opcoes.split("¬");
+            }
+            
+            List<NotificacaoOpcaoModel> opcoesN = new ArrayList<>();            
+            for(String s : ops){
+                NotificacaoOpcaoModel o=new NotificacaoOpcaoModel();
+                o.setNome(s);
+                opcoesN.add(o);
+            }
+            n.setOpcoes(opcoesN);
+                        
+            n.setPeriodoID(UUID.fromString(periodoID));
+            
+            Resultado<NotificacaoCompletaModel> r = 
+                    notificacaoService.enviar(n);
+            
+            result.use(Results.json()).withoutRoot().from(r).recursive().serialize();
         } catch (Exception ex) {
             returnError(ex);
         }

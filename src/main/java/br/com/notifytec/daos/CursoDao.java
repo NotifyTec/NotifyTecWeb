@@ -7,14 +7,13 @@ package br.com.notifytec.daos;
 
 import br.com.notifytec.models.CursoModel;
 import br.com.notifytec.models.Parametros;
+import java.util.UUID;
 import java.util.List;
 
 /**
  *
  * @author felip
  */
-
-
 public class CursoDao extends CrudDao<CursoModel>{
      public CursoDao() {
         super(CursoModel.class, Parametros.Tabelas.TABELA_CURSO);
@@ -23,5 +22,19 @@ public class CursoDao extends CrudDao<CursoModel>{
         return 
             manager.createQuery("from CURSO where NOME like :nome")
                         .setParameter("nome", nome).getResultList();
+    }
+    public CursoModel getByPeriodo(UUID periodoID){
+        return (CursoModel)manager.createNativeQuery("SELECT\n" +
+"	c.*\n" +
+"FROM\n" +
+"	PERIODO p\n" +
+"INNER JOIN\n" +
+"	CURSO c\n" +
+"ON \n" +
+"	c.ID = p.CURSOID\n" +
+"WHERE\n" +
+"	p.ID = :periodoid", CursoModel.class)
+                .setParameter("periodoid", periodoID)
+                .getSingleResult();
     }
 }

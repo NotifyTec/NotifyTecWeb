@@ -5,6 +5,7 @@
  */
 package br.com.notifytec.services;
 
+import br.com.notifytec.daos.CrudDao;
 import br.com.notifytec.daos.PeriodoDao;
 import br.com.notifytec.models.FuncionarioModel;
 import br.com.notifytec.models.PeriodoModel;
@@ -26,9 +27,13 @@ public class PeriodoService {
     @Inject
     private UsuarioService usuarioService;
 
-    public List<PeriodoModel> get(UUID cursoID) {
+    public List<PeriodoModel> getByCurso(UUID cursoID) {
         List<PeriodoModel> list = dao.getByID(cursoID);
         return list;
+    }
+    
+    public PeriodoModel get(UUID periodoID) {
+        return dao.get(periodoID);
     }
     
     public Resultado<PeriodoModel> editar(UUID cursoID, int qtdPeriodo){

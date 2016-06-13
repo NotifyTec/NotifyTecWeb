@@ -27,7 +27,7 @@ public class FuncionarioService {
         List<DepartamentoModel> departamentos = departamentoService.getList();
         UsuarioModel u = new UsuarioModel();
         for(FuncionarioModel f : r.getResult() ){            
-            u = usuarioService.getById(f.getUsuarioId());
+            u = usuarioService.get(f.getUsuarioId());
             f.setEmail(u.getEmail());
             for(DepartamentoModel d: departamentos){
                 if(f.getDepartamentoId().equals(d.getId()))
@@ -45,7 +45,7 @@ public class FuncionarioService {
         List<DepartamentoModel> departamentos = departamentoService.getList();
         UsuarioModel u = new UsuarioModel();
         for(FuncionarioModel f : r.getResult() ){
-            u = usuarioService.getById(f.getUsuarioId());
+            u = usuarioService.get(f.getUsuarioId());
             f.setEmail(u.getEmail());
             for(DepartamentoModel d: departamentos){
                 if(f.getDepartamentoId().equals(d.getId()))

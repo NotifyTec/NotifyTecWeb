@@ -29,9 +29,19 @@ public abstract class NotificacaoModel {
     private Date dataHoraEnvio;
     @Column(name = "EXPIRAEM")
     private Date expiraEm;
+    @Column(name = "PERIODOID")
+    private UUID periodoID;
     @Transient
     private List<NotificacaoOpcaoModel> opcoes;
 
+    public UUID getPeriodoID() {
+        return periodoID;
+    }
+
+    public void setPeriodoID(UUID periodoID) {
+        this.periodoID = periodoID;
+    }    
+    
     public UUID getId() {
         return id;
     }

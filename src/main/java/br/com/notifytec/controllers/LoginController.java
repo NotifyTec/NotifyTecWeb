@@ -50,36 +50,13 @@ public class LoginController extends BaseController {
     @Consumes("application/json")
     public void login(String userName, String password) {
 
-        if (userName.trim().equals("a") && password.trim().equals("s")) {
-            Token m = new Token();
-
-            UsuarioModel u = new UsuarioModel();
-            u.setId(UUID.randomUUID());
-            u.setAlterouSenha(Boolean.TRUE);
-            u.setEmail("teste@domain.com");
-            u.setLogin("android");
-            u.setPodeEnviar(Boolean.TRUE);
-
-            m.setToken(new JwtManager().newToken(u));
-            returnSuccess(m);
-            return;
-        }
-
         try {
-            NotificacaoCompletaModel n = new NotificacaoCompletaModel();
-            n.setConteudo("conteudo");
-            n.setTitulo("titulo maneiro");
-            n.setUsuarioID(UUID.fromString("475c9bf7-055b-47de-af8c-7524d4cde316"));
-
-            notificacaoService.enviar(n, UUID.fromString("5d1a4b38-2862-48c0-8914-b995b0247a7e"));
-
             if (userName == null || password == null) {
                 returnError("O usuário e a senha devem ser informadas.");
                 return;
             }
 
             UsuarioModel userModel = userService.login(userName, password);
-
             
             if(!userModel.isAlterouSenha()){
                 throw new IllegalAccessException("Você ainda não alterou sua senha padrão. Altere-a pelo aplicativo para prosseguir com o acesso ao NotifyTec pela web.");

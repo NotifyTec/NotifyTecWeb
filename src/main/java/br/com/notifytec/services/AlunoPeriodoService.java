@@ -1,24 +1,27 @@
 package br.com.notifytec.services;
 
 import br.com.notifytec.daos.AlunoPeriodoDao;
+import br.com.notifytec.daos.CrudDao;
+import br.com.notifytec.models.AlunoModel;
 import br.com.notifytec.models.AlunoPeriodoModel;
-import br.com.notifytec.models.PeriodoSemestre;
-import br.com.notifytec.models.Resultado;
+import br.com.notifytec.models.Parametros;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
 
-public class AlunoPeriodoService{
+public class AlunoPeriodoService extends CrudService<AlunoPeriodoModel> {
     
     @Inject
     private AlunoPeriodoDao dao;
     
-    public List<AlunoPeriodoModel> getAlunoPeriodosValidos(UUID periodoID) {
-        return dao.getAlunoPeriodosValidos(periodoID);
+    public AlunoPeriodoService() {
+        super(new CrudDao(AlunoPeriodoModel.class, Parametros.Tabelas.TABELA_ALUNO_PERIODO));
     }
     
-    public  Resultado<AlunoPeriodoModel> addAlunoPeriodo(EntityManager manager,boolean commit,AlunoPeriodoModel u) {
+    public List<UUID> getAlunoPeriodosValidos(UUID periodoID) {
+        return dao.getAlunoPeriodosValidos(periodoID);
+    }
+public  Resultado<AlunoPeriodoModel> addAlunoPeriodo(EntityManager manager,boolean commit,AlunoPeriodoModel u) {
         Resultado<AlunoPeriodoModel> resultado = new Resultado<>(); 
         dao.save(manager, commit, u);
         resultado.setResult(dao.get(u.getID())); 
@@ -43,5 +46,4 @@ public class AlunoPeriodoService{
             dao.save(a);
         }
     }
-    
 }

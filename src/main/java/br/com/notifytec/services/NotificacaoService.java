@@ -8,6 +8,7 @@ import br.com.notifytec.models.NotificacaoCompletaModel;
 import br.com.notifytec.models.NotificacaoModel;
 import br.com.notifytec.models.NotificacaoOpcaoModel;
 import br.com.notifytec.models.Parametros;
+import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.Transacao;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,7 +27,7 @@ public class NotificacaoService extends CrudService<NotificacaoCompletaModel> {
     @Inject
     private AlunoNotificacaoService alunoNotificacaoService;
     @Inject
-    private GcmService gcmService;
+    private FirebaseService firebaseService;
     
     public NotificacaoService() {
         super(new NotificacaoDao());
@@ -44,12 +45,12 @@ public class NotificacaoService extends CrudService<NotificacaoCompletaModel> {
         return notificacaoDao.getEnviadas(pessoaID);
     }
 
-    public NotificacaoCompletaModel responder(UUID opcaoID, UUID alunoID) {
-        return notificacaoDao.responder(opcaoID, alunoID);
+    public NotificacaoCompletaModel responder(UUID notificacaoID, UUID notificacaoOpcaoID, UUID usuarioID) throws Exception {
+        return notificacaoDao.responder(notificacaoID, notificacaoOpcaoID, usuarioID);
     }
 
-    public NotificacaoCompletaModel enviar(NotificacaoCompletaModel notificacao, UUID periodoID) {
-        validarNotificacaoParaEnvio(notificacao, periodoID);
+    public Resultado<NotificacaoCompletaModel> enviar(NotificacaoCompletaModel notificacao) {
+        validarNotificacaoParaEnvio(notificacao);
 
         Transacao<NotificacaoCompletaModel> t = notificacaoDao.save(false, notificacao);
         Transacao<NotificacaoOpcaoModel> to;
@@ -60,31 +61,41 @@ public class NotificacaoService extends CrudService<NotificacaoCompletaModel> {
             }
         }
 
-        List<AlunoPeriodoModel> periodos = alunoPeriodoService.getAlunoPeriodosValidos(periodoID);
+        List<UUID> alunosID = alunoPeriodoService.getAlunoPeriodosValidos(notificacao.getPeriodoID());
         Transacao<AlunoNotificacaoModel> tp;
-        for (AlunoPeriodoModel periodo : periodos) {
+        for (UUID alunoID : alunosID) {
             AlunoNotificacaoModel not = new AlunoNotificacaoModel();
             not.setId(UUID.randomUUID());
-            not.setAlunoID(periodo.getAlunoID());
+            not.setAlunoID(alunoID);
             not.setNotificacaoID(notificacao.getId());
 
             tp = alunoNotificacaoService.save(t.getEntityManager(), false, not);
-
-            // TODO: SEND GC MESSAGE
+        }
+                
+        List<String> gcmTokens = notificacaoDao.getTokens(notificacao.getPeriodoID());
+        
+        Resultado<NotificacaoCompletaModel> r = firebaseService.send(notificacao, gcmTokens);
+        
+        if(r.isSucess()){        
+            try{
+                t.getEntityManager().getTransaction().commit();
+                r.setResult(notificacaoDao.getEnviadasPorID(notificacao.getId()));
+            }catch(Exception ex){
+                r.addError(ex.getMessage());
+            }
+        }
+        else{
+            r.setResult(notificacao);
         }
         
-        //gcmService.send(get(notificacao.getId()), new ArrayList<String>());
-        
-        t.getEntityManager().getTransaction().commit();
-        
-        return get(notificacao.getId());
+        return r;
     }
 
-    public void validarNotificacaoParaEnvio(NotificacaoCompletaModel n, UUID periodoID) {
+    public void validarNotificacaoParaEnvio(NotificacaoCompletaModel n) {
         n.setId(UUID.randomUUID());
         n.setDataHoraEnvio(Calendar.getInstance().getTime());
         
-        if(periodoID == null || periodoID == Parametros.emptyUUID){
+        if(n.getPeriodoID() == null || n.getPeriodoID() == Parametros.emptyUUID){
             throw new NullPointerException("O período do curso é obrigatório.");
         }
         

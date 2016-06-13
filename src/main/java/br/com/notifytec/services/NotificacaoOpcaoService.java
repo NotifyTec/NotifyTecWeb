@@ -7,6 +7,7 @@ import br.com.notifytec.models.NotificacaoOpcaoModel;
 import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.ResultadoPaginacao;
 import br.com.notifytec.models.Transacao;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
@@ -25,7 +26,7 @@ public class NotificacaoOpcaoService extends CrudService<NotificacaoOpcaoModel> 
         return dao.getOpcaoList(notificacaoID);
     }
 
-    public int getTotalRespondidoOpcao(UUID notificacaoOpcaoID) {
+    public BigInteger getTotalRespondidoOpcao(UUID notificacaoOpcaoID) {
         return dao.getTotalRespondidoOpcao(notificacaoOpcaoID);
     }
 
@@ -33,15 +34,15 @@ public class NotificacaoOpcaoService extends CrudService<NotificacaoOpcaoModel> 
         return dao.carregarOpcoes(n);
     }
 
-    public int getTotalEnviados(UUID notificacaoID) {
+    public BigInteger getTotalEnviados(UUID notificacaoID) {
         return dao.getTotalEnviados(notificacaoID);
     }
 
-    public int getTotalLidos(UUID notificacaoID) {
+    public BigInteger getTotalLidos(UUID notificacaoID) {
         return dao.getTotalLidos(notificacaoID);
     }
 
-    public int getTotalRespondidos(UUID notificacaoID) {
+    public BigInteger getTotalRespondidos(UUID notificacaoID) {
         return dao.getTotalRespondidos(notificacaoID);
     }
 }

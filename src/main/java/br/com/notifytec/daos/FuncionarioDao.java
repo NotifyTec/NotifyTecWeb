@@ -5,6 +5,7 @@ import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.ResultadoPaginacao;
 import br.com.notifytec.models.UsuarioModel;
 import java.util.List;
+import java.util.UUID;
 import javax.persistence.Query;
 
 public class FuncionarioDao extends CrudDao<FuncionarioModel> {
@@ -24,6 +25,17 @@ public class FuncionarioDao extends CrudDao<FuncionarioModel> {
         return 
                 manager.createQuery("from USUARIO where EMAIL like :email")
                         .setParameter("email", email).getResultList();
+    }
+    
+    public FuncionarioModel getByUsuario(UUID usuarioID){
+        return (FuncionarioModel)manager.createNativeQuery("SELECT\n" +
+"	f.*\n" +
+"FROM\n" +
+"	PESSOA f\n" +
+"WHERE\n" +
+"	f.USUARIOID = :usuarioid", FuncionarioModel.class)
+                .setParameter("usuarioid", usuarioID)
+                .getSingleResult();
     }
     
     public ResultadoPaginacao<FuncionarioModel> getByFilter(String nome, boolean ativo){
