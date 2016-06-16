@@ -10,7 +10,8 @@ import javax.inject.Inject;
 public class AlunoPeriodoDao extends CrudDao<AlunoPeriodoModel> {
 
     @Inject
-    private AlunoService alunoService;
+    private AlunoDao alunodao;
+ 
     
     public AlunoPeriodoDao() {
         super(AlunoPeriodoModel.class, Parametros.Tabelas.TABELA_ALUNO_PERIODO);
@@ -34,10 +35,17 @@ public class AlunoPeriodoDao extends CrudDao<AlunoPeriodoModel> {
             //    .setParameter("periodoid", periodoID)
               //  .getResultList();
     }
+    
+    public List<AlunoPeriodoModel> getAlunoPeriodo(UUID alunoID){
+           List<AlunoPeriodoModel> lista = 
+                manager.createQuery("from ALUNOPERIODO where ALUNOID = :alunoID")
+                        .setParameter("alunoID", alunoID).getResultList();  
+           return lista;
+    }
 
     private void preencher(List<AlunoPeriodoModel> list){
         for(AlunoPeriodoModel a : list){
-            a.setAluno(alunoService.get(a.getAlunoID()));
+            a.setAluno(alunodao.get(a.getAlunoID()));
         }
     }
 }

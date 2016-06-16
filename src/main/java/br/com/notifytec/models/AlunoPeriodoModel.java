@@ -1,11 +1,9 @@
 package br.com.notifytec.models;
 
-import java.util.Date;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity(name = "ALUNOPERIODO")
@@ -21,7 +19,27 @@ public class AlunoPeriodoModel {
     private UUID semestreID; 
     @Transient
     private AlunoModel aluno;
+    @Transient
+    private String periodoNome;
+    @Transient
+    private String semestreNome;
 
+    public String getPeriodoNome() {
+        return periodoNome;
+    }
+
+    public void setPeriodoNome(String periodoNome) {
+        this.periodoNome = periodoNome;
+    }
+
+    public String getSemestreNome() {
+        return semestreNome;
+    }
+
+    public void setSemestreNome(String semestreNome) {
+        this.semestreNome = semestreNome;
+    }
+    
     public AlunoModel getAluno() {
         return aluno;
     }

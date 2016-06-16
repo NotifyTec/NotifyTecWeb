@@ -22,6 +22,7 @@ br\com\notifytec\daos\PaginatorQueryHelper.class
 br\com\notifytec\models\Parametros.class
 br\com\notifytec\security\JwtManager.class
 br\com\notifytec\controllers\FuncionarioController.class
+br\com\notifytec\models\PeriodoSemestre.class
 br\com\notifytec\models\AlunoPeriodoModel.class
 br\com\notifytec\services\CrudService.class
 br\com\notifytec\daos\NotificacaoOpcaoDao.class
@@ -43,8 +44,10 @@ br\com\notifytec\models\AlunoModel.class
 br\com\notifytec\security\RequestInterception.class
 br\com\notifytec\services\DepartamentoService.class
 br\com\notifytec\models\Token.class
+br\com\notifytec\controllers\AlunoController$1.class
 br\com\notifytec\services\NotificacaoService.class
 br\com\notifytec\services\PeriodoService.class
+br\com\notifytec\controllers\AlunoController$2.class
 br\com\notifytec\models\UsuarioModel.class
 br\com\notifytec\models\Resultado.class
 br\com\notifytec\models\ResultadoPaginacao.class

@@ -1,8 +1,10 @@
 package br.com.notifytec.daos;
 
 import br.com.notifytec.models.AlunoModel;
+import br.com.notifytec.models.FuncionarioModel;
 import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.ResultadoPaginacao;
+import br.com.notifytec.models.UsuarioModel;
 import java.util.List;
 import javax.persistence.Query;
 
@@ -20,9 +22,9 @@ public class AlunoDao extends CrudDao<AlunoModel>{
         int limiteInicial = 0;
 
         List<AlunoModel> registros = manager.createQuery("from ALUNO where (NOME like :nome or :nome = '') and  (RA like :ra or :ra = '') and (CPF like :cpf or :cpf = '') and  ATIVO = :ativo order by NOME asc")
-                .setParameter("nome", nome)
-                .setParameter("ra", ra)
-                .setParameter("cpf",cpf)    
+                .setParameter("nome", "%" + nome + "%")
+                .setParameter("ra", "%" + ra + "%")
+                .setParameter("cpf","%" + cpf + "%")    
                 .setParameter("ativo",ativo)
                 .setFirstResult(limiteInicial)
                 .setMaxResults(100).getResultList();
@@ -33,4 +35,17 @@ public class AlunoDao extends CrudDao<AlunoModel>{
         resultado.setRegistrosPorPagina(100);
         return resultado; 
     }
+    
+     public List<AlunoModel> getByCPF(String cpf){
+        return 
+                manager.createQuery("from ALUNO where CPF like :cpf")
+                        .setParameter("cpf", cpf).getResultList();
+    }
+    
+    public List<UsuarioModel> getByEmail(String email){
+        return 
+                manager.createQuery("from USUARIO where EMAIL like :email")
+                        .setParameter("email", email).getResultList();
+    }
+    
 }

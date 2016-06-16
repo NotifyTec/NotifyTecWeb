@@ -4,6 +4,7 @@ C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\not
 C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\notifytec\controllers\BaseController.java
 C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\notifytec\services\AlunoNotificacaoService.java
 C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\notifytec\daos\CursoDao.java
+C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\notifytec\models\PeriodoSemestre.java
 C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\notifytec\services\GcmService.java
 C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\notifytec\models\AlunoNotificacaoModel.java
 C:\Users\felip\Documents\NotifyTec\PROJETO\NotifyTecWeb\src\main\java\br\com\notifytec\security\MD5Manager.java

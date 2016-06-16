@@ -101,7 +101,7 @@
                 <div class="mdl-cell mdl-cell--3-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input ng-disabled="dialogs.cadastro.bloquear" required="" name="ra" class="mdl-textfield__input" ng-model="cadastro.ra"
-                               type="text" id="ra">
+                               type="text" id="ra" ng-minlength="9" ng-maxlength="9" maxlength="9">
                         <label class="mdl-textfield__label" for="ra">R.A</label>
                         <span ng-show="form.ra.$error.required"
                               class="mdl-textfield__error">Campo obrigatório</span>
@@ -169,7 +169,7 @@
                     </div>
                 </div>  
                 <div class="mdl-cell mdl-cell--6-col">                    
-                    <table class="table-complete mdl-data-table mdl-js-data-table">
+                    <table ng-show="listAlunoPeriodo.length" class="table-complete mdl-data-table mdl-js-data-table">
                         <thead>
                             <tr id="tralunosemestre">
                                 <th class="mdl-data-table__cell--non-numeric">Periodo</th>
@@ -206,6 +206,178 @@
 </dialog>
 
 
+<!--Modal Edição-->
+<dialog class="mdl-dialog" id="editar-dialog">
+    <form name="form-edit" id="form-editar">
+        <h4 class="mdl-dialog__title mdl-shadow--2dp">Editar Aluno</h4>
+        <div class="mdl-dialog__content">                        
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--12-col">                    
+                    <div class="alert alert-danger" ng-bind="dialogs.editar.erro" ng-show="dialogs.editar.erro">                        
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" name="nome" class="mdl-textfield__input" ng-model="edicao.nome"
+                               type="text" id="nome-edit" required>
+                        <label class="mdl-textfield__label" for="nome">Nome</label>
+                        <span ng-show="form-edit.nome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" name="sobrenome" class="mdl-textfield__input" ng-model="edicao.sobrenome"
+                               type="text" id="sobrenome-edit" required>
+                        <label class="mdl-textfield__label " for="sobrenome">Sobrenome</label>
+                        <span ng-show="form-edit.sobrenome.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>
+                
+                <div class="mdl-cell mdl-cell--3-col">                    
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" required="" name="ra" class="mdl-textfield__input" ng-model="edicao.ra"
+                               type="text" id="ra-edit" ng-minlength="9" ng-maxlength="9" maxlength="9">
+                        <label class="mdl-textfield__label" for="ra">R.A</label>
+                        <span ng-show="form-edit.ra.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div>              
+                <div class="mdl-cell mdl-cell--3-col">                    
+                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" name="cpf" class="mdl-textfield__input" ng-model="edicao.cpf"
+                               type="text" id="cpf-edit" ng-change="validaCPF(cadastro.cpf)" required  ng-minlength="11" ng-maxlength="11" maxlength="11"
+                                               ui-mask="999.999.999-99">
+                        <label class="mdl-textfield__label" for="cpf">CPF</label>
+                        <span ng-show="((!validaCPF(cadastro.cpf)) || (form.cpf.$error.required))"
+                              class="mdl-textfield__error">CPF Inválido</span>
+                    </div>
+                </div> 
+                <div class="mdl-cell mdl-cell--6-col">                    
+                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="dialogs.editar.bloquear" name="email" class="mdl-textfield__input" ng-model="edicao.email"
+                               type="email" id="email-edit" required>
+                        <label class="mdl-textfield__label" for="email">Email</label>
+                        <span ng-show="form-edit.email.$error.required"
+                              class="mdl-textfield__error">Campo obrigatório</span>
+                    </div>
+                </div> 
+                <div class="mdl-cell mdl-cell--2-col">
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-2-edit">
+                        <input type="checkbox" name="ativo" id="switch-2-edit" class="mdl-switch__input" checked>
+                        <span class="mdl-switch__label">Ativo</span>
+                    </label>
+                </div>
+                <hr />
+                <div class="mdl-cell mdl-cell--12-col">
+                    <b>PERIODOS</b>
+                </div>
+                <div class="mdl-cell mdl-cell--3-col">                    
+                    <label>Periodos</label><br />
+                    <div class="mdl-spinner mdl-js-spinner" style="width: 100%;">
+                        <select ng-init="loadPeriodos()" 
+                                style="width: 100%;border-top: white;border-left: white; border-right: white;"
+                                ng-disabled="dialogs.editar.bloquear" name="periodo" 
+                                ng-model="periodoedit"
+                                id="periodo-select-edit" required>                                    
+                            <option value="{{periodoedit.id}}" ng-repeat="periodoedit in periodosedit">{{periodoedit.cursoNome}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--2-col">                    
+                    <label>Semestres</label><br />
+                    <div class="mdl-spinner mdl-js-spinner" style="width: 100%;">
+                        <select ng-init="loadSemestres()" 
+                                style="width: 100%;border-top: white;border-left: white; border-right: white;"
+                                ng-disabled="dialogs.cadastro.bloquear" name="semestre" 
+                                ng-model="semestreedit"
+                                id="semestre-select-edit" required>                                    
+                            <option value="{{semestreedit.id}}" ng-repeat="semestreedit in semestresedit">{{semestreedit.nomeSemestre}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--1-col">                    
+                    <button id="addperiodosemestre" type="button" ng-click="editAlunoPeriodo()" class="green-icon mdl-button mdl-js-button mdl-button--icon">
+                        <i class="material-icons green-icon">add circle outline</i>
+                    </button>
+                    <div class="mdl-tooltip" for="editperiodosemestre">
+                        Adicionar
+                    </div>
+                </div>  
+                <div class="mdl-cell mdl-cell--6-col">                    
+                    <table ng-show="listAlunoPeriodoedit.length" class="table-complete mdl-data-table mdl-js-data-table">
+                        <thead>
+                            <tr id="tralunosemestreedit">
+                                <th class="mdl-data-table__cell--non-numeric">Periodo</th>
+                                <th class="mdl-data-table__cell--non-numeric">Semestre</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in listAlunoPeriodoedit">
+                                <td class="mdl-data-table__cell--non-numeric">{{item.nomeperiodo}}</td>
+                                <td class="mdl-data-table__cell--non-numeric">{{item.nomesemestre}}</td>                                
+                                <td>
+                                    <button id="removeperiodoaluno" type="button" ng-click="removeperiodoalunoedit(item)" class="red-icon mdl-button mdl-js-button mdl-button--icon">
+                                        <i class="material-icons">remove</i>
+                                    </button>
+                                    <div class="mdl-tooltip" for="removeperiodoaluno">
+                                        Remover
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+            </div>
+        </div>
+        <div class="mdl-dialog__actions">
+            <button type="button" ng-disabled="dialogs.editar.bloquear || formularioValidoEdicao()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.editar.salvar(edicao)"
+                    ng-bind="dialogs.editar.btnSalvarTexto"></button>
+            <button type="button" ng-disabled="dialogs.editar.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.editar.fechar()">Fechar</button>
+        </div>
+    </form>
+
+    <div ng-show="dialogs.editar.carregando" class="dialog-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
+</dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
 
 <dialog class="mdl-dialog" id="editar-dialog">
     <form name="form-edit" id="form-editar">
@@ -290,7 +462,7 @@
 
     <div ng-show="dialogs.editar.carregando" class="dialog-progress mdl-progress mdl-js-progress mdl-progress__indeterminate"></div>
 </dialog>
-
+-->
 
 
 <style>

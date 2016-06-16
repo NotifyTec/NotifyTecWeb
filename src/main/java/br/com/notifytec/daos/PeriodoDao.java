@@ -28,5 +28,4 @@ public class PeriodoDao extends CrudDao<PeriodoModel>{
                 manager.createQuery("from PERIODO where CURSOID = :cursoID order by NUMERO asc")
                         .setParameter("cursoID", cursoID).getResultList();        
     }
-    
 }

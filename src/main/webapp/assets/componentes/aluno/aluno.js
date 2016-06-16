@@ -22,11 +22,17 @@ aluno.controller("AlunoController",
                 $scope.error = "";
                 $scope.periodo = null;
                 $scope.periodos = null;
+                $scope.periodoedit = null;
+                $scope.periodosedit = null;
                 $scope.semestre = null;
                 $scope.semestres = null;
+                $scope.semestreedit = null;
+                $scope.semestresedit = null;
                 $scope.depts = null;
                 $scope.alunoPeriodoAdd = null;
+                $scope.alunoPeriodoEdit = null;
                 $scope.listAlunoPeriodo = [];
+                $scope.listAlunoPeriodoedit = [];
 
                 $scope.dialogs = {
                     cadastro: {
@@ -44,7 +50,7 @@ aluno.controller("AlunoController",
                                 snackbarManagerService.show("CPF Inválido!", 2, null, null);
                                 return;
                             }
-                            dados.departamento = $scope.dept;  
+                            dados.periodos = $scope.listAlunoPeriodo;  
                             alunoService.salvar(function (list) { // DONE  
                                 if(!list.success){
                                     var message = "";
@@ -82,7 +88,9 @@ aluno.controller("AlunoController",
                         fechar: function () {
                             $scope.dialogs.editar.get().close();
                         },
-                        openModal: function(item){                            
+                        openModal: function(item){     
+                            $scope.listAlunoPeriodoedit = [];
+                            $scope.preencherListaPeriodoSemestreEdicao(item.periodoSemestre);
                             $("[name='form-edit']").find(".mdl-textfield").addClass("is-dirty").removeClass("is-invalid");
                             $("#departamento-edit").val(item.departamentoId);
                             $scope.edicao = item;
@@ -91,13 +99,14 @@ aluno.controller("AlunoController",
                         salvar: function () {
                             $scope.dialogs.editar.carregando= true ;
                             var dados = $scope.edicao;
-                            dados.departamento = $("#departamento-edit").val();
-                            dados.ativo = $("#switch-2-edit").prop("checked");                             
+                            dados.ativo = $("#switch-2-edit").prop("checked");
+                            dados.periodos = $scope.listAlunoPeriodoedit;
+                            $scope.dialogs.editar.carregando= true ;
                             if($scope.validarModal(dados.cpf) == false) {
                                 snackbarManagerService.show("CPF Inválido!", 2, null, null);
                                 return;
-                            }                            
-                             alunoService.editar(function (list) { // DONE  
+                            }
+                            alunoService.editar(function (list) { // DONE  
                                 if(!list.success){
                                     var message = "";
                                     var listMessage = list.messages;
@@ -106,35 +115,76 @@ aluno.controller("AlunoController",
                                     });
                                     snackbarManagerService.show(message, 20, null, null);
                                 }
-                                console.debug(list);                                 
-                                $scope.dialogs.editar.get().close();
+                                console.debug(list);   
                                 carregar(1);
+                              
+                                $scope.dialogs.editar.get().close();
+                                //TODO> Carregar novo dado
+                                
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);
                             }, function () {// ALWAYS
                                 $scope.dialogs.editar.carregando= false ;
                                 paginacao.setLoading(null, false);
                             }, dados);
-                          
-                           
-                            carregar(1);
+                            //CHAMAR ADD
+                         
                             console.debug(dados);
                         },
                         bloquear: false,
-                        btnSalvarTexto: "Salvar",
+                        btnSalvarTexto: "Editar",
                         carregando: false,
                         erro: ""
                     }
                 };
+                $scope.preencherListaPeriodoSemestreEdicao = function(listaPeriodos){
+                    $(listaPeriodos).each(function(i,item){
+                        var periodoID = item.periodoID;
+                        var periodoNome=$("#periodo-select-edit").find("option[value='"+periodoID+"']").text(); 
+                        var semestreID = item.semestreID;
+                        var semestreNome = $("#semestre-select-add").find("option[value='"+semestreID+"']").text();                    
+                        var objeto = {idperiodo: periodoID, nomeperiodo:periodoNome, idsemestre: semestreID, nomesemestre: semestreNome};
+                        $scope.listAlunoPeriodoedit.push(objeto);
+                    });
+                    
+                }
+                
                 $scope.addAlunoPeriodo=function (){
                     var periodoID = $("#periodo-select-add").val();
                     var periodoNome=$("#periodo-select-add").find("option[value='"+$("#periodo-select-add").val()+"']").text(); 
                     var semestreID = $("#semestre-select-add").val();
-                    var semestreNome = $("#semestre-select-add").find("option[value='"+$("#semestre-select-add").val()+"']").text();
-                    
+                    var semestreNome = $("#semestre-select-add").find("option[value='"+$("#semestre-select-add").val()+"']").text();                    
                     var objeto = {idperiodo: periodoID, nomeperiodo:periodoNome, idsemestre: semestreID, nomesemestre: semestreNome};
-                    $scope.listAlunoPeriodo.push(objeto);
+                    var existe = $scope.listAlunoPeriodo.some(function(el, i){
+                        return el.idperiodo === objeto.idperiodo && el.idsemestre == objeto.idsemestre;
+                    });
+                    if(!existe)
+                        $scope.listAlunoPeriodo.push(objeto);
+                    else{
+                        snackbarManagerService.show("Este periodo e semestre já foram adicionados a lista!", 10, null, null);
+                    }
                 };                
+                
+                $scope.editAlunoPeriodo=function (){
+                    var periodoID = $("#periodo-select-edit").val();
+                    var periodoNome=$("#periodo-select-edit").find("option[value='"+$("#periodo-select-edit").val()+"']").text(); 
+                    var semestreID = $("#semestre-select-edit").val();
+                    var semestreNome = $("#semestre-select-edit").find("option[value='"+$("#semestre-select-edit").val()+"']").text();                    
+                    var objeto = {idperiodo: periodoID, nomeperiodo:periodoNome, idsemestre: semestreID, nomesemestre: semestreNome};
+                    var existe = $scope.listAlunoPeriodoedit.some(function(el, i){
+                        return el.idperiodo === objeto.idperiodo && el.idsemestre == objeto.idsemestre;
+                    });
+                    if(!existe)
+                        $scope.listAlunoPeriodoedit.push(objeto);
+                    else{
+                        snackbarManagerService.show("Este periodo e semestre já foram adicionados a lista!", 10, null, null);
+                    }
+                };       
+                $scope.removeperiodoalunoedit = function(item){
+                    $scope.listAlunoPeriodoedit = jQuery.grep($scope.listAlunoPeriodoedit, function(value) {
+                        return value != item;
+                      });
+                };
                 
                 $scope.removeperiodoaluno = function(item){
                     $scope.listAlunoPeriodo = jQuery.grep($scope.listAlunoPeriodo, function(value) {
@@ -148,19 +198,18 @@ aluno.controller("AlunoController",
                 
                 $scope.formularioValido = function () {
                    var inputs = $("[name='form']").find("input,select");
-                   return $.grep(inputs, function (i) {
+                    var result =  $.grep(inputs, function (i) {
                        return $(i).val() == "" || $(i).val() == "? object:null ?";
                    }).length != 0;
-               };
+                   return result || $scope.listAlunoPeriodo.length == 0;
+                };
                 $scope.formularioValidoEdicao = function () {
-                   var inputs = $("[name='form']").find("input,select");
+                   var inputs = $("[name='form-edit']").find("input,select");
                    return $.grep(inputs, function (i) {
                        return $(i).val() == "" || $(i).val() == "? object:null ?";
                    }).length != 0;
-               };
+                };
                
-
-
                 $scope.loadPeriodos = function() {
                       alunoService.getPeriodos(function (list) { // DONE  
                                 console.debug(list); 
@@ -170,10 +219,8 @@ aluno.controller("AlunoController",
                                         lista.push(object);
                                     });
                                 });
-                                
-                                
-                                
                                 $scope.periodos = lista;
+                                $scope.periodosedit = lista;
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);
                             }, function () {// ALWAYS
@@ -181,11 +228,11 @@ aluno.controller("AlunoController",
                             });
                       return $scope.depts;
                 };
-               
                 $scope.loadSemestres = function() {
                       alunoService.getSemestre(function (list) { // DONE  
                                 console.debug(list); 
                                 $scope.semestres = list.result;
+                                $scope.semestresedit = list.result;
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);
                             }, function () {// ALWAYS
@@ -208,7 +255,6 @@ aluno.controller("AlunoController",
 
                     // Elimina CPFs invalidos conhecidos    
                     if (cpf == "00000000000" ||
-                            cpf == "11111111111" ||
                             cpf == "22222222222" ||
                             cpf == "33333333333" ||
                             cpf == "44444444444" ||
@@ -248,12 +294,6 @@ aluno.controller("AlunoController",
                 });
 
                 filterManagerService.onFilter($scope, function (data) {
-                    /*if(data.nome == "" || data.nome == null){
-                        filterManagerService.setLockButton($scope,false);
-                        carregar(1);
-                        return;
-                    } */
-                    
                    alunoService.getByFilter(function (list) { // DONE  
                         //console.debug(list);
                         $scope.list = list.result;
@@ -290,10 +330,10 @@ aluno.factory("alunoService", ["$ajax", function ($ajax) {
                 $ajax.post("Aluno/getList", {numeroPagina: pagina}, done, error, always);
             },
             salvar: function(done, error, always, dados){
-                $ajax.post("Aluno/add", {nome: dados.nome, sobrenome: dados.sobrenome, cpf: dados.cpf, apelido: dados.apelido, departamentoId: dados.departamento, ativo: dados.ativo, email: dados.email}, done,error,always);
+                $ajax.post("Aluno/add", {nome: dados.nome, sobrenome: dados.sobrenome, ra: dados.ra, cpf: dados.cpf, email:dados.email, ativo: dados.ativo, periodos: JSON.stringify(dados.periodos)}, done,error,always);
             },
             editar: function(done, error, always, dados){
-                $ajax.post("Aluno/edit", {id: dados.id ,nome: dados.nome, sobrenome: dados.sobrenome, cpf: dados.cpf, apelido: dados.apelido, departamentoId: dados.departamento, ativo: dados.ativo, email: dados.email,usuarioID: dados.usuarioId}, done,error,always);
+                $ajax.post("Aluno/edit", {id: dados.id, nome: dados.nome, sobrenome: dados.sobrenome, ra: dados.ra, cpf: dados.cpf, email:dados.email, ativo: dados.ativo,usuarioID: dados.usuarioId , periodos: JSON.stringify(dados.periodos)}, done,error,always);
             },
             getByFilter: function(done,error,always,dados){
                 $ajax.post("Aluno/getByFilter",{nome:dados.nome, ra:dados.ra, cpf:dados.cpf, email:dados.email,ativo: dados.ativo},done,error,always)
