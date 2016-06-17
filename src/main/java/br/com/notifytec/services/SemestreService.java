@@ -32,7 +32,7 @@ public class SemestreService {
         return resultado;
     }
     
-    public List<SemestreModel> getList(){;
+    public List<SemestreModel> getList(){
         return dao.get();
     }
     

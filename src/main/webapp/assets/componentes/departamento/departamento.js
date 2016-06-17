@@ -65,7 +65,15 @@ departamento.controller("DepartamentoController",
                         },
                         remove: function(item){
                            departamentoService.remover(function (list) { // DONE                                  
-                                carregar(1);  
+                               if(!list.success){
+                                    var message = "";
+                                    var listMessage = list.messages;
+                                    $(listMessage).each(function(i, item){
+                                        message += " " + item;
+                                    });
+                                    snackbarManagerService.show(message, 20, null, null);
+                               }
+                               carregar(1);  
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);
                             }, function () {// ALWAYS                               
@@ -83,7 +91,7 @@ departamento.controller("DepartamentoController",
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);
                             }, function () {// ALWAYS
-                                $scope.dialogs.cadastro.carregando= false ;
+                                $scope.dialogs.editar.carregando= false ;
                                 paginacao.setLoading(null, false);
                             }, dados);
 
@@ -97,7 +105,22 @@ departamento.controller("DepartamentoController",
 
                 $scope.cadastro = {};
                 $scope.edicao = {};
-                
+                $scope.formularioValido = function () {
+                   var inputs = $("[name='form']").find("input");
+                    var result =  $.grep(inputs, function (i) {
+                        if(!$(i).hasClass("naoobrigatorio"))
+                            return $(i).val() == "";
+                   }).length != 0;
+                   return result;
+                };
+                $scope.formularioValidoEdicao = function () {
+                   var inputs = $("[name='form-editar']").find("input");
+                    var result =  $.grep(inputs, function (i) {
+                        if(!$(i).hasClass("naoobrigatorio"))
+                            return $(i).val() == "";
+                   }).length != 0;
+                   return result;
+                };
                 titleService.set("Departamento");
 
                 fabService.onClick($scope, function () {

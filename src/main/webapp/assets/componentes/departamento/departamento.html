@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="mdl-dialog__actions">
-            <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.cadastro.salvar(cadastro)"
+            <button type="button" ng-disabled="dialogs.cadastro.bloquear || formularioValido()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.cadastro.salvar(cadastro)"
                     ng-bind="dialogs.cadastro.btnSalvarTexto"></button>
             <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.cadastro.fechar()">Fechar</button>
         </div>
@@ -82,7 +82,7 @@
             </div>
         </div>
         <div class="mdl-dialog__actions">
-            <button type="button" ng-disabled="dialogs.editar.bloquear" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.editar.salvar(edicao)"
+            <button type="button" ng-disabled="dialogs.editar.bloquear || formularioValidoEdicao()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.editar.salvar(edicao)"
                     ng-bind="dialogs.editar.btnSalvarTexto"></button>
             <button type="button" ng-disabled="dialogs.editar.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.editar.fechar()">Fechar</button>
         </div>
@@ -92,7 +92,7 @@
 </dialog>
 
 
-<paginacao></paginacao>
+
 
 <fab></fab>
 <snackbar></snackbar>

@@ -23,7 +23,7 @@ public class DepartamentoService {
     private DepartamentoDao dao;  
 
     public ResultadoPaginacao<DepartamentoModel> get(int pagina) {
-        return dao.paginated(pagina);
+        return dao.getPaginacao(pagina);
     }
     
     public List<DepartamentoModel> getList(){
@@ -32,6 +32,11 @@ public class DepartamentoService {
     
     public Resultado<DepartamentoModel>remove(UUID id){
         Resultado<DepartamentoModel> r = new Resultado<>();
+        r.merge(vericaSePodeExcluir(id));
+        if (!r.isSucess()) {
+            r.setResult(new DepartamentoModel());
+            return r;
+        }      
         dao.remover(id);
         return r;
     }
@@ -44,16 +49,30 @@ public class DepartamentoService {
         }
         return r;
     }
-
+    public Resultado<DepartamentoModel> vericaSePodeExcluir(UUID id){
+        Resultado<DepartamentoModel> r = new Resultado<>();
+        boolean canDelete =  dao.getCountDepartamento(id);
+        if(!canDelete) r.addError("Este departamento não pode ser excluido!");
+        return r;
+    }  
+    
+    public Resultado<DepartamentoModel> verificaSeJaTemNome(String nome){
+        Resultado<DepartamentoModel> r = new Resultado<>();
+        List<DepartamentoModel> lista =  dao.getByNome(nome);
+        if(lista.size() > 0){
+          r.addError("Já Existe um departamento cadastrado com o nome informado!");
+        }
+        return r;
+    }
+    
     private String getMensagemNulo(String campo) {
         return "O campo " + campo + " não pode ser nulo.";
     }
 
     public Resultado<DepartamentoModel> add(DepartamentoModel f) {
         Resultado<DepartamentoModel> r = new Resultado<>();
-
         r.merge(validarCamposObrigatorios(f));
-
+        r.merge(verificaSeJaTemNome(f.getNome()));
         if (!r.isSucess()) {
             r.setResult(f);
             return r;
