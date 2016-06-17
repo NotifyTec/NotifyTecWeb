@@ -34,7 +34,16 @@ curso.controller("CursoController",
                             var dados = $("#form-cadastro").getFormData();
                             if(dados.ativo == "on")
                                 dados.ativo = true;
+                            dados.nome = dados.nome + " - " + $scope.getPeriodoCurso();
                             cursoService.salvar(function (list) { // DONE  
+                                if(!list.success){
+                                    var message = "";
+                                    var listMessage = list.messages;
+                                    $(listMessage).each(function(i, item){
+                                        message += " " + item;
+                                    });
+                                    snackbarManagerService.show(message, 20, null, null);
+                                }
                                 console.debug(list);   
                                 carregar(1);
                                 $scope.dialogs.cadastro.get().close();
@@ -68,6 +77,7 @@ curso.controller("CursoController",
                         salvar: function () {
                             $scope.dialogs.editar.carregando= true ;
                             var dados = $scope.edicao;
+                          
                             if(dados.ativo == "on")
                                 dados.ativo = true;
                             cursoService.editar(function (list) { // DONE  
@@ -79,7 +89,7 @@ curso.controller("CursoController",
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);
                             }, function () {// ALWAYS
-                                $scope.dialogs.cadastro.carregando= false ;
+                                $scope.dialogs.editar.carregando= false ;
                                 paginacao.setLoading(null, false);
                             }, dados);
 
@@ -94,8 +104,38 @@ curso.controller("CursoController",
                 $scope.cadastro = {};
                 $scope.edicao = {};
                 
-                titleService.set("Curso");
+                 $scope.formularioValido = function () {
+                   var inputs = $("[name='form']").find("input");
+                    var result =  $.grep(inputs, function (i) {
+                        if(!$(i).hasClass("naoobrigatorio"))
+                            return $(i).val() == "";
+                   }).length != 0;
+                   return result;
+                };
 
+                $scope.formularioValidoEdicao = function () {
+                   var inputs = $("[name='form-editar']").find("input");
+                    var result =  $.grep(inputs, function (i) {
+                        if(!$(i).hasClass("naoobrigatorio"))
+                            return $(i).val() == "";
+                   }).length != 0;
+                   return result;
+                };
+
+                
+                $scope.getPeriodoCurso = function(){
+                    var rads = document.getElementsByName("options-curso");
+                    for(var i = 0; i < rads.length; i++){
+                        if(rads[i].checked){
+                         return rads[i].value;
+                        }
+                    }
+                };
+
+
+        
+                
+                titleService.set("Curso");
                 fabService.onClick($scope, function () {
                     //snackbarManagerService.show("kljdklasajdklsjadlksj ", 2, null, null);
                     $scope.dialogs.cadastro.get().showModal();

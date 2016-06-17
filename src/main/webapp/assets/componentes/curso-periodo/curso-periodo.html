@@ -46,7 +46,7 @@
                 </div>
                 <div class="mdl-cell mdl-cell--3-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.cadastro.bloquear" name="apelido" class="mdl-textfield__input" ng-model="cadastro.apelido"
+                        <input ng-disabled="dialogs.cadastro.bloquear" name="apelido" class="mdl-textfield__input naoobrigatorio" ng-model="cadastro.apelido"
                                type="text" id="apelido">
                         <label class="mdl-textfield__label" for="apelido">Apelido</label>
                     </div>
@@ -67,10 +67,24 @@
                         <input type="checkbox" name="ativo" id="switch-1" class="mdl-switch__input" ng-model="cadastro.ativo" checked>
                     </label>
                 </div>
+                <div class="mdl-cell mdl-cell--6-col">
+                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                    <input type="radio" id="option-1" class="mdl-radio__button" name="options-curso" value="matutino" checked>
+                    <span class="mdl-radio__label">Matutino</span>
+                  </label>
+                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                    <input type="radio" id="option-2" class="mdl-radio__button" name="options-curso" value="vespertino">
+                    <span class="mdl-radio__label">Vespertino</span>
+                  </label>
+                  <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                    <input type="radio" id="option-3" class="mdl-radio__button" name="options-curso" value="noturno">
+                    <span class="mdl-radio__label">Noturno</span>
+                  </label>
+                </div>
             </div>
         </div>
         <div class="mdl-dialog__actions">
-            <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.cadastro.salvar(cadastro)"
+            <button type="button" ng-disabled="dialogs.cadastro.bloquear|| formularioValido()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.cadastro.salvar(cadastro)"
                     ng-bind="dialogs.cadastro.btnSalvarTexto"></button>
             <button type="button" ng-disabled="dialogs.cadastro.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.cadastro.fechar()">Fechar</button>
         </div>
@@ -92,20 +106,20 @@
                 </div>
                 <div class="mdl-cell mdl-cell--4-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.editar.bloquear" name="nome" class="mdl-textfield__input" ng-model="edicao.nome"
+                        <input ng-disabled="true" name="nome" class="mdl-textfield__input" ng-model="edicao.nome"
                                type="text" id="nome-editar" required>
                         <label class="mdl-textfield__label" for="nome-editar">Nome</label>
                         <span ng-show="form-editar.nome.$error.required"
                               class="mdl-textfield__error">Campo obrigatório</span>
                     </div>
                 </div>
-                <div class="mdl-cell mdl-cell--3-col">                    
+                <!--<div class="mdl-cell mdl-cell--3-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.editar.bloquear" name="apelido" class="mdl-textfield__input" ng-model="edicao.apelido"
+                        <input ng-disabled="true" name="apelido" class="mdl-textfield__input naoobrigatorio" ng-model="edicao.apelido"
                                type="text" id="apelido-editar">
                         <label class="mdl-textfield__label" for="apelido-editar">Apelido</label>
                     </div>
-                </div>
+                </div>-->
                 <div class="mdl-cell mdl-cell--3-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input ng-disabled="dialogs.editar.bloquear" name="periodo" class="mdl-textfield__input" ng-model="edicao.periodo"
@@ -117,15 +131,15 @@
                 </div>              
                 
                 <div class="mdl-cell mdl-cell--2-col">
-                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1">
+                    <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="switch-1-edit">
                         <span class="mdl-switch__label">Ativo</span>
-                        <input type="checkbox" name="ativo" id="switch-1" class="mdl-switch__input" ng-model="edicao.ativo" checked>
+                        <input type="checkbox" name="ativo" id="switch-1-edit" class="mdl-switch__input" ng-model="edicao.ativo" checked>
                     </label>
                 </div>
             </div>
         </div>
         <div class="mdl-dialog__actions">
-            <button type="button" ng-disabled="dialogs.editar.bloquear" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.editar.salvar(edicao)"
+            <button type="button" ng-disabled="dialogs.editar.bloquear || formularioValidoEdicao()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" ng-click="dialogs.editar.salvar(edicao)"
                     ng-bind="dialogs.editar.btnSalvarTexto"></button>
             <button type="button" ng-disabled="dialogs.editar.bloquear" class="mdl-button mdl-js-button mdl-js-ripple-effect close" ng-click="dialogs.editar.fechar()">Fechar</button>
         </div>

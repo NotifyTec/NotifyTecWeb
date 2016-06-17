@@ -8,6 +8,7 @@ package br.com.notifytec.services;
 import br.com.notifytec.daos.CursoDao;
 import br.com.notifytec.daos.FuncionarioDao;
 import br.com.notifytec.daos.PeriodoDao;
+import br.com.notifytec.models.AlunoModel;
 import br.com.notifytec.models.CursoModel;
 import br.com.notifytec.models.FuncionarioModel;
 import br.com.notifytec.models.Parametros;
@@ -40,7 +41,6 @@ public class CursoService {
                 m.setAtivoTraduzido("Inativo");
         }
         return list;
-        
     }
 
     public Resultado<CursoModel> validarCamposObrigatorios(CursoModel f) {
@@ -49,9 +49,14 @@ public class CursoService {
         if (f.getNome() == null || f.getNome().isEmpty()) {
             r.addError(getMensagemNulo("nome"));
         }
-
-        if (f.getApelido()== null || f.getApelido().isEmpty()) {
-            r.addError(getMensagemNulo("CPF"));
+        return r;
+    }
+    
+    public Resultado<CursoModel> verificaSeJaTemComNome(String nome){
+         Resultado<CursoModel> r = new Resultado<>();
+        List<CursoModel> lista =  dao.getByNome(nome);
+        if(lista.size() > 0){
+          r.addError("Já Existe um curso cadastrado com o nome informado!");
         }
         return r;
     }
@@ -86,10 +91,13 @@ public class CursoService {
         return lista;
     }
     
+    
+    
     public Resultado<CursoModel> add(CursoModel f, int qtdPeriodo) {
         f.setId(UUID.randomUUID());     
         Resultado<CursoModel> r = new Resultado<>();
         r.merge(validarCamposObrigatorios(f));
+        r.merge(verificaSeJaTemComNome(f.getNome()));
         if (!r.isSucess()) {
             r.setResult(f);
             return r;
