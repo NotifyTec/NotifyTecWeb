@@ -79,7 +79,7 @@ public class CursoController extends BaseController {
             Resultado r = cursoService.add(f, periodo);
             
             returnSuccess(r);
-        }catch(Exception ex){
+        }catch(Exception ex){            
             returnError(null, ex);
         }
     }

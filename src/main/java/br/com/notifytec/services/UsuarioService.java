@@ -18,7 +18,7 @@ import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
 
-public class UsuarioService extends CrudService<UsuarioModel> {
+public class UsuarioService {
 
     @Inject
     private JwtManager jwtManager;
@@ -29,10 +29,6 @@ public class UsuarioService extends CrudService<UsuarioModel> {
     @Inject
     private UsuarioDao dao;
 
-    public UsuarioService() {
-        super(new UsuarioDao());
-    }
-
     public UsuarioModel updateGcm(String gcm, UUID usuarioID) {
         UsuarioModel u = dao.get(usuarioID);
         u.setGcmToken(gcm);
@@ -41,6 +37,10 @@ public class UsuarioService extends CrudService<UsuarioModel> {
         return u;
     }
 
+    public UsuarioModel get(UUID usuarioID) {
+        return dao.get(usuarioID);
+    }
+    
     public UsuarioModel get(String login) {
         return ((UsuarioDao) dao).get(login);
     }

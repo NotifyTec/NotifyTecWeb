@@ -1,6 +1,7 @@
 package br.com.notifytec.services;
 
 import br.com.notifytec.daos.AlunoDao;
+import br.com.notifytec.daos.CrudDao;
 import br.com.notifytec.models.AlunoModel;
 import br.com.notifytec.models.AlunoPeriodoModel;
 import br.com.notifytec.models.FuncionarioModel;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
 
-public class AlunoService{
+public class AlunoService extends CrudService<AlunoModel>{
     
     @Inject
     private UsuarioService usuarioService;    
@@ -21,8 +22,9 @@ public class AlunoService{
     private AlunoPeriodoService alunoPeriodoService;
     @Inject
     private AlunoDao dao;
-
-   
+    public AlunoService() {
+        super(new CrudDao(AlunoModel.class, Parametros.Tabelas.TABELA_ALUNO));
+    }
     
      public ResultadoPaginacao<AlunoModel> getByFilter(String nome, String ra, String cpf, String email, boolean ativo){
         ResultadoPaginacao<AlunoModel> r = new ResultadoPaginacao<>();
@@ -163,11 +165,12 @@ public class AlunoService{
         return r;
     }
     
-
     
-   
+    
+    
+    @Override
     public AlunoModel get(UUID id){
-        AlunoModel aluno = dao.get(id);        
+        AlunoModel aluno = super.get(id);        
         preencher(aluno);        
         return aluno;
     }

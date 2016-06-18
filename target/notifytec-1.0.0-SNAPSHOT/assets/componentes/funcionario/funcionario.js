@@ -17,6 +17,7 @@ funcionario.controller("FuncionarioController",
                     filterManagerService,
                     funcionarioService,
                     paginacao) {
+                materialComponents.upgradeDom();
 
                 $scope.list = [];
                 $scope.error = "";
@@ -24,7 +25,7 @@ funcionario.controller("FuncionarioController",
                 $scope.deptEdit = null;
                 $scope.depts = null;
 
-                $scope.dialogs = {
+                $scope.dialogs = {                    
                     cadastro: {
                         get: function () {
                             return document.querySelector("#cadastro-dialog");

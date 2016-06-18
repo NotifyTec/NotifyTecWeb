@@ -63,6 +63,7 @@ semestre.controller("SemestreController",
                             $scope.dialogs.editar.get().close();
                         },
                         openModal: function(item){
+                            $("[name='form']").find(".mdl-textfield").addClass("is-dirty").removeClass("is-invalid");
                             $scope.edicao = item;
                             var dtInicio = item.inicio;
                             var dtFim = item.fim;

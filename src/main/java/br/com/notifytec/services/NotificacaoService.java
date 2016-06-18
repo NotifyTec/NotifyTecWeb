@@ -72,9 +72,10 @@ public class NotificacaoService extends CrudService<NotificacaoCompletaModel> {
             tp = alunoNotificacaoService.save(t.getEntityManager(), false, not);
         }
                 
-        List<String> gcmTokens = notificacaoDao.getTokens(notificacao.getPeriodoID());
+        //List<String> gcmTokens = notificacaoDao.getTokens(notificacao.getPeriodoID());
         
-        Resultado<NotificacaoCompletaModel> r = firebaseService.send(notificacao, gcmTokens);
+        Resultado<NotificacaoCompletaModel> r = new Resultado<NotificacaoCompletaModel>();
+        //firebaseService.send(notificacao, gcmTokens);
         
         if(r.isSucess()){        
             try{

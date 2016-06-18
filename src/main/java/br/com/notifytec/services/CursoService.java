@@ -93,7 +93,7 @@ public class CursoService {
     public List<CursoModel>getListCursoPeriodo(){
         List<CursoModel> lista = dao.get();
         for(CursoModel m : lista){
-            m.setListPeriodo(periodoService.get(m.getId()));
+            m.setListPeriodo(periodoService.getByCurso(m.getId()));
             for(PeriodoModel p : m.getListPeriodo()){
                 if(m.getApelido() != null)
                     p.setCursoNome(p.getNumero() + " º " + m.getApelido());

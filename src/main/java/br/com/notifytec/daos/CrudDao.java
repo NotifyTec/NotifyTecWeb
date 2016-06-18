@@ -60,6 +60,7 @@ public class CrudDao<T> {
         t.getEntityManager().persist(obj);
 
         if (commit) {
+            t.getEntityManager().flush();
             t.getEntityManager().getTransaction().commit();
         }
         
@@ -72,7 +73,7 @@ public class CrudDao<T> {
         save(t, true, obj);
     }
 
-    public ResultadoPaginacao<T> paginated(int page) {
+    public ResultadoPaginacao<T> paginated(int page) {        
         ResultadoPaginacao<T> resultado = new ResultadoPaginacao<T>();
 
         if (page <= 0) {
