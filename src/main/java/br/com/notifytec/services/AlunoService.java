@@ -5,6 +5,7 @@ import br.com.notifytec.daos.CrudDao;
 import br.com.notifytec.models.AlunoModel;
 import br.com.notifytec.models.AlunoPeriodoModel;
 import br.com.notifytec.models.FuncionarioModel;
+import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.PeriodoSemestre;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.ResultadoPaginacao;
@@ -35,7 +36,7 @@ public class AlunoService extends CrudService<AlunoModel>{
                 f.setAtivoTraduzido("Ativo");
             else
                 f.setAtivoTraduzido("Inativo"); 
-            u = usuarioService.getById(f.getUsuarioId());
+            u = usuarioService.get(f.getUsuarioId());
             f.setEmail(u.getEmail());            
         }        
         return r;
@@ -159,7 +160,7 @@ public class AlunoService extends CrudService<AlunoModel>{
                 f.setAtivoTraduzido("Ativo");
             else
                 f.setAtivoTraduzido("Inativo");        
-            u = usuarioService.getById(f.getUsuarioId());
+            u = usuarioService.get(f.getUsuarioId());
             f.setEmail(u.getEmail());           
         }
         return r;

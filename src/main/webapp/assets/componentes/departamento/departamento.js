@@ -35,6 +35,7 @@ departamento.controller("DepartamentoController",
                             departamentoService.salvar(function (list) { // DONE  
                                 console.debug(list);   
                                 carregar(1);
+                                snackbarManagerService.showSalvo();
                                 $scope.dialogs.cadastro.get().close();
                                 //TODO> Carregar novo dado
                                 
@@ -74,6 +75,7 @@ departamento.controller("DepartamentoController",
                                     snackbarManagerService.show(message, 20, null, null);
                                }
                                carregar(1);  
+                               snackbarManagerService.showExcluido();
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);
                             }, function () {// ALWAYS                               
@@ -87,6 +89,7 @@ departamento.controller("DepartamentoController",
                                 console.debug(list);   
                                 carregar(1);
                                 $scope.dialogs.editar.get().close();
+                                snackbarManagerService.showEditado();
                                 
                             }, function (result, messageError) { // ERROR                    
                                 snackbarManagerService.show(messageError, 20, null, null);

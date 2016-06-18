@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 import javax.persistence.TemporalType;
 
 public class AlunoPeriodoDao extends CrudDao<AlunoPeriodoModel> {
@@ -42,6 +43,7 @@ public class AlunoPeriodoDao extends CrudDao<AlunoPeriodoModel> {
     }
     
     public List<UUID> getAlunoPeriodosValidos(UUID periodoID) {
+        EntityManager manager = open();
         List<String> l = manager.createNativeQuery("SELECT\n" +
 "	HEX(a.ID)\n" +
 "FROM \n" +
@@ -64,14 +66,16 @@ public class AlunoPeriodoDao extends CrudDao<AlunoPeriodoModel> {
                 .setParameter("periodoid", periodoID)
                 .setParameter("date", Calendar.getInstance().getTime(), TemporalType.DATE)
                .getResultList();        
-        
+        close(manager);
         return toUUID(l);
     }
     
     public List<AlunoPeriodoModel> getAlunoPeriodo(UUID alunoID){
+        EntityManager manager = open();
            List<AlunoPeriodoModel> lista = 
                 manager.createQuery("from ALUNOPERIODO where ALUNOID = :alunoID")
                         .setParameter("alunoID", alunoID).getResultList();  
+           close(manager);
            return lista;
     }
 

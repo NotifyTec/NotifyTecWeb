@@ -5,7 +5,6 @@ import br.com.caelum.vraptor.Controller;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.notifytec.daos.NotificacaoDao;
-import br.com.notifytec.daos.PersistenceManager;
 import br.com.notifytec.models.NotificacaoCompletaModel;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.Token;

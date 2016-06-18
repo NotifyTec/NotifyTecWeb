@@ -9,6 +9,7 @@
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/security/MD5Manager.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/FirebaseMessage.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/SemestreController.java
+/home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/DatabaseManager.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/services/CursoService.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/security/UserSession.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/AlunoDao.java
@@ -19,7 +20,6 @@
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/services/CrudService.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/BaseController.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/Token.java
-/home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/PersistenceManager.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/LoginController.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/Parametros.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/Transacao.java
@@ -57,6 +57,7 @@
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/AlunoPeriodoDao.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/CursoController.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/FuncionarioDao.java
+/home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/PeriodoSemestre.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/HomeController.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/NotificacaoCompletaModel.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/Resultado.java

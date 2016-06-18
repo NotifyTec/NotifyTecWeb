@@ -23,8 +23,11 @@ public class PeriodoDao extends CrudDao<PeriodoModel>{
     }
     
     public List<PeriodoModel> getByID(UUID cursoID) {
-        return 
+        EntityManager manager = open();
+        List<PeriodoModel> l =
                 manager.createQuery("from PERIODO where CURSOID = :cursoID order by NUMERO asc")
                         .setParameter("cursoID", cursoID).getResultList();        
+        close(manager);
+        return l;
     }
 }

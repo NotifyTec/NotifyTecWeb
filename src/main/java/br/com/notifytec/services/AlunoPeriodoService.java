@@ -5,9 +5,12 @@ import br.com.notifytec.daos.CrudDao;
 import br.com.notifytec.models.AlunoModel;
 import br.com.notifytec.models.AlunoPeriodoModel;
 import br.com.notifytec.models.Parametros;
+import br.com.notifytec.models.PeriodoSemestre;
+import br.com.notifytec.models.Resultado;
 import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
 
 public class AlunoPeriodoService extends CrudService<AlunoPeriodoModel> {
     

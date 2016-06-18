@@ -10,6 +10,7 @@ import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.ResultadoPaginacao;
 import java.util.List;
 import java.util.UUID;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 /**
@@ -22,12 +23,16 @@ public class DepartamentoDao extends CrudDao<DepartamentoModel>{
     }
     
     public List<DepartamentoModel> getByNome(String nome){
-          return 
+        EntityManager manager = open();
+          List<DepartamentoModel> l =
             manager.createQuery("from DEPARTAMENTO where NOME like :nome")
                         .setParameter("nome", nome).getResultList();
+          close(manager);
+          return l;
     }
     
     public ResultadoPaginacao<DepartamentoModel> getPaginacao(int page){
+        EntityManager manager = open();
         ResultadoPaginacao<DepartamentoModel> resultado = new ResultadoPaginacao<DepartamentoModel>();
 
         if (page <= 0) {
@@ -46,12 +51,14 @@ public class DepartamentoDao extends CrudDao<DepartamentoModel>{
         resultado.setResult(registros);
         resultado.setPagina(page);
         resultado.setRegistrosPorPagina(25);
+        close(manager);
         return resultado;
     }
     public boolean getCountDepartamento(UUID id){
+        EntityManager manager = open();
         List<DepartamentoModel> l = manager.createQuery("from PESSOA where DEPARTAMENTOID like :id")
                         .setParameter("id", id).getResultList();
-        
+        close(manager);
         if(l.size() > 0) return false;
         return true;
     }

@@ -6,6 +6,7 @@ import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.ResultadoPaginacao;
 import br.com.notifytec.models.UsuarioModel;
 import java.util.List;
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 public class AlunoDao extends CrudDao<AlunoModel>{
@@ -15,6 +16,7 @@ public class AlunoDao extends CrudDao<AlunoModel>{
     }
     
     public ResultadoPaginacao<AlunoModel> getByFilter(String nome, String ra, String cpf, String email, boolean ativo){
+        EntityManager manager = open();
         ResultadoPaginacao<AlunoModel> resultado = new ResultadoPaginacao<AlunoModel>();
         String jpql = "SELECT count(o) FROM " + "ALUNO" + " o";
         Query q = manager.createQuery(jpql);
@@ -33,19 +35,26 @@ public class AlunoDao extends CrudDao<AlunoModel>{
         resultado.setResult(registros);
         resultado.setPagina(1);
         resultado.setRegistrosPorPagina(100);
+        close(manager);
         return resultado; 
     }
     
      public List<AlunoModel> getByCPF(String cpf){
-        return 
+         EntityManager manager = open();
+        List<AlunoModel> l = 
                 manager.createQuery("from ALUNO where CPF like :cpf")
                         .setParameter("cpf", cpf).getResultList();
+        close(manager);
+        return l;
     }
     
     public List<UsuarioModel> getByEmail(String email){
-        return 
+        EntityManager manager = open();
+        List<UsuarioModel> l =  
                 manager.createQuery("from USUARIO where EMAIL like :email")
                         .setParameter("email", email).getResultList();
+        close(manager);
+        return l;
     }
     
 }

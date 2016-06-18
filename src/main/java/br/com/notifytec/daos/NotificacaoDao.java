@@ -28,111 +28,117 @@ public class NotificacaoDao extends CrudDao<NotificacaoCompletaModel> {
     @Inject
     private UsuarioDao usuarioDao;
 
-
     public NotificacaoDao() {
         super(NotificacaoCompletaModel.class, Parametros.Tabelas.TABELA_NOTIFICACAO);
     }
 
-    public List<String> getTokens(UUID periodoID){
-        String sql = "SELECT\n" +
-                        "	GCMTOKEN\n" +
-                        "FROM \n" +
-                        "	USUARIO u\n" +
-                        "INNER JOIN\n" +
-                        "	ALUNO a\n" +
-                        "ON\n" +
-                        "	a.USUARIOID = u.ID\n" +
-                        "INNER JOIN\n" +
-                        "	ALUNOPERIODO ap\n" +
-                        "ON\n" +
-                        "	ap.ALUNOID = a.ID\n" +
-                        "INNER JOIN\n" +
-                        "	SEMESTRE s\n" +
-                        "ON\n" +
-                        "	s.ID = ap.SEMESTREID\n" +
-                        "WHERE\n" +
-                        "	ap.PERIODOID = :periodoid AND\n" +
-                        "    :date BETWEEN s.INICIO AND s.FIM;";
-        
-        return manager.createNativeQuery(sql)
+    public List<String> getTokens(UUID periodoID) {
+        EntityManager manager = open();
+        String sql = "SELECT\n"
+                + "	GCMTOKEN\n"
+                + "FROM \n"
+                + "	USUARIO u\n"
+                + "INNER JOIN\n"
+                + "	ALUNO a\n"
+                + "ON\n"
+                + "	a.USUARIOID = u.ID\n"
+                + "INNER JOIN\n"
+                + "	ALUNOPERIODO ap\n"
+                + "ON\n"
+                + "	ap.ALUNOID = a.ID\n"
+                + "INNER JOIN\n"
+                + "	SEMESTRE s\n"
+                + "ON\n"
+                + "	s.ID = ap.SEMESTREID\n"
+                + "WHERE\n"
+                + "	ap.PERIODOID = :periodoid AND\n"
+                + "    :date BETWEEN s.INICIO AND s.FIM;";
+
+        List<String> l = manager.createNativeQuery(sql)
                 .setParameter("periodoid", periodoID)
                 .setParameter("date", Calendar.getInstance().getTime(), TemporalType.DATE)
                 .getResultList();
+        close(manager);
+        return l;
     }
-    
+
     public List<NotificacaoCompletaModel> getPorUsuario(UUID usuarioID) {
-        UsuarioModel usuario = usuarioDao.get(usuarioID);        
-        if(usuario.isPodeEnviar()){
+        UsuarioModel usuario = usuarioDao.get(usuarioID);
+        if (usuario.isPodeEnviar()) {
             return getEnviadas(usuarioID);
-        }else{
+        } else {
             return getRecebidas(usuarioID);
         }
     }
 
     @Transactional
-    public List<NotificacaoCompletaModel> getRecebidas(UUID usuarioID) {        
-        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n" +
-"	n.*\n" +
-"FROM\n" +
-"	NOTIFICACAO n\n" +
-"INNER JOIN\n" +
-"	ALUNONOTIFICACAO an\n" +
-"ON\n" +
-"	n.ID = an.NOTIFICACAOID\n" +
-"WHERE\n" +
-"	an.ALUNOID = (SELECT ALUNOID FROM ALUNO WHERE USUARIOID = :usuarioid);",
+    public List<NotificacaoCompletaModel> getRecebidas(UUID usuarioID) {
+        EntityManager manager = open();
+        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n"
+                + "	n.*\n"
+                + "FROM\n"
+                + "	NOTIFICACAO n\n"
+                + "INNER JOIN\n"
+                + "	ALUNONOTIFICACAO an\n"
+                + "ON\n"
+                + "	n.ID = an.NOTIFICACAOID\n"
+                + "WHERE\n"
+                + "	an.ALUNOID = (SELECT ALUNOID FROM ALUNO WHERE USUARIOID = :usuarioid);",
                 NotificacaoCompletaModel.class)
                 .setParameter("usuarioid", usuarioID)
                 .getResultList();
 
         n = notificacaoOpcaoDao.carregarOpcoes(n);
-        
+
         manager.getTransaction().begin();
-        Query update = manager.createNativeQuery("UPDATE \n" +
-"	ALUNONOTIFICACAO\n" +
-"SET\n" +
-"	VIZUALIZOUEM = NOW()\n" +
-"WHERE\n" +
-"	ALUNOID = (SELECT ID FROM ALUNO WHERE USUARIOID = :usuarioid) AND\n" +
-"    VIZUALIZOUEM IS NULL")
+        Query update = manager.createNativeQuery("UPDATE \n"
+                + "	ALUNONOTIFICACAO\n"
+                + "SET\n"
+                + "	VIZUALIZOUEM = NOW()\n"
+                + "WHERE\n"
+                + "	ALUNOID = (SELECT ID FROM ALUNO WHERE USUARIOID = :usuarioid) AND\n"
+                + "    VIZUALIZOUEM IS NULL")
                 .setParameter("usuarioid", usuarioID);
         update.executeUpdate();
         manager.getTransaction().commit();
-        
+
         for (NotificacaoCompletaModel item : n) {
-            item.setResposta(alunoNotificacaoDao.getAlunoNotificacao(item.getId(), usuarioID));                        
+            item.setResposta(alunoNotificacaoDao.getAlunoNotificacao(item.getId(), usuarioID));
         }
+        close(manager);
 
         return n;
     }
 
     public List<NotificacaoCompletaModel> getEnviadas(UUID usuarioID) {
-        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n" +
-"	n.*\n" +
-"FROM\n" +
-"	NOTIFICACAO n\n" +
-"WHERE\n" +
-"	n.USUARIOID = :usuarioid",
+        EntityManager manager = open();
+        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n"
+                + "	n.*\n"
+                + "FROM\n"
+                + "	NOTIFICACAO n\n"
+                + "WHERE\n"
+                + "	n.USUARIOID = :usuarioid",
                 NotificacaoCompletaModel.class)
                 .setParameter("usuarioid", usuarioID)
                 .getResultList();
 
         n = notificacaoOpcaoDao.carregarOpcoes(n);
-
+        close(manager);
         return n;
     }
-    
-    public NotificacaoCompletaModel getRecebidasPorID(UUID usuarioID, UUID notificacaoID) {        
-        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n" +
-"	n.*\n" +
-"FROM\n" +
-"	NOTIFICACAO n\n" +
-"INNER JOIN\n" +
-"	ALUNONOTIFICACAO an\n" +
-"ON\n" +
-"	n.ID = an.NOTIFICACAOID\n" +
-"WHERE\n" +
-"	an.ALUNOID = (SELECT ALUNOID FROM ALUNO WHERE USUARIOID = :usuarioid)"
+
+    public NotificacaoCompletaModel getRecebidasPorID(UUID usuarioID, UUID notificacaoID) {
+        EntityManager manager = open();
+        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n"
+                + "	n.*\n"
+                + "FROM\n"
+                + "	NOTIFICACAO n\n"
+                + "INNER JOIN\n"
+                + "	ALUNONOTIFICACAO an\n"
+                + "ON\n"
+                + "	n.ID = an.NOTIFICACAOID\n"
+                + "WHERE\n"
+                + "	an.ALUNOID = (SELECT ALUNOID FROM ALUNO WHERE USUARIOID = :usuarioid)"
                 + "AND n.ID = :notificacaoID",
                 NotificacaoCompletaModel.class)
                 .setParameter("usuarioid", usuarioID)
@@ -142,35 +148,37 @@ public class NotificacaoDao extends CrudDao<NotificacaoCompletaModel> {
         n = notificacaoOpcaoDao.carregarOpcoes(n);
 
         for (NotificacaoCompletaModel item : n) {
-            item.setResposta(alunoNotificacaoDao.getAlunoNotificacao(item.getId(), usuarioID));                        
+            item.setResposta(alunoNotificacaoDao.getAlunoNotificacao(item.getId(), usuarioID));
         }
-
+        close(manager);
         return n.get(0);
     }
-    
+
     public NotificacaoCompletaModel getEnviadasPorID(UUID notificacaoID) {
+        EntityManager manager = open();
         List<NotificacaoCompletaModel> r = new ArrayList<NotificacaoCompletaModel>();
 
-        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n" +
-"	n.*\n" +
-"FROM\n" +
-"	NOTIFICACAO n\n" +
-"WHERE\n" +
-"	n.ID = :notificacaoid",
+        List<NotificacaoCompletaModel> n = manager.createNativeQuery("SELECT\n"
+                + "	n.*\n"
+                + "FROM\n"
+                + "	NOTIFICACAO n\n"
+                + "WHERE\n"
+                + "	n.ID = :notificacaoid",
                 NotificacaoCompletaModel.class)
                 .setParameter("notificacaoid", notificacaoID)
                 .getResultList();
 
         n = notificacaoOpcaoDao.carregarOpcoes(n);
-
+        close(manager);
         return n.get(0);
     }
 
     public NotificacaoCompletaModel responder(UUID notificacaoID, UUID notificacaoOpcaoID, UUID usuarioID) throws Exception {
-        
-        AlunoNotificacaoModel n = alunoNotificacaoDao.getAlunoNotificacao(notificacaoID, usuarioID);                
-        if(n.getNotificacaoOpcao() != null)
+
+        AlunoNotificacaoModel n = alunoNotificacaoDao.getAlunoNotificacao(notificacaoID, usuarioID);
+        if (n.getNotificacaoOpcao() != null) {
             throw new Exception("Você já respondeu essa questão.");
+        }
         n.setVisualizouEm(Calendar.getInstance().getTime());
         n.setNotificacaoOpcao(notificacaoOpcaoID);
 

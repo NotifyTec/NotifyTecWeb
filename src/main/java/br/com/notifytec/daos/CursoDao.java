@@ -9,6 +9,7 @@ import br.com.notifytec.models.CursoModel;
 import br.com.notifytec.models.Parametros;
 import java.util.UUID;
 import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  *
@@ -19,12 +20,16 @@ public class CursoDao extends CrudDao<CursoModel>{
         super(CursoModel.class, Parametros.Tabelas.TABELA_CURSO);
     }
     public List<CursoModel> getByNome(String nome){
-        return 
+        EntityManager manager = open();
+        List<CursoModel> l =
             manager.createQuery("from CURSO where NOME like :nome")
                         .setParameter("nome", nome).getResultList();
+        close(manager);
+        return l;
     }
     public CursoModel getByPeriodo(UUID periodoID){
-        return (CursoModel)manager.createNativeQuery("SELECT\n" +
+        EntityManager manager = open();
+        CursoModel c = (CursoModel)manager.createNativeQuery("SELECT\n" +
 "	c.*\n" +
 "FROM\n" +
 "	PERIODO p\n" +
@@ -36,5 +41,7 @@ public class CursoDao extends CrudDao<CursoModel>{
 "	p.ID = :periodoid", CursoModel.class)
                 .setParameter("periodoid", periodoID)
                 .getSingleResult();
+        close(manager);
+        return c;
     }
 }

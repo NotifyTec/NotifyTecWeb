@@ -39,36 +39,40 @@ public class BaseController {
     public void returnError(Object object) {
         returnJson(object, null, true);
     }
-    
+
     public void returnError(Exception ex) {
-        List<String > l =new ArrayList();
+        List<String> l = new ArrayList();
         l.add(ex.getMessage());
         returnJson(null, l, true);
     }
-    
-    public void returnError(String error){
+
+    public void returnError(String error) {
         returnError(null, error);
     }
 
     public void returnError(Object object, Exception ex) {
         returnError(object, ex.getMessage());
     }
-    
-    public void returnResultado(Resultado resultado){
+
+    public void returnResultado(Resultado resultado) {
         returnJson(resultado.getResult(), resultado.getMessages(), resultado.isSucess());
     }
-    
+
     private void returnJson(Object object, List<String> message, boolean isError) {
         Resultado jsonResult = new Resultado();
         if (object != null) {
-            jsonResult.setResult(object);
+            //if (object instanceof Resultado) {
+             //   jsonResult = (Resultado) object;
+            //} else {
+                jsonResult.setResult(object);
+            //}
         }
-        
-        if(isError && (message == null || message.size() == 0)){
+
+        if (isError && (message == null || message.size() == 0)) {
             message = new ArrayList<>();
             message.add("Houve um erro desconhecido ao executar a operação.");
         }
-        
+
         if (message != null && !message.isEmpty()) {
             if (isError) {
                 for (String m : message) {

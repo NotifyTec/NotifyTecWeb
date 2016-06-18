@@ -20,9 +20,24 @@ module.factory("snackbarManagerService", ["materialComponents", function (materi
 
             $snack.MaterialSnackbar.showSnackbar(data);
         };
+        
+        var showSalvo = function(){
+            show("Registro salvo com sucesso", 3, null, null);
+        };
+        
+        var showExcluido = function(){
+            show("Registro excluido com sucesso", 3, null, null);
+        };
+
+        var showEditado = function(){
+            show("Registro editado com sucesso", 3, null, null);
+        };
 
         return {
-            show: show
+            show: show,
+            showSalvo: showSalvo,
+            showExcluido: showExcluido,
+            showEditado: showEditado
         };
     }]);
 
