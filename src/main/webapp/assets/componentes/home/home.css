@@ -61,7 +61,14 @@ green-icon{
 .mdl-dialog{
     width: 80% !important;
     top: 84px;
+    z-index: 3 !important;
 }
+
+.ui-datepicker,
+.ui-widget,
+.ui-widget-content{
+    z-index: 999 !important;
+} 
 
 .mdl-dialog__title{
     background: #57717D;

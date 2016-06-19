@@ -3,6 +3,7 @@ package br.com.notifytec.controllers;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import br.com.notifytec.models.Resultado;
+import br.com.notifytec.models.ResultadoPaginacao;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -61,11 +62,13 @@ public class BaseController {
     private void returnJson(Object object, List<String> message, boolean isError) {
         Resultado jsonResult = new Resultado();
         if (object != null) {
-            //if (object instanceof Resultado) {
-             //   jsonResult = (Resultado) object;
-            //} else {
+            if (object instanceof Resultado && !(object instanceof ResultadoPaginacao)) {
+                jsonResult = (Resultado) object;
+                result.use(Results.json()).withoutRoot().from(jsonResult).recursive().serialize();
+                return;
+            } else {
                 jsonResult.setResult(object);
-            //}
+            }
         }
 
         if (isError && (message == null || message.size() == 0)) {

@@ -42,7 +42,7 @@ public class AlunoDao extends CrudDao<AlunoModel>{
      public List<AlunoModel> getByCPF(String cpf){
          EntityManager manager = open();
         List<AlunoModel> l = 
-                manager.createQuery("from ALUNO where CPF like :cpf")
+                manager.createQuery("from ALUNO where CPF like :cpf AND ATIVO = true")
                         .setParameter("cpf", cpf).getResultList();
         close(manager);
         return l;

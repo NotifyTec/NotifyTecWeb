@@ -12,6 +12,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.notifytec.models.Resultado;
 import br.com.notifytec.models.SemestreModel;
 import br.com.notifytec.services.SemestreService;
+import br.com.notifytec.utils.DateParse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,13 +27,12 @@ import javax.inject.Inject;
 @Controller
 @Path("/Semestre")
 public class SemestreController extends BaseController {
-    
+
     @Inject
     private SemestreService semestreService;
 
     @Post
     @Path("/getList")
-    @PermitAll
     @Consumes("application/json")
     public void getList(int numeroPagina) {
         try {
@@ -41,57 +41,52 @@ public class SemestreController extends BaseController {
             returnError(null, ex);
         }
     }
-    
+
     @Post
     @Path("/add")
-    @PermitAll
     @Consumes("application/json")
     public void add(String inicio,
-                    String fim){
-        try{
-            Date dtInicio, dtFim;
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            dtInicio = df.parse(inicio);
-            dtFim = df.parse(fim);          
-            
+            String fim) {
+        try {
             SemestreModel f = new SemestreModel();
             f.setId(UUID.randomUUID());
-            f.setInicio(dtInicio);
-            f.setFim(dtFim);
+            f.setInicio(DateParse.toDate(inicio));
+            f.setFim(DateParse.toDate(fim));
             Resultado r = semestreService.add(f);
-            
+
             returnSuccess(r);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             returnError(null, ex);
         }
     }
+
+    @Post
+    @Path("/remove")
+    @Consumes("application/json")
+    public void remove(String id) {
+        try {
+            Resultado r = semestreService.remove(UUID.fromString(id));
+            returnSuccess(r);
+        } catch (Exception ex) {
+            returnError(null, ex);
+        }
+    }
+    
     @Post
     @Path("/edit")
-    @PermitAll
     @Consumes("application/json")
     public void edit(String id,
-                    String inicio,
-                    String fim){
-         try{
-            System.out.println("TESTE /edit String Inicio = " + inicio);
-            System.out.println("TESTE /edit String Fim = " + fim);
-            
-            Date dtInicio, dtFim;
-            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-            dtInicio = df.parse(inicio);
-            dtFim = df.parse(fim);
-            
-            System.out.println("TESTE /edit Date Inicio = " + dtInicio);
-            System.out.println("TESTE /edit Date Fim = " + dtFim);
-             
+            String inicio,
+            String fim) {
+        try {            
             SemestreModel f = new SemestreModel();
             f.setId(UUID.fromString(id));
-            f.setInicio(dtInicio);
-            f.setFim(dtFim);
+            f.setInicio(DateParse.toDate(inicio));
+            f.setFim(DateParse.toDate(fim));
             Resultado r = semestreService.edit(f);
-            
+
             returnSuccess(r);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             returnError(null, ex);
         }
     }

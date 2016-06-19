@@ -8,14 +8,21 @@
     </thead>
     <tbody>
         <tr ng-repeat="item in list">
-            <td class="mdl-data-table__cell--non-numeric">{{item.inicio | date:'dd/MM/yyyy' }}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{item.fim | date:'dd/MM/yyyy' }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{item.inicio| date:'dd/MM/yyyy' }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{item.fim| date:'dd/MM/yyyy' }}</td>
             <td>
                 <button id="edit" ng-click="dialogs.editar.openModal(item)" class="orange-icon mdl-button mdl-js-button mdl-button--icon">
                     <i class="material-icons">create</i>
                 </button>
                 <div class="mdl-tooltip" for="edit">
                     Editar
+                </div>
+                <button id="remove" ng-click="remover(item)"
+                        class="red-icon mdl-button mdl-js-button mdl-button--icon">
+                    <i class="material-icons">delete</i>
+                </button>
+                <div class="mdl-tooltip" for="remove">
+                    Deletar
                 </div>
             </td>
         </tr>
@@ -33,8 +40,12 @@
                 </div>
                 <div class="mdl-cell mdl-cell--4-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.cadastro.bloquear" name="inicio" class="mdl-textfield__input" ng-model="cadastro.inicio"
-                               type="date" id="inicio" required>
+                        <input ng-disabled="dialogs.cadastro.bloquear" 
+                               name="inicio" 
+                               class="mdl-textfield__input" 
+                               ui-mask="99/99/9999" model-view-value="true"
+                               ng-model="cadastro.inicio"
+                               type="text" id="inicio" required>
                         <label class="mdl-textfield__label" for="inicio">Início</label>
                         <span ng-show="form.nome.$error.required"
                               class="mdl-textfield__error">Campo obrigatório</span>
@@ -42,8 +53,11 @@
                 </div>
                 <div class="mdl-cell mdl-cell--3-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.cadastro.bloquear" name="fim" class="mdl-textfield__input" ng-model="cadastro.fim"
-                               type="date" id="fim" required>
+                        <input ng-disabled="dialogs.cadastro.bloquear" name="fim" 
+                               class="mdl-textfield__input" 
+                               ui-mask="99/99/9999" model-view-value="true"
+                               ng-model="cadastro.fim"
+                               type="text" id="fim" required>
                         <label class="mdl-textfield__label" for="fim">Fim</label>
                         <span ng-show="form.nome.$error.required"
                               class="mdl-textfield__error">Campo obrigatório</span>                        
@@ -74,7 +88,10 @@
                 </div>
                 <div class="mdl-cell mdl-cell--4-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.editar.bloquear" name="inicio" class="mdl-textfield__input" ng-model="edicao.inicio" 
+                        <input ng-disabled="dialogs.editar.bloquear" name="inicio" 
+                               class="mdl-textfield__input" 
+                               ui-mask="99/99/9999" model-view-value="true"
+                               ng-model="edicao.inicio" 
                                type="text" id="inicio-editar" required>
                         <label class="mdl-textfield__label" for="inicio-editar">Início</label>
                         <span ng-show="form.nome.$error.required"
@@ -83,7 +100,10 @@
                 </div>
                 <div class="mdl-cell mdl-cell--3-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.editar.bloquear" name="inicio" class="mdl-textfield__input" ng-model="edicao.fim"
+                        <input ng-disabled="dialogs.editar.bloquear" name="inicio" 
+                               class="mdl-textfield__input" 
+                               ui-mask="99/99/9999" model-view-value="true"
+                               ng-model="edicao.fim"
                                type="text" id="inicio-editar" required>
                         <label class="mdl-textfield__label" for="fim-editar">Fim</label>
                         <span ng-show="form.nome.$error.required"

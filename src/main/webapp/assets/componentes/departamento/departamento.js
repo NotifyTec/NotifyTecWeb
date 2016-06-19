@@ -30,19 +30,19 @@ departamento.controller("DepartamentoController",
                             $scope.dialogs.cadastro.get().close();
                         },
                         salvar: function () {
-                            $scope.dialogs.cadastro.carregando= true ;
+                            $scope.dialogs.cadastro.carregando = true;
                             var dados = $("#form-cadastro").getFormData();
                             departamentoService.salvar(function (list) { // DONE  
-                                console.debug(list);   
+                                console.debug(list);
                                 carregar(1);
                                 snackbarManagerService.showSalvo();
                                 $scope.dialogs.cadastro.get().close();
                                 //TODO> Carregar novo dado
-                                
-                            }, function (result, messageError) { // ERROR                    
-                                snackbarManagerService.show(messageError, 20, null, null);
+
+                            }, function (result, messages, messageError) { // ERROR                    
+                                snackbarManagerService.showErro(messageError);
                             }, function () {// ALWAYS
-                                $scope.dialogs.cadastro.carregando= false ;
+                                $scope.dialogs.cadastro.carregando = false;
                                 paginacao.setLoading(null, false);
                             }, dados);
 
@@ -52,49 +52,41 @@ departamento.controller("DepartamentoController",
                         btnSalvarTexto: "Salvar",
                         carregando: false
                     },
-                    editar:{
+                    editar: {
                         get: function () {
                             return document.querySelector("#editar-dialog")
                         },
                         fechar: function () {
                             $scope.dialogs.editar.get().close();
                         },
-                        openModal: function(item){
+                        openModal: function (item) {
                             $("[name='form-editar']").find(".mdl-textfield").addClass("is-dirty").removeClass("is-invalid");
                             $scope.edicao = item;
                             $scope.dialogs.editar.get().showModal();
                         },
-                        remove: function(item){
-                           departamentoService.remover(function (list) { // DONE                                  
-                               if(!list.success){
-                                    var message = "";
-                                    var listMessage = list.messages;
-                                    $(listMessage).each(function(i, item){
-                                        message += " " + item;
-                                    });
-                                    snackbarManagerService.show(message, 20, null, null);
-                               }
-                               carregar(1);  
-                               snackbarManagerService.showExcluido();
-                            }, function (result, messageError) { // ERROR                    
-                                snackbarManagerService.show(messageError, 20, null, null);
+                        remove: function (item) {
+                            departamentoService.remover(function (list) { // DONE                                  
+                                carregar(1);
+                                snackbarManagerService.showExcluido();
+                            }, function (result, messages, messageError) { // ERROR                    
+                                snackbarManagerService.showErro(messageError);
                             }, function () {// ALWAYS                               
                                 paginacao.setLoading(null, false);
                             }, item);
                         },
                         salvar: function () {
-                            $scope.dialogs.editar.carregando= true ;
+                            $scope.dialogs.editar.carregando = true;
                             var dados = $scope.edicao;
                             departamentoService.editar(function (list) { // DONE  
-                                console.debug(list);   
+                                console.debug(list);
                                 carregar(1);
                                 $scope.dialogs.editar.get().close();
                                 snackbarManagerService.showEditado();
-                                
-                            }, function (result, messageError) { // ERROR                    
-                                snackbarManagerService.show(messageError, 20, null, null);
+
+                            }, function (result, messages, messageError) { // ERROR                    
+                                snackbarManagerService.showErro(messageError);
                             }, function () {// ALWAYS
-                                $scope.dialogs.editar.carregando= false ;
+                                $scope.dialogs.editar.carregando = false;
                                 paginacao.setLoading(null, false);
                             }, dados);
 
@@ -109,20 +101,20 @@ departamento.controller("DepartamentoController",
                 $scope.cadastro = {};
                 $scope.edicao = {};
                 $scope.formularioValido = function () {
-                   var inputs = $("[name='form']").find("input");
-                    var result =  $.grep(inputs, function (i) {
-                        if(!$(i).hasClass("naoobrigatorio"))
+                    var inputs = $("[name='form']").find("input");
+                    var result = $.grep(inputs, function (i) {
+                        if (!$(i).hasClass("naoobrigatorio"))
                             return $(i).val() == "";
-                   }).length != 0;
-                   return result;
+                    }).length != 0;
+                    return result;
                 };
                 $scope.formularioValidoEdicao = function () {
-                   var inputs = $("[name='form-editar']").find("input");
-                    var result =  $.grep(inputs, function (i) {
-                        if(!$(i).hasClass("naoobrigatorio"))
+                    var inputs = $("[name='form-editar']").find("input");
+                    var result = $.grep(inputs, function (i) {
+                        if (!$(i).hasClass("naoobrigatorio"))
                             return $(i).val() == "";
-                   }).length != 0;
-                   return result;
+                    }).length != 0;
+                    return result;
                 };
                 titleService.set("Departamento");
 
@@ -137,13 +129,13 @@ departamento.controller("DepartamentoController",
 
                 var carregar = function (pagina) {
                     paginacao.setLoading(pagina, true);
-                    
+
                     departamentoService.getList(function (list) { // DONE  
                         console.debug(list);
                         $scope.list = list.result;
                         paginacao.set($scope, list, carregar);
-                    }, function (result, messageError) { // ERROR                    
-                        snackbarManagerService.show(messageError, 20, null, null);
+                    }, function (result, messages, messageError) { // ERROR                    
+                        snackbarManagerService.showErro(messageError);
                     }, function () {// ALWAYS
                         paginacao.setLoading(null, false);
                     }, pagina);
@@ -159,14 +151,14 @@ departamento.factory("departamentoService", ["$ajax", function ($ajax) {
             getList: function (done, error, always, pagina) {
                 $ajax.post("Departamento/getList", {numeroPagina: pagina}, done, error, always);
             },
-            salvar: function(done, error, always, dados){
-                $ajax.post("Departamento/add", {nome: dados.nome}, done,error,always);
+            salvar: function (done, error, always, dados) {
+                $ajax.post("Departamento/add", {nome: dados.nome}, done, error, always);
             },
-            editar: function(done, error, always, dados){
-                $ajax.post("Departamento/edit", {id: dados.id , nome: dados.nome}, done,error,always);
+            editar: function (done, error, always, dados) {
+                $ajax.post("Departamento/edit", {id: dados.id, nome: dados.nome}, done, error, always);
             },
-            remover: function(done, error, always, dados){
-                $ajax.post("Departamento/remove", {id: dados.id}, done,error,always);
+            remover: function (done, error, always, dados) {
+                $ajax.post("Departamento/remove", {id: dados.id}, done, error, always);
             }
         };
     }]);

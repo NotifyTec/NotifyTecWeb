@@ -8,7 +8,7 @@ module.factory("snackbarManagerService", ["materialComponents", function (materi
                 actionHandler: actionHandler,
                 actionText: actionText
             };
-            
+
             materialComponents.upgradeDom();
 
             var $snack = document.querySelector("#snackbar");
@@ -20,24 +20,29 @@ module.factory("snackbarManagerService", ["materialComponents", function (materi
 
             $snack.MaterialSnackbar.showSnackbar(data);
         };
-        
-        var showSalvo = function(){
+
+        var showSalvo = function () {
             show("Registro salvo com sucesso", 3, null, null);
         };
-        
-        var showExcluido = function(){
+
+        var showExcluido = function () {
             show("Registro excluido com sucesso", 3, null, null);
         };
 
-        var showEditado = function(){
+        var showEditado = function () {
             show("Registro editado com sucesso", 3, null, null);
+        };
+
+        var showErro = function (mensagem) {
+            show(mensagem, 10, null, null);
         };
 
         return {
             show: show,
             showSalvo: showSalvo,
             showExcluido: showExcluido,
-            showEditado: showEditado
+            showEditado: showEditado,
+            showErro: showErro
         };
     }]);
 

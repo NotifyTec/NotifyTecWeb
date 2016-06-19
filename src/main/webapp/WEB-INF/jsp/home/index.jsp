@@ -17,7 +17,8 @@
         <script src="assets/js/angular.min.js" type="text/javascript"></script>
         <script src="assets/js/angular-route.js" type="text/javascript"></script>
         <script src="assets/js/ngStorage.js" type="text/javascript"></script>
-
+        <script src="assets/js/ui.mask.js" type="text/javascript"></script>
+                
         <!--SERVICES-->
         <script src="assets/componentes/services/app.js" type="text/javascript"></script>        
         <script src="assets/componentes/services/routes.js" type="text/javascript"></script>

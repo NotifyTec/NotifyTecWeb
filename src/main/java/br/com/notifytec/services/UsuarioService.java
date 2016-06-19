@@ -150,7 +150,7 @@ public class UsuarioService {
         Resultado<Transacao<UsuarioModel>> transacao = new Resultado<>();
         Transacao em = new Transacao();
         em = dao.save(false, u);
-        em.setResultado(dao.get(u.getId()));
+        em.setResultado(u);
         transacao.setResult(em);
         return transacao;
     }

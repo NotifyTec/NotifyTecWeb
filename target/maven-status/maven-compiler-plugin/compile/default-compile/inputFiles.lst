@@ -58,6 +58,7 @@
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/CursoController.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/daos/FuncionarioDao.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/PeriodoSemestre.java
+/home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/utils/DateParse.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/controllers/HomeController.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/NotificacaoCompletaModel.java
 /home/lucas/NetBeansProjects/NotifyTecWeb/src/main/java/br/com/notifytec/models/Resultado.java

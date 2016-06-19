@@ -14,4 +14,5 @@ var app = angular.module("notifytec-app",
      "Menu",
      "Home",
      "Ajax",
-     "Paginacao"]);
+     "Paginacao",
+     "ui.mask"]);

@@ -26,26 +26,26 @@ semestre.controller("SemestreController",
                 $scope.dialogs = {
                     cadastro: {
                         get: function () {
-                            return document.querySelector("#cadastro-dialog")
+                            return document.querySelector("#cadastro-dialog");
                         },
                         fechar: function () {
                             $scope.dialogs.cadastro.get().close();
                         },
                         salvar: function () {
-                            $scope.dialogs.cadastro.carregando= true ;
+                            $scope.dialogs.cadastro.carregando = true;
                             var dados = $("#form-cadastro").getFormData();
-                            if(dados.ativo == "on")
+                            if (dados.ativo == "on")
                                 dados.ativo = true;
                             semestreService.salvar(function (list) { // DONE  
-                                console.debug(list);   
+                                console.debug(list);
                                 carregar(1);
                                 $scope.dialogs.cadastro.get().close();
                                 //TODO> Carregar novo dado
-                                
-                            }, function (result, messageError) { // ERROR                    
-                                snackbarManagerService.show(messageError, 20, null, null);
+
+                            }, function (result, messages, messageError) { // ERROR                    
+                                snackbarManagerService.showErro(messageError);
                             }, function () {// ALWAYS
-                                $scope.dialogs.cadastro.carregando= false ;
+                                $scope.dialogs.cadastro.carregando = false;
                                 paginacao.setLoading(null, false);
                             }, dados);
 
@@ -55,29 +55,29 @@ semestre.controller("SemestreController",
                         btnSalvarTexto: "Salvar",
                         carregando: false
                     },
-                    editar:{
+                    editar: {
                         get: function () {
                             return document.querySelector("#editar-dialog")
                         },
                         fechar: function () {
                             $scope.dialogs.editar.get().close();
                         },
-                        openModal: function(item){
+                        openModal: function (item) {
                             $("[name='form']").find(".mdl-textfield").addClass("is-dirty").removeClass("is-invalid");
                             $scope.edicao = item;
                             var dtInicio = item.inicio;
                             var dtFim = item.fim;
-                            
+
                             //tirar depois
                             console.debug("Item ID" + item.id);
                             console.debug(dtInicio);
                             console.debug(dtFim);
                             //
-                            
+
                             $scope.edicao.id = item.id;
-                            $scope.edicao.inicio = $filter('date')(dtInicio, 'dd-MM-yyyy');
-                            $scope.edicao.fim = $filter('date')(dtFim, 'dd-MM-yyyy');
-                            
+                            $scope.edicao.inicio = $filter('date')(dtInicio, 'dd/MM/yyyy');
+                            $scope.edicao.fim = $filter('date')(dtFim, 'dd/MM/yyyy');
+
                             //tirar depois
                             console.debug($scope.edicao.id);
                             console.debug($scope.edicao.inicio);
@@ -87,20 +87,20 @@ semestre.controller("SemestreController",
                             carregar(1);
                         },
                         salvar: function () {
-                            $scope.dialogs.editar.carregando= true ;
+                            $scope.dialogs.editar.carregando = true;
                             var dados = $scope.edicao;
-                            if(dados.ativo == "on")
+                            if (dados.ativo == "on")
                                 dados.ativo = true;
                             semestreService.editar(function (list) { // DONE  
-                                console.debug(list);   
+                                console.debug(list);
                                 carregar(1);
                                 $scope.dialogs.editar.get().close();
                                 //TODO> Carregar novo dado
-                                
-                            }, function (result, messageError) { // ERROR                    
-                                snackbarManagerService.show(messageError, 20, null, null);
+
+                            }, function (result, messages, messageError) { // ERROR                    
+                                snackbarManagerService.showErro(messageError);
                             }, function () {// ALWAYS
-                                $scope.dialogs.cadastro.carregando= false ;
+                                $scope.dialogs.editar.carregando = false;
                                 paginacao.setLoading(null, false);
                             }, dados);
 
@@ -114,11 +114,10 @@ semestre.controller("SemestreController",
 
                 $scope.cadastro = {};
                 $scope.edicao = {};
-                
+
                 titleService.set("Semestre");
 
                 fabService.onClick($scope, function () {
-                    //snackbarManagerService.show("kljdklasajdklsjadlksj ", 2, null, null);
                     $scope.dialogs.cadastro.get().showModal();
                     carregar(1);
                 });
@@ -127,15 +126,28 @@ semestre.controller("SemestreController",
                     console.error(data);
                 });
 
+                $scope.remover = function (item) {
+                    semestreService.remover(function (result) {
+                        // done
+                        carregar(1);
+                        snackbarManagerService.showExcluido();
+                    }, function (result, messages, mensagem) {
+                        // error
+                        snackbarManagerService.showErro(mensagem);
+                    }, function () {
+                        // always
+                    }, item.id);
+                };
+
                 var carregar = function (pagina) {
                     paginacao.setLoading(pagina, true);
-                    
+
                     semestreService.getList(function (list) { // DONE  
                         console.debug(list);
                         $scope.list = list.result;
                         paginacao.set($scope, list, carregar);
-                    }, function (result, messageError) { // ERROR                    
-                        snackbarManagerService.show(messageError, 20, null, null);
+                    }, function (result, messages, messageError) { // ERROR                    
+                        snackbarManagerService.showErro(messageError);
                     }, function () {// ALWAYS
                         paginacao.setLoading(null, false);
                     }, pagina);
@@ -151,11 +163,14 @@ semestre.factory("semestreService", ["$ajax", function ($ajax) {
             getList: function (done, error, always, pagina) {
                 $ajax.post("Semestre/getList", {numeroPagina: pagina}, done, error, always);
             },
-            salvar: function(done, error, always, dados){
-                $ajax.post("Semestre/add", {inicio: dados.inicio, fim: dados.fim}, done,error,always);
+            salvar: function (done, error, always, dados) {
+                $ajax.post("Semestre/add", {inicio: dados.inicio, fim: dados.fim}, done, error, always);
             },
-            editar: function(done, error, always, dados){
-                $ajax.post("Semestre/edit", {id: dados.id , inicio: dados.inicio, fim: dados.fim}, done,error,always);
+            editar: function (done, error, always, dados) {
+                $ajax.post("Semestre/edit", {id: dados.id, inicio: dados.inicio, fim: dados.fim}, done, error, always);
+            },
+            remover: function (done, error, always, semestreID) {
+                $ajax.post("Semestre/remove", {id: semestreID}, done, error, always);
             }
         };
     }]);

@@ -59,6 +59,7 @@ br/com/notifytec/models/PaginatedList.class
 br/com/notifytec/services/FirebaseService.class
 br/com/notifytec/services/FuncionarioService.class
 br/com/notifytec/models/NotificacaoOpcaoModel.class
+br/com/notifytec/utils/DateParse.class
 br/com/notifytec/controllers/HomeController.class
 br/com/notifytec/security/RequestInterception.class
 br/com/notifytec/models/FuncionarioModel.class
