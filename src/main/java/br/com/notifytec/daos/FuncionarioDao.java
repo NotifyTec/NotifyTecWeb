@@ -45,7 +45,7 @@ public class FuncionarioDao extends CrudDao<FuncionarioModel> {
         return f;
     }
 
-    public ResultadoPaginacao<FuncionarioModel> getByFilter(String nome, boolean ativo) {
+    public ResultadoPaginacao<FuncionarioModel> getByFilter1(String nome,String email,String cpf,UUID departamento, boolean ativo) {
         EntityManager manager = open();
         ResultadoPaginacao<FuncionarioModel> resultado = new ResultadoPaginacao<FuncionarioModel>();
 
@@ -55,8 +55,35 @@ public class FuncionarioDao extends CrudDao<FuncionarioModel> {
 
         int limiteInicial = 0;
 
-        List<FuncionarioModel> registros = manager.createQuery("from PESSOA where (NOME like :nome or :nome = '') and ATIVO = :ativo order by NOME asc")
-                .setParameter("nome", nome)
+        List<FuncionarioModel> registros = manager.createQuery("from PESSOA where (NOME like :nome or :nome = '') and(CPF like :cpf or :cpf = '') and (DEPARTAMENTOID = HEX(:departamento)) and ATIVO = :ativo order by NOME asc")
+                .setParameter("nome", "%" + nome + "%")
+                .setParameter("cpf", "%" + cpf + "%")
+                .setParameter("departamento", departamento)
+                .setParameter("ativo", ativo)
+                .setFirstResult(limiteInicial)
+                .setMaxResults(100).getResultList();
+
+        resultado.setTotalDeRegistros(totalDeRegistros);
+        resultado.setResult(registros);
+        resultado.setPagina(1);
+        resultado.setRegistrosPorPagina(100);
+        close(manager);
+        return resultado;
+    }
+    
+    
+    public ResultadoPaginacao<FuncionarioModel> getByFilter2(String nome,String email,String cpf, boolean ativo) {
+        EntityManager manager = open();
+        ResultadoPaginacao<FuncionarioModel> resultado = new ResultadoPaginacao<FuncionarioModel>();
+
+        String jpql = "SELECT count(o) FROM " + "PESSOA" + " o";
+        Query q = manager.createQuery(jpql);
+        Long totalDeRegistros = (Long) q.getSingleResult();
+
+        int limiteInicial = 0;
+            List<FuncionarioModel> registros = manager.createQuery("from PESSOA where (NOME like :nome or :nome = '') and(CPF like :cpf or :cpf = '') and  ATIVO = :ativo order by NOME asc")
+                .setParameter("nome", "%" + nome + "%")
+                .setParameter("cpf", "%" + cpf + "%")
                 .setParameter("ativo", ativo)
                 .setFirstResult(limiteInicial)
                 .setMaxResults(100).getResultList();

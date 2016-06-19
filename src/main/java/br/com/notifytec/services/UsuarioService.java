@@ -61,7 +61,11 @@ public class UsuarioService {
 
         return usuario;
     }
-
+    
+    public boolean editarEmail(UUID id, String email){
+        return dao.editarEmail(id,email);
+    }
+    
     public UsuarioModel esqueceuSenha(String login) throws Exception {
         UsuarioModel u = dao.get(login);
 

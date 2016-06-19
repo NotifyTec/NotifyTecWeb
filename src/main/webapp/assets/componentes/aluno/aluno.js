@@ -183,16 +183,21 @@ aluno.controller("AlunoController",
                 $scope.formularioValido = function () {
                     var inputs = $("[name='form']").find("input,select");
                     var result = $.grep(inputs, function (i) {
-                        return $(i).val() == "" || $(i).val() == "? object:null ?";
+                        if (!$(i).hasClass("naoobrigatorio"))
+                            return $(i).val() == "" || $(i).val() == "? object:null ?";
                     }).length != 0;
                     return result || $scope.listAlunoPeriodo.length == 0;
                 };
                 $scope.formularioValidoEdicao = function () {
                     var inputs = $("[name='form-edit']").find("input,select");
-                    return $.grep(inputs, function (i) {
-                        return $(i).val() == "" || $(i).val() == "? object:null ?";
+                    var result = $.grep(inputs, function (i) {
+                        if (!$(i).hasClass("naoobrigatorio"))
+                            return $(i).val() == "" || $(i).val() == "? object:null ?";
                     }).length != 0;
+                    return result || $scope.listAlunoPeriodoedit.length == 0;
                 };
+                
+                
 
                 $scope.loadPeriodos = function () {
                     alunoService.getPeriodos(function (list) { // DONE  
@@ -268,12 +273,23 @@ aluno.controller("AlunoController",
                         return false;
                     return true;
                 }
+                
+                $scope.limparModal = function(){
+                    var inputs = $("[name='form']").find("input,select");
+                    $.grep(inputs, function (i) {
+                            return $(i).val("");
+                    }).length != 0;
+                }
 
                 //*--------------------------------------------------------------------------*//
                 titleService.set("Aluno");
 
                 fabService.onClick($scope, function () {
                     //snackbarManagerService.show("kljdklasajdklsjadlksj ", 2, null, null);
+                    
+                    $scope.cadastro = null;
+                    $("#cpf-add").val("");
+                    $scope.listAlunoPeriodo = [];
                     $scope.dialogs.cadastro.get().showModal();
                 });
 

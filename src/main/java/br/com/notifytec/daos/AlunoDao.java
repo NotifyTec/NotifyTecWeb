@@ -1,7 +1,6 @@
 package br.com.notifytec.daos;
 
 import br.com.notifytec.models.AlunoModel;
-import br.com.notifytec.models.FuncionarioModel;
 import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.ResultadoPaginacao;
 import br.com.notifytec.models.UsuarioModel;
@@ -47,6 +46,15 @@ public class AlunoDao extends CrudDao<AlunoModel>{
         close(manager);
         return l;
     }
+     
+    public List<AlunoModel> getByRA(String ra){
+         EntityManager manager = open();
+        List<AlunoModel> l = 
+                manager.createQuery("from ALUNO where RA like :ra AND ATIVO = true")
+                        .setParameter("ra", ra).getResultList();
+        close(manager);
+        return l;
+    }
     
     public List<UsuarioModel> getByEmail(String email){
         EntityManager manager = open();
@@ -55,6 +63,32 @@ public class AlunoDao extends CrudDao<AlunoModel>{
                         .setParameter("email", email).getResultList();
         close(manager);
         return l;
+    }
+    
+    public ResultadoPaginacao<AlunoModel> paginacao (int page){
+        EntityManager manager = open();
+        ResultadoPaginacao<AlunoModel> resultado = new ResultadoPaginacao<AlunoModel>();
+
+        if (page <= 0) {
+            page = 1;
+        }
+
+        String jpql = "SELECT count(o) FROM " + "ALUNO" + " o";
+        Query q = manager.createQuery(jpql);
+        Long totalDeRegistros = (Long) q.getSingleResult();
+
+        int limiteInicial = (page - 1) * 25;
+
+        List<AlunoModel> registros = manager.createQuery("from " + "ALUNO order by NOME asc")
+                .setFirstResult(limiteInicial)
+                .setMaxResults(25).getResultList();
+
+        resultado.setTotalDeRegistros(totalDeRegistros);
+        resultado.setResult(registros);
+        resultado.setPagina(page);
+        resultado.setRegistrosPorPagina(25);
+        close(manager);
+        return resultado;
     }
     
 }

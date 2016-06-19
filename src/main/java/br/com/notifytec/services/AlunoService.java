@@ -32,6 +32,8 @@ public class AlunoService extends CrudService<AlunoModel>{
         r = dao.getByFilter(nome,ra,cpf,email,ativo);        
         UsuarioModel u = new UsuarioModel();
         for(AlunoModel f : r.getResult() ){
+            List<AlunoPeriodoModel> listaPeriodos = alunoPeriodoService.getListPeriodo(f.getId());
+            f.setPeriodoSemestre(listaPeriodos);
              if(f.isAtivo())
                 f.setAtivoTraduzido("Ativo");
             else
@@ -69,15 +71,24 @@ public class AlunoService extends CrudService<AlunoModel>{
         Resultado<AlunoModel> r = new Resultado<>();
         List<AlunoModel> lista =  dao.getByCPF(cpf);
         if(lista.size() > 0){
-          r.addError("Já Existe um aluno cadastrado com o CPF informado!");
+          r.addError("Já existe um aluno cadastrado com o CPF informado!");
         }
         return r;
     }
+    private Resultado<AlunoModel> verificaSeJaTemRA(String ra){
+        Resultado<AlunoModel> r = new Resultado<>();
+        List<AlunoModel> lista =  dao.getByRA(ra);
+        if(lista.size() > 0){
+          r.addError("Já existe um aluno cadastrado com o R.A. informado!");
+        }
+        return r;
+    }
+    
     private Resultado<FuncionarioModel> verificaSeJaTemEmail(String email){
         Resultado<FuncionarioModel> r = new Resultado<>();
         List<UsuarioModel> lista =  dao.getByEmail(email);
         if(lista.size()>0){
-            r.addError("Já Existe uma pessoa cadastrada com o Email informado!");
+            r.addError("Já existe uma pessoa cadastrada com o Email informado!");
         }
         return r;
     }
@@ -93,6 +104,7 @@ public class AlunoService extends CrudService<AlunoModel>{
             r.setResult(aluno);
             return r;
         }
+        usuarioService.editarEmail(aluno.getUsuarioId(),aluno.getEmail());
         alunoPeriodoService.edit(list, aluno.getId());
         dao.editar(aluno);
         r.setResult(dao.get(aluno.getId()));
@@ -100,14 +112,13 @@ public class AlunoService extends CrudService<AlunoModel>{
         
     }
     
-    
-    
      public Resultado<AlunoModel> addAlunoService(AlunoModel f, List<PeriodoSemestre> list){
         Resultado<AlunoModel> r = new Resultado<>();
         
         r.merge(validarCamposObrigatorios(f));
         r.merge(verificaSeJaTemCPF(f.getCpf()));
         r.merge(verificaSeJaTemEmail(f.getEmail()));
+        r.merge(verificaSeJaTemRA(f.getRa()));
         
         if (!r.isSucess()) {
             r.setResult(f);
@@ -150,7 +161,7 @@ public class AlunoService extends CrudService<AlunoModel>{
     
     public ResultadoPaginacao<AlunoModel> getList(int pagina) {
         ResultadoPaginacao<AlunoModel> r = new ResultadoPaginacao<>();
-        r = dao.paginated(pagina);     
+        r = dao.paginacao(pagina);     
         UsuarioModel u = new UsuarioModel();
         
         for(AlunoModel f : r.getResult() ){           

@@ -39,9 +39,16 @@ public class FuncionarioService {
         return r;
     }
     
-    public ResultadoPaginacao<FuncionarioModel> getByFilter(String nome, boolean ativo){
+    public ResultadoPaginacao<FuncionarioModel> getByFilter(String nome,String email,String cpf, String departamento,boolean ativo){
         ResultadoPaginacao<FuncionarioModel> r = new ResultadoPaginacao<>();
-        r = dao.getByFilter(nome,ativo);
+        UUID departamentoID;
+        if(!departamento.equals("")){
+            departamentoID = UUID.fromString(departamento);
+            r = dao.getByFilter1(nome,email,cpf,departamentoID,ativo);
+        }
+            
+        else
+            r = dao.getByFilter2(nome,email,cpf,ativo);
         List<DepartamentoModel> departamentos = departamentoService.getList();
         UsuarioModel u = new UsuarioModel();
         for(FuncionarioModel f : r.getResult() ){
@@ -99,14 +106,24 @@ public class FuncionarioService {
         }
         return r;
     }
+        private Resultado<FuncionarioModel> verificaSeJaTemEmailEdit(String email){
+        Resultado<FuncionarioModel> r = new Resultado<>();
+        List<UsuarioModel> lista =  dao.getByEmail(email);
+        if(lista.size()>1){
+            r.addError("Já Existe uma pessoa cadastrada com o Email informado!");
+        }
+        return r;
+    }
     
     public Resultado<FuncionarioModel> edit(FuncionarioModel f){
         Resultado<FuncionarioModel> r = new Resultado<>();        
         r.merge(validarCamposObrigatorios(f));
+        r.merge(verificaSeJaTemEmailEdit(f.getEmail()));
         if(!r.isSucess()){
             r.setResult(f);
             return r;
         }
+        usuarioService.editarEmail(f.getUsuarioId(),f.getEmail());
         dao.editar(f);
         r.setResult(dao.get(f.getId()));
         return r;

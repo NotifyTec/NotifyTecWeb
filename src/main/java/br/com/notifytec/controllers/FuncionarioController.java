@@ -60,6 +60,7 @@ public class FuncionarioController extends BaseController {
             f.setSobrenome(sobrenome);
             f.setCpf(cpf);
             f.setApelido(apelido);
+            f.setEmail(email);
             f.setAtivo(ativo);
             f.setDepartamentoId(UUID.fromString(departamentoId));
             f.setUsuarioId(UUID.fromString(usuarioID));
@@ -74,9 +75,9 @@ public class FuncionarioController extends BaseController {
     @Post
     @Path("/getByFilter")
     @Consumes("application/json")
-    public void getByFilter(String nome, boolean ativo){
+    public void getByFilter(String nome,String email,String cpf,String departamento, boolean ativo){
         try {
-            returnSuccess(funcionarioService.getByFilter(nome, ativo));
+            returnSuccess(funcionarioService.getByFilter(nome,email,cpf,departamento, ativo));
         } catch (Exception e) {
             returnError(null,e);
         }

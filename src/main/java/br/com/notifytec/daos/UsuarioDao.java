@@ -1,7 +1,9 @@
 package br.com.notifytec.daos;
 
+import br.com.notifytec.models.CursoModel;
 import br.com.notifytec.models.Parametros;
 import br.com.notifytec.models.UsuarioModel;
+import java.util.List;
 import java.util.UUID;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -41,6 +43,19 @@ public class UsuarioDao extends CrudDao<UsuarioModel> {
             close(manager);
             return null;
         }
+    }
+    public boolean editarEmail(UUID id, String email){
+        EntityManager manager = open();
+        UsuarioModel l =
+            manager.createQuery("from USUARIO where ID = ?",UsuarioModel.class)
+                        .setParameter(1, id).getSingleResult();
+        if(l.getEmail() == email){
+            return false;
+        }else{
+            l.setEmail(email);
+            editar(l);
+            return true;
+        } 
     }
 
 }

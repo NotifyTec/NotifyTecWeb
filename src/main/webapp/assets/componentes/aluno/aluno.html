@@ -3,28 +3,25 @@
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input name="nome" class="mdl-textfield__input" type="text" id="nome">
             <label class="mdl-textfield__label" for="nome">Nome</label>
-            <span class="mdl-textfield__error">Campo obrigatório</span>
         </div>
     </div>
     <div class="mdl-cell mdl-cell--4-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input name="ra" class="mdl-textfield__input" type="text" id="ra">
             <label class="mdl-textfield__label" for="ra">R.A</label>
-            <span class="mdl-textfield__error">Campo obrigatório</span>
         </div>
     </div> 
     <div class="mdl-cell mdl-cell--4-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input name="cpf" class="mdl-textfield__input" type="text" id="cpf">
             <label class="mdl-textfield__label" for="cpf">CPF</label>
-            <span class="mdl-textfield__error">Campo obrigatório</span>
+            
         </div>
     </div> 
     <div class="mdl-cell mdl-cell--4-col">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input name="email" class="mdl-textfield__input" type="email" id="email">
+            <input name="email" class="mdl-textfield__input" type="text" id="email">
             <label class="mdl-textfield__label" for="email">Email</label>
-            <span class="mdl-textfield__error">Campo obrigatório</span>
         </div>
     </div> 
     <div class="mdl-cell mdl-cell--4-col">
@@ -110,9 +107,9 @@
                 <div class="mdl-cell mdl-cell--3-col">                    
                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                         <input ng-disabled="dialogs.cadastro.bloquear" name="cpf" class="mdl-textfield__input" ng-model="cadastro.cpf"
-                               type="text" id="cpf" ng-change="validaCPF(cadastro.cpf)" required  ng-minlength="11" ng-maxlength="11" maxlength="11"
+                               type="text" id="cpf-add" ng-change="validaCPF(cadastro.cpf)" required  ng-minlength="11" ng-maxlength="11" maxlength="11"
                                                ui-mask="999.999.999-99">
-                        <label class="mdl-textfield__label" for="cpf">CPF</label>
+                        <label class="mdl-textfield__label" for="cpf-add">CPF</label>
                         <span ng-show="((!validaCPF(cadastro.cpf)) || (form.cpf.$error.required))"
                               class="mdl-textfield__error">CPF Inválido</span>
                     </div>
@@ -237,7 +234,7 @@
                 
                 <div class="mdl-cell mdl-cell--3-col">                    
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.editar.bloquear" required="" name="ra" class="mdl-textfield__input" ng-model="edicao.ra"
+                        <input ng-disabled="true" required="" name="ra" class="mdl-textfield__input" ng-model="edicao.ra"
                                type="text" id="ra-edit" ng-minlength="9" ng-maxlength="9" maxlength="9">
                         <label class="mdl-textfield__label" for="ra">R.A</label>
                         <span ng-show="form-edit.ra.$error.required"
@@ -245,12 +242,12 @@
                     </div>
                 </div>              
                 <div class="mdl-cell mdl-cell--3-col">                    
-                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                        <input ng-disabled="dialogs.editar.bloquear" name="cpf" class="mdl-textfield__input" ng-model="edicao.cpf"
-                               type="text" id="cpf-edit" ng-change="validaCPF(cadastro.cpf)" required  ng-minlength="11" ng-maxlength="11" maxlength="11"
+                      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                        <input ng-disabled="true" name="cpf" class="mdl-textfield__input" ng-model="edicao.cpf"
+                               type="text" id="cpf" ng-change="validaCPF(edicao.cpf)" required  ng-minlength="11" ng-maxlength="11" maxlength="11"
                                                ui-mask="999.999.999-99">
-                        <label class="mdl-textfield__label" for="cpf">CPF</label>
-                        <span ng-show="((!validaCPF(cadastro.cpf)) || (form.cpf.$error.required))"
+                        <label class="mdl-textfield__label is-active" for="cpf">CPF</label>
+                        <span ng-show="((!validaCPF(edicao.cpf)) || (form-edit.cpf.$error.required))"
                               class="mdl-textfield__error">CPF Inválido</span>
                     </div>
                 </div> 
@@ -277,6 +274,7 @@
                     <label>Periodos</label><br />
                     <div class="mdl-spinner mdl-js-spinner" style="width: 100%;">
                         <select ng-init="loadPeriodos()" 
+                                class="naoobrigatorio"
                                 style="width: 100%;border-top: white;border-left: white; border-right: white;"
                                 ng-disabled="dialogs.editar.bloquear" name="periodo" 
                                 ng-model="periodoedit"
@@ -291,6 +289,7 @@
                         <select ng-init="loadSemestres()" 
                                 style="width: 100%;border-top: white;border-left: white; border-right: white;"
                                 ng-disabled="dialogs.cadastro.bloquear" name="semestre" 
+                                class="naoobrigatorio"
                                 ng-model="semestreedit"
                                 id="semestre-select-edit" required>                                    
                             <option value="{{semestreedit.id}}" ng-repeat="semestreedit in semestresedit">{{semestreedit.nomeSemestre}}</option>

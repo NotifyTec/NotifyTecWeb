@@ -188,6 +188,7 @@ funcionario.controller("FuncionarioController",
 
                 fabService.onClick($scope, function () {
                     //snackbarManagerService.show("kljdklasajdklsjadlksj ", 2, null, null);
+                    $scope.cadastro = null;
                     $scope.dialogs.cadastro.get().showModal();
                 });
 
@@ -197,7 +198,7 @@ funcionario.controller("FuncionarioController",
                      carregar(1);
                      return;
                      } */
-
+                    data.departamentoid = $("#departamentoid").val();
                     funcionarioService.getByFilter(function (list) { // DONE  
                         //console.debug(list);
                         $scope.list = list.result;
@@ -243,7 +244,7 @@ funcionario.factory("funcionarioService", ["$ajax", function ($ajax) {
                 $ajax.post("Funcionario/getDepartamentos", {pagina: "1"}, done, error, always);
             },
             getByFilter: function (done, error, always, dados) {
-                $ajax.post("Funcionario/getByFilter", {nome: dados.nome, ativo: dados.ativo}, done, error, always)
+                $ajax.post("Funcionario/getByFilter", {nome: dados.nome, email: dados.email, cpf: dados.cpf,departamento: dados.departamentoid,ativo: dados.ativo}, done, error, always)
             }
 
         };
